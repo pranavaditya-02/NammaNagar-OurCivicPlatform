@@ -1,10 +1,18 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
+import dynamic from "next/dynamic";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
 import {
   BarChart3,
   MapPin,
@@ -15,10 +23,15 @@ import {
   IndianRupee,
   Calendar,
   Filter,
-} from "lucide-react"
-import { FraudDetectionDashboard } from "@/components/fraud-detection-dashboard"
-import { AIInsightsWidget } from "@/components/ai-insights-widget"
-import { RealTimeSyncIndicator } from "@/components/real-time-sync-indicator"
+} from "lucide-react";
+import { FraudDetectionDashboard } from "@/components/fraud-detection-dashboard";
+import { AIInsightsWidget } from "@/components/ai-insights-widget";
+import { RealTimeSyncIndicator } from "@/components/real-time-sync-indicator";
+
+const PredictedIssuesDashboard = dynamic(
+  () => import("@/components/ai-predicted-issues-dashboard"),
+  { ssr: false }
+);
 
 export default function DashboardPage() {
   const stats = [
@@ -54,7 +67,7 @@ export default function DashboardPage() {
       icon: AlertTriangle,
       color: "text-red-600",
     },
-  ]
+  ];
 
   const recentReports = [
     {
@@ -93,7 +106,7 @@ export default function DashboardPage() {
       date: "2024-01-12",
       location: "Whitefield, Bengaluru",
     },
-  ]
+  ];
 
   const projects = [
     {
@@ -120,43 +133,46 @@ export default function DashboardPage() {
       deadline: "February 2024",
       contractor: "Green Spaces Pvt Ltd",
     },
-  ]
+  ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Resolved":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       case "In Progress":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "Assigned":
-        return "bg-blue-100 text-blue-800"
+        return "bg-blue-100 text-blue-800";
       case "Pending":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "High":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "Medium":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "Low":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Civic Dashboard</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Civic Dashboard
+          </h1>
           <p className="text-xl text-gray-600">
-            Real-time insights into your city's infrastructure with live government data
+            Real-time insights into your city's infrastructure with live
+            government data
           </p>
         </div>
 
@@ -172,9 +188,17 @@ export default function DashboardPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-                    <p className={`text-sm ${stat.trend === "up" ? "text-green-600" : "text-red-600"}`}>
+                    <p className="text-sm font-medium text-gray-600">
+                      {stat.title}
+                    </p>
+                    <p className="text-3xl font-bold text-gray-900">
+                      {stat.value}
+                    </p>
+                    <p
+                      className={`text-sm ${
+                        stat.trend === "up" ? "text-green-600" : "text-red-600"
+                      }`}
+                    >
                       {stat.change} from last month
                     </p>
                   </div>
@@ -233,21 +257,37 @@ export default function DashboardPage() {
                     <tbody className="bg-white divide-y divide-gray-200">
                       {recentReports.map((report) => (
                         <tr key={report.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">{report.id}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600">
+                            {report.id}
+                          </td>
                           <td className="px-6 py-4">
                             <div>
-                              <div className="text-sm font-medium text-gray-900">{report.title}</div>
-                              <div className="text-sm text-gray-500">{report.location}</div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {report.title}
+                              </div>
+                              <div className="text-sm text-gray-500">
+                                {report.location}
+                              </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{report.category}</td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={getStatusColor(report.status)}>{report.status}</Badge>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {report.category}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <Badge className={getPriorityColor(report.priority)}>{report.priority}</Badge>
+                            <Badge className={getStatusColor(report.status)}>
+                              {report.status}
+                            </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{report.date}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Badge
+                              className={getPriorityColor(report.priority)}
+                            >
+                              {report.priority}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {report.date}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -259,7 +299,9 @@ export default function DashboardPage() {
 
           <TabsContent value="projects" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">Active Infrastructure Projects</h2>
+              <h2 className="text-2xl font-bold">
+                Active Infrastructure Projects
+              </h2>
               <Button variant="outline">
                 <MapPin className="mr-2 h-4 w-4" />
                 View on Map
@@ -272,7 +314,9 @@ export default function DashboardPage() {
                   <CardHeader>
                     <div className="flex justify-between items-start">
                       <div>
-                        <CardTitle className="text-xl">{project.name}</CardTitle>
+                        <CardTitle className="text-xl">
+                          {project.name}
+                        </CardTitle>
                         <CardDescription className="flex items-center gap-4 mt-2">
                           <span className="flex items-center gap-1">
                             <IndianRupee className="h-4 w-4" />
@@ -290,7 +334,9 @@ export default function DashboardPage() {
                       </div>
                       <Badge
                         className={
-                          project.status === "On Track" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          project.status === "On Track"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
                         }
                       >
                         {project.status}
@@ -318,7 +364,9 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Issue Categories</CardTitle>
-                  <CardDescription>Distribution of reported issues by category</CardDescription>
+                  <CardDescription>
+                    Distribution of reported issues by category
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -364,7 +412,9 @@ export default function DashboardPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>Resolution Time</CardTitle>
-                  <CardDescription>Average time to resolve issues by category</CardDescription>
+                  <CardDescription>
+                    Average time to resolve issues by category
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -396,7 +446,13 @@ export default function DashboardPage() {
             <FraudDetectionDashboard />
           </TabsContent>
         </Tabs>
+
+        {/* Predicted Issues Dashboard */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">Predicted Civic Issues</h2>
+          <PredictedIssuesDashboard />
+        </div>
       </div>
     </div>
-  )
+  );
 }
