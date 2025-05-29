@@ -27,6 +27,7 @@ import {
 import Link from "next/link"
 import { LanguageSelector, RegionalLanguageSuggestion } from "@/components/language-selector"
 import { useLanguage } from "@/components/language-context"
+import { ChatBot } from "@/components/ChatBot"
 
 export default function HomePage() {
   const { t, currentLanguage } = useLanguage()
@@ -486,6 +487,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ChatBot Component */}
+      <ChatBot />
     </div>
   )
 }
