@@ -69,9 +69,9 @@ export default function RootLayout({
               <EnhancedNavbar />
               <main className="flex-1">{children}</main>
               <EnhancedFooter />
+              <ChatBot /> {/* Moved inside the flex container */}
             </div>
             <Toaster />
-            <ChatBot />
           </ChatProvider>
         </LanguageProvider>
       </body>

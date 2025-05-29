@@ -248,15 +248,21 @@ export default function HomePage() {
 
                     <div className="grid grid-cols-2 gap-4">
                       {impactMetrics.map((metric, index) => (
-                        <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                        <div key={index} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                           <div className="flex items-center justify-between mb-2">
-                            <metric.icon className={`h-5 w-5 text-${metric.color}-600`} />
-                            <span className={`text-xs font-medium text-${metric.color}-600`}>{metric.change}</span>
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center bg-${metric.color}-100`}>
+                              <metric.icon className={`h-5 w-5 text-${metric.color}-600`} />
+                            </div>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium bg-${metric.color}-100 text-${metric.color}-600`}>
+                              {metric.change}
+                            </span>
                           </div>
-                          <div className="text-2xl font-bold text-gray-900">
-                            {typeof metric.value === "number" ? metric.value.toLocaleString() : metric.value}
+                          <div className="mt-1">
+                            <div className="text-2xl font-bold text-gray-900">
+                              {typeof metric.value === "number" ? metric.value.toLocaleString() : metric.value}
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">{metric.label}</div>
                           </div>
-                          <div className="text-sm text-gray-600">{metric.label}</div>
                         </div>
                       ))}
                     </div>
