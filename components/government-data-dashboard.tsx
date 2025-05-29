@@ -29,10 +29,10 @@ export function GovernmentDataDashboard() {
   const [loading, setLoading] = useState(false)
   const [lastSync, setLastSync] = useState<string>("")
   const [filters, setFilters] = useState({
-    state: "",
-    district: "",
-    category: "",
-    status: "",
+    state: "all",
+    district: "all",
+    category: "all",
+    status: "all",
   })
 
   const [syncStats, setSyncStats] = useState({
@@ -102,6 +102,28 @@ export function GovernmentDataDashboard() {
       default:
         return "text-gray-600"
     }
+  }
+
+  // Filter options with non-empty values
+  const filterOptions = {
+    states: [
+      { value: "all", label: "All States" },
+      { value: "karnataka", label: "Karnataka" },
+      { value: "maharashtra", label: "Maharashtra" },
+      { value: "tamil-nadu", label: "Tamil Nadu" },
+    ],
+    categories: [
+      { value: "all", label: "All Categories" },
+      { value: "roads", label: "Roads" },
+      { value: "water", label: "Water" },
+      { value: "buildings", label: "Buildings" },
+    ],
+    status: [
+      { value: "all", label: "All Status" },
+      { value: "published", label: "Published" },
+      { value: "in-progress", label: "In Progress" },
+      { value: "completed", label: "Completed" },
+    ],
   }
 
   return (
@@ -199,39 +221,51 @@ export function GovernmentDataDashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Select value={filters.state} onValueChange={(value) => setFilters({ ...filters, state: value })}>
+                <Select
+                  value={filters.state || "all"}
+                  onValueChange={(value) => setFilters({ ...filters, state: value })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select State" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All States</SelectItem>
-                    <SelectItem value="Karnataka">Karnataka</SelectItem>
-                    <SelectItem value="Maharashtra">Maharashtra</SelectItem>
-                    <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
+                    {filterOptions.states.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.category} onValueChange={(value) => setFilters({ ...filters, category: value })}>
+                <Select
+                  value={filters.category || "all"}
+                  onValueChange={(value) => setFilters({ ...filters, category: value })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Categories</SelectItem>
-                    <SelectItem value="Road Infrastructure">Roads</SelectItem>
-                    <SelectItem value="Water Infrastructure">Water</SelectItem>
-                    <SelectItem value="Building Construction">Buildings</SelectItem>
+                    {filterOptions.categories.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
 
-                <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value })}>
+                <Select
+                  value={filters.status || "all"}
+                  onValueChange={(value) => setFilters({ ...filters, status: value })}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Select Status" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Status</SelectItem>
-                    <SelectItem value="Published">Published</SelectItem>
-                    <SelectItem value="Work in Progress">In Progress</SelectItem>
-                    <SelectItem value="Completed">Completed</SelectItem>
+                    {filterOptions.status.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
 

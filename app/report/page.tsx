@@ -99,8 +99,8 @@ export default function ReportPage() {
 
   return (
     <div className={`min-h-screen bg-gray-50 py-12 ${isRTL ? "rtl" : "ltr"}`}>
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+      <div className="container mx-auto px-4 max-w-7xl"> {/* Changed from max-w-4xl */}
+        <div className="mx-auto">  {/* Removed max-w-4xl constraint */}
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">{t.report.title}</h1>
             <p className="text-xl text-gray-600">{t.report.subtitle}</p>
@@ -109,7 +109,7 @@ export default function ReportPage() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Report Form */}
             <div className="lg:col-span-2">
-              <Card>
+              <Card className="w-full"> {/* Added w-full */}
                 <CardHeader>
                   <CardTitle className={`flex items-center gap-2 ${isRTL ? "flex-row-reverse" : ""}`}>
                     <Camera className="h-5 w-5" />
@@ -265,7 +265,7 @@ export default function ReportPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 lg:w-full"> {/* Added lg:w-full */}
               {/* Quick Tips */}
               <Card>
                 <CardHeader>
