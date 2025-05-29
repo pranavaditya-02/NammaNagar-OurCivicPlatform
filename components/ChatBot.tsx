@@ -82,9 +82,9 @@ export function ChatBot() {
                   )}
                 >
                   {message.text}
-                  {message.attachments?.length > 0 && (
+                  {(message.attachments ?? []).length > 0 && (
                     <div className="mt-2 flex gap-2">
-                      {message.attachments.map((url, i) => (
+                      {(message.attachments ?? []).map((url, i) => (
                         <img
                           key={i}
                           src={url}
