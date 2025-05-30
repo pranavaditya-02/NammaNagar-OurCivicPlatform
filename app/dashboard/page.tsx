@@ -81,7 +81,7 @@ export default function DashboardPage() {
       category: "Roads",
       status: "In Progress",
       priority: "High",
-      date: "2024-01-15",
+      date: "2025-05-26",
       location: "Koramangala, Bengaluru",
     },
     {
@@ -90,7 +90,7 @@ export default function DashboardPage() {
       category: "Electricity",
       status: "Resolved",
       priority: "Medium",
-      date: "2024-01-14",
+      date: "2025-05-27",
       location: "Indiranagar, Bengaluru",
     },
     {
@@ -99,7 +99,7 @@ export default function DashboardPage() {
       category: "Water",
       status: "Assigned",
       priority: "High",
-      date: "2024-01-13",
+      date: "2025-05-27",
       location: "HSR Layout, Bengaluru",
     },
     {
@@ -108,7 +108,7 @@ export default function DashboardPage() {
       category: "Sanitation",
       status: "Pending",
       priority: "Medium",
-      date: "2024-01-12",
+      date: "2025-05-28",
       location: "Whitefield, Bengaluru",
     },
   ];
@@ -119,7 +119,7 @@ export default function DashboardPage() {
       budget: "₹15.2 Cr",
       progress: 75,
       status: "On Track",
-      deadline: "March 2024",
+      deadline: "June 2025",
       contractor: "ABC Infrastructure Ltd.",
     },
     {
@@ -127,7 +127,7 @@ export default function DashboardPage() {
       budget: "₹8.5 Cr",
       progress: 45,
       status: "Delayed",
-      deadline: "April 2024",
+      deadline: "May 2025",
       contractor: "XYZ Constructions",
     },
     {
@@ -135,7 +135,7 @@ export default function DashboardPage() {
       budget: "₹3.2 Cr",
       progress: 90,
       status: "On Track",
-      deadline: "February 2024",
+      deadline: "May 2025 ",
       contractor: "Green Spaces Pvt Ltd",
     },
   ];
@@ -148,7 +148,7 @@ export default function DashboardPage() {
       riskScore: 85,
       reasons: ["Multiple withdrawals", "Location deviation"],
       detectedBy: "AI System",
-      date: "2024-01-01",
+      date: "2025-05-28",
     },
     {
       title: "Unusual Login Attempt",
@@ -157,7 +157,7 @@ export default function DashboardPage() {
       riskScore: 90,
       reasons: ["Unknown device", "Geographic anomaly"],
       detectedBy: "AI System",
-      date: "2024-01-02",
+      date: "2025-05-28",
     },
     {
       title: "Large Fund Transfer",
@@ -166,7 +166,7 @@ export default function DashboardPage() {
       riskScore: 75,
       reasons: ["High amount", "New payee"],
       detectedBy: "AI System",
-      date: "2024-01-03",
+      date: "2025-05-28",
     },
     {
       title: "Suspicious Account Activity",
@@ -175,7 +175,7 @@ export default function DashboardPage() {
       riskScore: 80,
       reasons: ["Frequent transactions", "IP address change"],
       detectedBy: "AI System",
-      date: "2024-01-04",
+      date: "2025-05-28",
     },
   ];
 
@@ -257,22 +257,34 @@ export default function DashboardPage() {
 
         <Tabs defaultValue="reports" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="reports" className="flex items-center justify-center gap-2">
+            <TabsTrigger
+              value="reports"
+              className="flex items-center justify-center gap-2"
+            >
               <FileText className="h-4 w-4" />
               <span className="hidden sm:inline">Citizen Reports</span>
               <span className="sr-only">Citizen Reports</span>
             </TabsTrigger>
-            <TabsTrigger value="projects" className="flex items-center justify-center gap-2">
+            <TabsTrigger
+              value="projects"
+              className="flex items-center justify-center gap-2"
+            >
               <Building2 className="h-4 w-4" />
               <span className="hidden sm:inline">Infrastructure Projects</span>
               <span className="sr-only">Infrastructure Projects</span>
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center justify-center gap-2">
+            <TabsTrigger
+              value="analytics"
+              className="flex items-center justify-center gap-2"
+            >
               <BarChart2 className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
               <span className="sr-only">Analytics</span>
             </TabsTrigger>
-            <TabsTrigger value="fraud" className="flex items-center justify-center gap-2">
+            <TabsTrigger
+              value="fraud"
+              className="flex items-center justify-center gap-2"
+            >
               <ShieldAlert className="h-4 w-4" />
               <span className="hidden sm:inline">Fraud Detection</span>
               <span className="sr-only">Fraud Detection</span>
@@ -362,7 +374,10 @@ export default function DashboardPage() {
               <h2 className="text-lg sm:text-2xl font-bold">
                 Active Infrastructure Projects
               </h2>
-              <Button variant="outline" className="w-full sm:w-auto text-xs sm:text-sm h-8 sm:h-9">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto text-xs sm:text-sm h-8 sm:h-9"
+              >
                 <MapPin className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 View on Map
               </Button>
@@ -388,7 +403,9 @@ export default function DashboardPage() {
                           </span>
                           <span className="flex items-center gap-1 sm:gap-1.5 col-span-2 sm:col-span-1">
                             <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
-                            <span className="truncate">{project.contractor}</span>
+                            <span className="truncate">
+                              {project.contractor}
+                            </span>
                           </span>
                         </CardDescription>
                       </div>
@@ -409,7 +426,10 @@ export default function DashboardPage() {
                         <span className="text-gray-600">Progress</span>
                         <span className="font-medium">{project.progress}%</span>
                       </div>
-                      <Progress value={project.progress} className="h-1.5 sm:h-2" />
+                      <Progress
+                        value={project.progress}
+                        className="h-1.5 sm:h-2"
+                      />
                     </div>
                   </CardContent>
                 </Card>
@@ -505,8 +525,12 @@ export default function DashboardPage() {
           <TabsContent value="fraud" className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-6">
               <div>
-                <h2 className="text-lg sm:text-2xl font-bold">Recent Fraud Detection Cases</h2>
-                <p className="text-sm text-gray-600">Latest reports flagged by our AI fraud detection system</p>
+                <h2 className="text-lg sm:text-2xl font-bold">
+                  Recent Fraud Detection Cases
+                </h2>
+                <p className="text-sm text-gray-600">
+                  Latest reports flagged by our AI fraud detection system
+                </p>
               </div>
             </div>
 
@@ -523,9 +547,7 @@ export default function DashboardPage() {
                           Report ID: {fraud.reportId}
                         </CardDescription>
                       </div>
-                      <Badge 
-                        className="bg-red-100 text-red-800 text-[10px] px-2 py-0.5 font-medium"
-                      >
+                      <Badge className="bg-red-100 text-red-800 text-[10px] px-2 py-0.5 font-medium">
                         {fraud.status}
                       </Badge>
                     </div>
@@ -537,12 +559,14 @@ export default function DashboardPage() {
                         <span className="text-red-600">{fraud.riskScore}%</span>
                       </div>
                       <div className="space-y-1">
-                        <p className="text-xs text-gray-600">Detection Reasons:</p>
+                        <p className="text-xs text-gray-600">
+                          Detection Reasons:
+                        </p>
                         <div className="flex flex-wrap gap-2">
                           {fraud.reasons.map((reason, idx) => (
-                            <Badge 
+                            <Badge
                               key={idx}
-                              variant="outline" 
+                              variant="outline"
                               className="text-[10px] px-1.5 py-0.5"
                             >
                               {reason}
@@ -561,16 +585,16 @@ export default function DashboardPage() {
                     </div>
                   </CardContent>
                   <CardFooter className="flex gap-2 pt-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="flex-1 text-xs h-8"
                     >
                       View Details
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
+                    <Button
+                      variant="outline"
+                      size="sm"
                       className="flex-1 text-xs h-8"
                     >
                       Review Evidence
