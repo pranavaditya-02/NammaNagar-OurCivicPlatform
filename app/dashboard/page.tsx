@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -32,6 +32,9 @@ const PredictedIssuesDashboard = dynamic(
   () => import("@/components/ai-predicted-issues-dashboard"),
   { ssr: false }
 );
+const RoleDashboard = dynamic(() => import("@/components/role-dashboard"), {
+  ssr: false,
+});
 
 export default function DashboardPage() {
   const stats = [
@@ -162,6 +165,14 @@ export default function DashboardPage() {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  const [role, setRole] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRole(localStorage.getItem("userRole"));
+    setToken(localStorage.getItem("jwtToken"));
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -451,6 +462,18 @@ export default function DashboardPage() {
         <div className="mt-8">
           <h2 className="text-2xl font-bold mb-4">Predicted Civic Issues</h2>
           <PredictedIssuesDashboard />
+        </div>
+
+        {/* Role-based Dashboard UI */}
+        <div className="mt-8">
+          <h2 className="text-2xl font-bold mb-4">Your Dashboard</h2>
+          {role && token ? (
+            <RoleDashboard role={role} token={token} />
+          ) : (
+            <div className="mt-4 text-gray-500">
+              Please log in to view your dashboard features.
+            </div>
+          )}
         </div>
       </div>
     </div>

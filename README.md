@@ -54,16 +54,19 @@ styles/             # Global CSS
 ## 🛠️ Getting Started
 
 ### 1. Install dependencies
+
 ```bash
 pnpm install
 ```
 
 ### 2. Run the development server
+
 ```bash
 pnpm run dev
 ```
 
 ### 3. Backend API (Express)
+
 - The Express app is in `lib/app.ts` and is auto-mounted in Next.js API routes (or can be run standalone).
 - Main endpoints:
   - `/api/auth` (login/signup)
@@ -72,6 +75,7 @@ pnpm run dev
   - `/public` (public map data)
 
 ### 4. Frontend
+
 - Visit `http://localhost:3000` for the Next.js app.
 - `/dashboard` shows predictive analytics and role-based features.
 
@@ -80,6 +84,7 @@ pnpm run dev
 ## 🧠 Predictive Analytics Example
 
 The `/api/predicted-issues` endpoint returns:
+
 ```json
 [
   {
@@ -96,6 +101,7 @@ The `/api/predicted-issues` endpoint returns:
 ---
 
 ## 🛡️ Security & Privacy
+
 - JWT authentication
 - Role-based access control
 - CAPTCHA (for spam prevention)
@@ -104,26 +110,31 @@ The `/api/predicted-issues` endpoint returns:
 ---
 
 ## 🌏 Multi-language
+
 - English and Tamil support via i18n
 - Easily extendable to more languages
 
 ---
 
 ## 📝 Contributing
+
 Pull requests and suggestions are welcome! Please open an issue to discuss major changes.
 
 ---
 
 ## 📄 License
+
 MIT
 
 ---
 
 ## 👩‍💻 Authors
+
 - NammaNagar Team
 
 ---
 
 ## 💡 Notes
+
 - This is a demo/prototype. For production, connect a real database, storage, and AI/ML services.
 - For deployment, use Vercel/Netlify (frontend) and Railway/Render (backend) or similar.

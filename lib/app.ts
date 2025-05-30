@@ -90,13 +90,81 @@ app.get("/api/dashboard", function (req, res, next) {
   });
 });
 
-// Example: Protect a route for only officials
-app.get("/api/official-only", function (req, res, next) {
+// GET /dashboard/citizen - Citizen dashboard (protected)
+app.get("/api/dashboard/citizen", function (req, res, next) {
   authenticateJWT(req, res, function (err) {
     if (err) return next(err);
-    requireRole("official")(req, res, function (err2) {
-      if (err2) return next(err2);
-      res.json({ message: "Welcome, official!" });
+    const user = (req as any).user;
+    if (user.role !== "citizen")
+      return res.status(403).json({ message: "Forbidden" });
+    res.json({
+      dashboard: "Citizen",
+      features: [
+        "Report Issue",
+        "My Reports",
+        "Upvote",
+        "Comment",
+        "Leaderboard",
+      ],
+    });
+  });
+});
+
+// GET /dashboard/official - Official dashboard (protected)
+app.get("/api/dashboard/official", function (req, res, next) {
+  authenticateJWT(req, res, function (err) {
+    if (err) return next(err);
+    const user = (req as any).user;
+    if (user.role !== "official")
+      return res.status(403).json({ message: "Forbidden" });
+    res.json({
+      dashboard: "Official",
+      features: [
+        "Assign Issues",
+        "Resolve Issues",
+        "Upload After Photo",
+        "Project Tracker",
+        "PDF Report Generator",
+      ],
+    });
+  });
+});
+
+// GET /dashboard/representative - Representative dashboard (protected)
+app.get("/api/dashboard/representative", function (req, res, next) {
+  authenticateJWT(req, res, function (err) {
+    if (err) return next(err);
+    const user = (req as any).user;
+    if (user.role !== "representative")
+      return res.status(403).json({ message: "Forbidden" });
+    res.json({
+      dashboard: "Representative",
+      features: [
+        "Ward Issues",
+        "Completion Rate",
+        "Geo Heatmap",
+        "Engagement Score",
+        "Analytics",
+      ],
+    });
+  });
+});
+
+// GET /dashboard/moderator - Moderator dashboard (protected)
+app.get("/api/dashboard/moderator", function (req, res, next) {
+  authenticateJWT(req, res, function (err) {
+    if (err) return next(err);
+    const user = (req as any).user;
+    if (user.role !== "moderator")
+      return res.status(403).json({ message: "Forbidden" });
+    res.json({
+      dashboard: "Moderator",
+      features: [
+        "Spam Detection",
+        "Duplicate Resolution",
+        "User Trust Scores",
+        "Block/Report Users",
+      ],
     });
   });
 });
