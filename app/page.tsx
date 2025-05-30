@@ -522,7 +522,23 @@ export default function HomePage() {
                     "{testimonials[currentTestimonial].content}"
                   </blockquote>
                   <div className="flex items-center justify-center space-x-4">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                    <div className="w-12 h-12 overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-green-600 flex items-center justify-center text-white font-semibold">
+                      {testimonials[currentTestimonial].avatar ? (
+                        <img
+                          src={testimonials[currentTestimonial].avatar}
+                          alt={testimonials[currentTestimonial].name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>
+                          {testimonials[currentTestimonial].name
+                            .split(' ')
+                            .map(name => name[0])
+                            .join('')
+                            .toUpperCase()}
+                        </span>
+                      )}
+                    </div>
                     <div>
                       <p className="font-semibold text-gray-900">
                         {testimonials[currentTestimonial].name}
