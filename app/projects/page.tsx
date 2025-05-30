@@ -148,53 +148,47 @@ export default function ProjectsPage() {
     return matchesSearch && matchesCategory && matchesStatus
   })
 
-  // Update the main container and layout
   return (
-    <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
-      <div className="container mx-auto px-4 sm:px-6">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+      <div className="container mx-auto px-4">
         {/* Responsive Header */}
-        <div className="mb-4 sm:mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-            Infrastructure Projects
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600">
-            Track public infrastructure projects from multiple data sources
-          </p>
+        <div className="mb-4 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-900 mb-2">Infrastructure Projects</h1>
+          <p className="text-sm sm:text-xl text-gray-600">Track public infrastructure projects from multiple data sources</p>
         </div>
 
         {/* Responsive Alert */}
-        <Alert className="mb-4 sm:mb-6">
+        <Alert className="mb-4 sm:mb-6 text-sm">
           <Database className="h-4 w-4 flex-shrink-0" />
-          <AlertDescription className="text-sm sm:text-base">
-            <strong>Live Data Integration:</strong> Projects are automatically synced from government tender portals,
-            e-procurement systems, and local tracking. Last updated: {new Date().toLocaleString()}
+          <AlertDescription className="text-xs sm:text-sm">
+            <strong>Live Data Integration:</strong> Projects synced from government portals
           </AlertDescription>
         </Alert>
 
-        {/* Responsive Tabs */}
+        {/* Responsive Tabs and Filters */}
         <Tabs defaultValue="projects" className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="projects">All Projects</TabsTrigger>
-            <TabsTrigger value="government">Government Data</TabsTrigger>
+            <TabsTrigger value="projects" className="text-xs sm:text-sm py-2">All Projects</TabsTrigger>
+            <TabsTrigger value="government" className="text-xs sm:text-sm py-2">Government Data</TabsTrigger>
           </TabsList>
 
           <TabsContent value="projects" className="space-y-4 sm:space-y-6">
-            {/* Responsive Filters */}
-            <Card className="mb-4 sm:mb-6">
-              <CardContent className="p-4 sm:p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            {/* Mobile-friendly Filters */}
+            <Card className="mb-4 sm:mb-8">
+              <CardContent className="p-3 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
                     <Input
                       placeholder="Search projects..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 w-full"
+                      className="pl-9 h-9 text-sm"
                     />
                   </div>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="All Categories" />
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Category" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Categories</SelectItem>
@@ -206,8 +200,8 @@ export default function ProjectsPage() {
                     </SelectContent>
                   </Select>
                   <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="All Status" />
+                    <SelectTrigger className="h-9 text-sm">
+                      <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">All Status</SelectItem>
@@ -218,153 +212,90 @@ export default function ProjectsPage() {
                       <SelectItem value="delayed">Delayed</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Button variant="outline" className="w-full sm:w-auto">
+                  <Button variant="outline" size="sm" className="h-9">
                     <MapPin className="mr-2 h-4 w-4" />
-                    View on Map
+                    View Map
                   </Button>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Projects Grid */}
-            <div className="grid gap-4 sm:gap-6">
+            {/* Mobile-optimized Project Cards */}
+            <div className="grid gap-3 sm:gap-6">
               {filteredProjects.map((project) => (
-                <Card key={project.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4">
-                      <div className="flex items-start gap-3 sm:gap-4">
-                        <div className="p-2 sm:p-3 rounded-full bg-gray-100 flex-shrink-0">
-                          <project.icon className={`h-5 w-5 sm:h-6 sm:w-6 ${project.color}`} />
+                <Card key={project.id} className="hover:shadow-lg transition-shadow max-w-sm sm:max-w-none mx-auto">
+                  <CardHeader className="p-3 sm:p-6">
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                      {/* Project Header - More Compact on Mobile */}
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <div className="p-1.5 sm:p-3 rounded-full bg-gray-100">
+                          <project.icon className={`h-3.5 w-3.5 sm:h-6 sm:w-6 ${project.color}`} />
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
-                            <CardTitle className="text-lg sm:text-xl truncate">
-                              {project.name}
-                            </CardTitle>
-                            <div className="flex flex-wrap gap-2">
-                              <Badge variant="outline" className="text-xs">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col gap-1 sm:gap-1.5">
+                            <h3 className="font-semibold text-sm sm:text-xl truncate">{project.name}</h3>
+                            <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                              <Badge variant="outline" className="text-[10px] sm:text-xs">
                                 {project.source}
                               </Badge>
                               {project.source === "Government Portal" && (
-                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
-                                  <Database className="h-3 w-3 mr-1" />
-                                  Live Data
+                                <Badge variant="outline" className="text-[10px] sm:text-xs bg-green-50 text-green-700">
+                                  <Database className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
+                                  Live
                                 </Badge>
                               )}
                             </div>
                           </div>
-                          <CardDescription className="text-sm sm:text-base mb-3">
-                            {project.description}
-                          </CardDescription>
-                          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
-                            <span className="flex items-center gap-1">
-                              <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
-                              {project.ward}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                              {project.contractor}
-                            </span>
-                            {(project as any).department && (
-                              <span className="flex items-center gap-1">
-                                <Building className="h-3 w-3 sm:h-4 sm:w-4" />
-                                {(project as any).department}
-                              </span>
-                            )}
-                          </div>
                         </div>
+                        <Badge className={`${getStatusColor(project.status)} text-[10px] sm:text-xs shrink-0`}>
+                          {project.status}
+                        </Badge>
                       </div>
-                      <Badge className={`${getStatusColor(project.status)} self-start sm:self-center`}>
-                        {project.status}
-                      </Badge>
+                    </div>
+
+                    {/* Project Details - Compact Mobile Layout */}
+                    <div className="mt-2 sm:mt-3 space-y-2 sm:space-y-3">
+                      <p className="text-xs sm:text-base text-gray-600 line-clamp-2">{project.description}</p>
+                      <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-sm text-gray-600">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                          <span className="truncate">{project.ward}</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Users className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                          <span className="truncate">{project.contractor}</span>
+                        </span>
+                      </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                      {/* Progress and Timeline */}
-                      <div className="space-y-3 sm:space-y-4">
-                        <div>
-                          <div className="flex justify-between text-xs sm:text-sm mb-2">
-                            <span className="font-medium">Progress</span>
-                            <span>{project.progress}%</span>
-                          </div>
-                          <Progress value={project.progress} className="h-2" />
-                        </div>
-                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
-                            Start: {new Date(project.startDate).toLocaleDateString()}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
-                            End: {new Date(project.endDate).toLocaleDateString()}
-                          </span>
-                        </div>
-                      </div>
 
-                      {/* Budget Information */}
-                      <div className="space-y-3 sm:space-y-4">
-                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                          <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Total Budget</p>
-                            <p className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1">
-                              <IndianRupee className="h-3 w-3 sm:h-4 sm:w-4" />
-                              {project.budget}
-                            </p>
-                          </div>
-                          <div>
-                            <p className="text-xs sm:text-sm text-gray-600">Allocated</p>
-                            <p className="text-base sm:text-lg font-semibold text-blue-600 flex items-center gap-1">
-                              <IndianRupee className="h-3 w-3 sm:h-4 sm:w-4" />
-                              {project.allocated}
-                            </p>
-                          </div>
+                  <CardContent className="p-3 sm:p-6 pt-0">
+                    {/* Progress and Budget - Compact Mobile Layout */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6">
+                      <div className="space-y-1 sm:space-y-2">
+                        <div className="flex justify-between text-[10px] sm:text-sm mb-1">
+                          <span className="font-medium">Progress</span>
+                          <span>{project.progress}%</span>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-                            View Details
-                          </Button>
-                          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-                            Track Progress
-                          </Button>
-                          {project.source === "Government Portal" && (
-                            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
-                              <ExternalLink className="mr-1 h-3 w-3" />
-                              Portal
-                            </Button>
-                          )}
-                        </div>
+                        <Progress value={project.progress} className="h-1 sm:h-2" />
+                      </div>
+                      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-4 text-[10px] sm:text-sm">
+                        <span className="flex items-center gap-1">
+                          <IndianRupee className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                          {project.budget}
+                        </span>
+                        <Button variant="outline" size="sm" className="h-6 sm:h-9 text-[10px] sm:text-xs px-2 sm:px-4">
+                          View Details
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
               ))}
             </div>
-
-            {/* No Results Card */}
-            {filteredProjects.length === 0 && (
-              <Card className="text-center py-8 sm:py-12">
-                <CardContent>
-                  <p className="text-gray-500 text-base sm:text-lg">
-                    No projects found matching your criteria.
-                  </p>
-                  <Button
-                    variant="outline"
-                    className="mt-4"
-                    onClick={() => {
-                      setSearchTerm("")
-                      setSelectedCategory("all")
-                      setSelectedStatus("all")
-                    }}
-                  >
-                    Clear Filters
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
           </TabsContent>
 
-          <TabsContent value="government">
+          <TabsContent value="government" className="space-y-6">
             <GovernmentDataDashboard />
           </TabsContent>
         </Tabs>
