@@ -31,6 +31,7 @@ export default function ProjectsPage() {
   const [selectedStatus, setSelectedStatus] = useState("all")
   const [governmentProjects, setGovernmentProjects] = useState<TenderData[]>([])
   const [loading, setLoading] = useState(false)
+  const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null)
 
   // Local projects data (existing)
   const localProjects = [
@@ -79,6 +80,7 @@ export default function ProjectsPage() {
     try {
       const data = await fetchTenderData()
       setGovernmentProjects(data)
+      setLastSyncTime(new Date()) // Set the last sync time
     } catch (error) {
       console.error("Failed to load government projects:", error)
     } finally {
@@ -158,10 +160,29 @@ export default function ProjectsPage() {
         </div>
 
         {/* Responsive Alert */}
-        <Alert className="mb-4 sm:mb-6 text-sm">
-          <Database className="h-4 w-4 flex-shrink-0" />
-          <AlertDescription className="text-xs sm:text-sm">
-            <strong>Live Data Integration:</strong> Projects synced from government portals
+        <Alert className="mb-4 sm:mb-6">
+          <Database className={`h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0 ${loading ? "animate-spin" : ""}`} />
+          <AlertDescription className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-1 sm:gap-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] sm:text-sm font-medium">Live Data Integration:</span>
+              <span className="text-[10px] sm:text-sm text-gray-600 hidden sm:inline">
+                Projects synced from government portals
+              </span>
+              <span className="text-[10px] sm:text-sm text-gray-600 inline sm:hidden">
+                Govt. portal sync
+              </span>
+            </div>
+            {lastSyncTime && (
+              <span className="text-[10px] sm:text-xs text-gray-500">
+                Last sync: {lastSyncTime.toLocaleString('en-IN', {
+                  day: '2-digit',
+                  month: 'short',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true
+                })}
+              </span>
+            )}
           </AlertDescription>
         </Alert>
 
@@ -223,40 +244,53 @@ export default function ProjectsPage() {
             {/* Mobile-optimized Project Cards */}
             <div className="grid gap-3 sm:gap-6">
               {filteredProjects.map((project) => (
-                <Card key={project.id} className="hover:shadow-lg transition-shadow max-w-sm sm:max-w-none mx-auto">
+                <Card 
+                  key={project.id} 
+                  className="hover:shadow-lg transition-shadow mx-auto sm:mx-0 w-[380px] sm:w-full"
+                >
                   <CardHeader className="p-3 sm:p-6">
                     <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                      {/* Project Header - More Compact on Mobile */}
-                      <div className="flex items-start gap-2 sm:gap-3">
+                      {/* Project Header */}
+                      <div className="flex items-start gap-2 sm:gap-3 w-full">
                         <div className="p-1.5 sm:p-3 rounded-full bg-gray-100">
                           <project.icon className={`h-3.5 w-3.5 sm:h-6 sm:w-6 ${project.color}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex flex-col gap-1 sm:gap-1.5">
-                            <h3 className="font-semibold text-sm sm:text-xl truncate">{project.name}</h3>
-                            <div className="flex flex-wrap gap-1 sm:gap-1.5">
-                              <Badge variant="outline" className="text-[10px] sm:text-xs">
-                                {project.source}
-                              </Badge>
-                              {project.source === "Government Portal" && (
-                                <Badge variant="outline" className="text-[10px] sm:text-xs bg-green-50 text-green-700">
-                                  <Database className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
-                                  Live
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                            <div className="space-y-1 sm:space-y-1.5">
+                              <h3 className="font-semibold text-sm sm:text-xl truncate">{project.name}</h3>
+                              <div className="flex flex-wrap gap-1 sm:gap-1.5">
+                                <Badge variant="outline" className="text-[10px] sm:text-xs">
+                                  {project.source}
                                 </Badge>
-                              )}
+                                {project.source === "Government Portal" && (
+                                  <Badge variant="outline" className="text-[10px] sm:text-xs bg-green-50 text-green-700">
+                                    <Database className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-1" />
+                                    Live
+                                  </Badge>
+                                )}
+                              </div>
                             </div>
+                            <Badge 
+                              className={`
+                                ${getStatusColor(project.status)} 
+                                text-[10px] sm:text-xs 
+                                shrink-0 
+                                px-2 sm:px-3
+                                w-fit sm:w-auto
+                              `}
+                            >
+                              {project.status}
+                            </Badge>
                           </div>
                         </div>
-                        <Badge className={`${getStatusColor(project.status)} text-[10px] sm:text-xs shrink-0`}>
-                          {project.status}
-                        </Badge>
                       </div>
                     </div>
 
-                    {/* Project Details - Compact Mobile Layout */}
-                    <div className="mt-2 sm:mt-3 space-y-2 sm:space-y-3">
+                    {/* Project Details */}
+                    <div className="mt-2 sm:mt-4 space-y-3">
                       <p className="text-xs sm:text-base text-gray-600 line-clamp-2">{project.description}</p>
-                      <div className="grid grid-cols-2 gap-2 text-[10px] sm:text-sm text-gray-600">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] sm:text-sm text-gray-600">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                           <span className="truncate">{project.ward}</span>
@@ -265,29 +299,31 @@ export default function ProjectsPage() {
                           <Users className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                           <span className="truncate">{project.contractor}</span>
                         </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                          <span className="truncate">Due: {project.endDate}</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <IndianRupee className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
+                          <span className="truncate">{project.budget}</span>
+                        </span>
                       </div>
                     </div>
                   </CardHeader>
 
                   <CardContent className="p-3 sm:p-6 pt-0">
-                    {/* Progress and Budget - Compact Mobile Layout */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6">
-                      <div className="space-y-1 sm:space-y-2">
+                    {/* Progress and Actions */}
+                    <div className="grid sm:flex sm:items-center gap-3 sm:gap-6">
+                      <div className="flex-1 space-y-1 sm:space-y-2">
                         <div className="flex justify-between text-[10px] sm:text-sm mb-1">
                           <span className="font-medium">Progress</span>
                           <span>{project.progress}%</span>
                         </div>
                         <Progress value={project.progress} className="h-1 sm:h-2" />
                       </div>
-                      <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-4 text-[10px] sm:text-sm">
-                        <span className="flex items-center gap-1">
-                          <IndianRupee className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
-                          {project.budget}
-                        </span>
-                        <Button variant="outline" size="sm" className="h-6 sm:h-9 text-[10px] sm:text-xs px-2 sm:px-4">
-                          View Details
-                        </Button>
-                      </div>
+                      <Button variant="outline" size="sm" className="w-full sm:w-auto h-6 sm:h-9 text-[10px] sm:text-sm">
+                        View Details
+                      </Button>
                     </div>
                   </CardContent>
                 </Card>
