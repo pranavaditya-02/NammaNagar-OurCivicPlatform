@@ -555,8 +555,8 @@ function SuccessStoriesView() {
       adopter: "Green Bengaluru Foundation",
       duration: "18 months",
       impact: "Increased visitor satisfaction by 85%",
-      beforeImage: "/success/cubbon-before.jpg",
-      afterImage: "/success/cubbon-after.jpg",
+      beforeImage: "https://berniegourley.com/wp-content/uploads/2018/02/img_0084.jpg",
+      afterImage: "https://cubbonpark.in/wp-content/uploads/2015/11/Cubbonpark_inimg10.jpg",
       description:
         "Complete renovation of walking paths, installation of eco-friendly lighting, and creation of dedicated cycling tracks.",
       metrics: [
@@ -571,8 +571,8 @@ function SuccessStoriesView() {
       adopter: "Tech for Education NGO",
       duration: "24 months",
       impact: "Student enrollment increased by 120%",
-      beforeImage: "/success/school-before.jpg",
-      afterImage: "/success/school-after.jpg",
+      beforeImage: "https://th.bing.com/th/id/OIP.b_p9wo-0cNXfwqtNA3gSOwHaEK?w=312&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      afterImage: "https://static.toiimg.com/thumb/msid-69939179,width-1070,height-580,imgsize-690733,resizemode-75,overlay-toi_sw,pt-32,y_pad-40/photo.jpg",
       description:
         "Complete infrastructure overhaul including new classrooms, digital learning center, and improved sanitation facilities.",
       metrics: [
@@ -591,17 +591,25 @@ function SuccessStoriesView() {
         {successStories.map((story) => (
           <Card key={story.id} className="overflow-hidden">
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">Before</p>
+              <div className="space-y-4 p-4">
+                <div className="relative aspect-video rounded-lg overflow-hidden">
+                  <img
+                    src={story.beforeImage}
+                    alt={`${story.title} - Before`}
+                    className="object-cover w-full h-full"
+                  />
+                  <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 text-sm rounded">
+                    Before
                   </div>
                 </div>
-                <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <Camera className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-500">After</p>
+                <div className="relative aspect-video rounded-lg overflow-hidden">
+                  <img
+                    src={story.afterImage}
+                    alt={`${story.title} - After`}
+                    className="object-cover w-full h-full"
+                  />
+                  <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 text-sm rounded">
+                    After
                   </div>
                 </div>
               </div>
