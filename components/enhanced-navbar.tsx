@@ -241,80 +241,105 @@ export function EnhancedNavbar() {
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side={isRTL ? "left" : "right"} className="w-[300px] sm:w-[400px]">
-                <div className="flex flex-col space-y-4 mt-8">
-                  {/* Mobile User Info */}
-                  {isLoggedIn && (
-                    <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-lg">
-                      <Avatar className="h-12 w-12">
-                        <AvatarImage src={userStats.avatar || "/placeholder.svg"} alt={userStats.name} />
-                        <AvatarFallback>PS</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-semibold">{userStats.name}</p>
-                        <p className="text-sm text-gray-600">{userStats.level}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Award className="h-3 w-3 text-yellow-500" />
-                          <span className="text-xs font-medium">{userStats.points} points</span>
+              <SheetContent side={isRTL ? "left" : "right"} className="w-[300px] sm:w-[400px] p-0">
+                <div className="flex flex-col h-full">
+                  {/* Mobile Header */}
+                  <div className="p-4 border-b">
+                    {isLoggedIn ? (
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-10 w-10">
+                          <AvatarImage src={userStats.avatar} alt={userStats.name} />
+                          <AvatarFallback>PS</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold truncate">{userStats.name}</p>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className="text-xs">
+                              {userStats.level}
+                            </Badge>
+                            <span className="text-xs text-gray-500">{userStats.points} points</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-
-                  {/* Mobile Navigation Items */}
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                        isActiveRoute(item.href) ? "bg-blue-50 text-blue-600" : "text-gray-600 hover:bg-gray-50"
-                      } ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.label}</span>
-                      {item.badge && (
-                        <Badge variant="secondary" className="ml-auto text-xs">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </Link>
-                  ))}
-
-                  <div className="border-t pt-4 space-y-2">
-                    <LanguageSelector variant="compact" />
-
-                    {isLoggedIn ? (
-                      <>
-                        <Link href="/profile" onClick={() => setIsOpen(false)}>
-                          <Button variant="ghost" className="w-full justify-start">
-                            <User className="mr-2 h-4 w-4" />
-                            Profile
-                          </Button>
-                        </Link>
-                        <Link href="/settings" onClick={() => setIsOpen(false)}>
-                          <Button variant="ghost" className="w-full justify-start">
-                            <Settings className="mr-2 h-4 w-4" />
-                            Settings
-                          </Button>
-                        </Link>
-                        <Button variant="ghost" className="w-full justify-start text-red-600">
-                          <LogOut className="mr-2 h-4 w-4" />
-                          Sign Out
-                        </Button>
-                      </>
                     ) : (
-                      <>
-                        <Link href="/login" onClick={() => setIsOpen(false)}>
-                          <Button variant="ghost" className="w-full justify-start">
-                            {t.nav.login}
-                          </Button>
+                      <div className="flex gap-2">
+                        <Link href="/login" className="flex-1" onClick={() => setIsOpen(false)}>
+                          <Button variant="outline" className="w-full">{t.nav.login}</Button>
                         </Link>
-                        <Link href="/register" onClick={() => setIsOpen(false)}>
+                        <Link href="/register" className="flex-1" onClick={() => setIsOpen(false)}>
                           <Button className="w-full">{t.nav.signup}</Button>
                         </Link>
-                      </>
+                      </div>
                     )}
+                  </div>
+
+                  {/* Mobile Navigation */}
+                  <div className="flex-1 overflow-y-auto">
+                    <div className="p-2">
+                      {/* Main Navigation Items in Rows */}
+                      {navItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={`flex items-center gap-3 p-3 mb-1 rounded-lg transition-colors ${
+                            isActiveRoute(item.href) 
+                              ? "bg-blue-50 text-blue-600" 
+                              : "text-gray-600 hover:bg-gray-50"
+                          }`}
+                        >
+                          <item.icon className="h-5 w-5 flex-shrink-0" />
+                          <span className="text-sm font-medium flex-1">{item.label}</span>
+                          {item.badge && (
+                            <Badge variant="secondary" className="text-xs">
+                              {item.badge}
+                            </Badge>
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Quick Actions Grid remains the same */}
+                    <div className="p-2 border-t">
+                      <p className="px-2 py-1 text-xs font-medium text-gray-500 uppercase">
+                        Quick Actions
+                      </p>
+                      <div className="grid grid-cols-4 gap-1">
+                        {[
+                          { icon: User, label: 'Profile', href: '/profile' },
+                          { icon: Award, label: 'Achievements', href: '/achievements' },
+                       
+                          { icon: Settings, label: 'Settings', href: '/settings' }
+                        ].map((action) => (
+                          <Link
+                            key={action.href}
+                            href={action.href}
+                            onClick={() => setIsOpen(false)}
+                            className="flex flex-col items-center p-3 rounded-lg hover:bg-gray-50"
+                          >
+                            <action.icon className="h-5 w-5 mb-1" />
+                            <span className="text-[10px] text-center">{action.label}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom Actions */}
+                    <div className="p-2 border-t mt-auto">
+                      <div className="space-y-2">
+                        <LanguageSelector variant="compact" />
+                        {isLoggedIn && (
+                          <Button 
+                            variant="ghost" 
+                            className="w-full justify-center text-red-600 text-sm"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Sign Out
+                          </Button>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </SheetContent>
