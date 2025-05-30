@@ -8,6 +8,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter, // Add this import
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -136,6 +137,45 @@ export default function DashboardPage() {
       status: "On Track",
       deadline: "February 2024",
       contractor: "Green Spaces Pvt Ltd",
+    },
+  ];
+
+  const fraudCases = [
+    {
+      title: "Suspicious Transaction at ATM",
+      reportId: "FRAUD-20240101",
+      status: "Reviewed",
+      riskScore: 85,
+      reasons: ["Multiple withdrawals", "Location deviation"],
+      detectedBy: "AI System",
+      date: "2024-01-01",
+    },
+    {
+      title: "Unusual Login Attempt",
+      reportId: "FRAUD-20240102",
+      status: "Pending",
+      riskScore: 90,
+      reasons: ["Unknown device", "Geographic anomaly"],
+      detectedBy: "AI System",
+      date: "2024-01-02",
+    },
+    {
+      title: "Large Fund Transfer",
+      reportId: "FRAUD-20240103",
+      status: "Reviewed",
+      riskScore: 75,
+      reasons: ["High amount", "New payee"],
+      detectedBy: "AI System",
+      date: "2024-01-03",
+    },
+    {
+      title: "Suspicious Account Activity",
+      reportId: "FRAUD-20240104",
+      status: "Pending",
+      riskScore: 80,
+      reasons: ["Frequent transactions", "IP address change"],
+      detectedBy: "AI System",
+      date: "2024-01-04",
     },
   ];
 
@@ -463,7 +503,82 @@ export default function DashboardPage() {
             <AIInsightsWidget />
           </TabsContent>
           <TabsContent value="fraud" className="space-y-6">
-            <FraudDetectionDashboard />
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0 mb-6">
+              <div>
+                <h2 className="text-lg sm:text-2xl font-bold">Recent Fraud Detection Cases</h2>
+                <p className="text-sm text-gray-600">Latest reports flagged by our AI fraud detection system</p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {fraudCases.map((fraud, index) => (
+                <Card key={index} className="flex flex-col">
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start gap-4">
+                      <div className="space-y-1.5">
+                        <CardTitle className="text-base font-semibold leading-tight">
+                          {fraud.title}
+                        </CardTitle>
+                        <CardDescription className="text-xs">
+                          Report ID: {fraud.reportId}
+                        </CardDescription>
+                      </div>
+                      <Badge 
+                        className="bg-red-100 text-red-800 text-[10px] px-2 py-0.5 font-medium"
+                      >
+                        {fraud.status}
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex-1">
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">Risk Score:</span>
+                        <span className="text-red-600">{fraud.riskScore}%</span>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-600">Detection Reasons:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {fraud.reasons.map((reason, idx) => (
+                            <Badge 
+                              key={idx}
+                              variant="outline" 
+                              className="text-[10px] px-1.5 py-0.5"
+                            >
+                              {reason}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-600">Detected By:</p>
+                        <p className="text-xs">{fraud.detectedBy}</p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-600">Date:</p>
+                        <p className="text-xs">{fraud.date}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex gap-2 pt-4">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 text-xs h-8"
+                    >
+                      View Details
+                    </Button>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 text-xs h-8"
+                    >
+                      Review Evidence
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
 
