@@ -54,17 +54,20 @@ export default function EngagementPage() {
 
         <Tabs defaultValue="education" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="education" className="flex items-center gap-2">
+            <TabsTrigger value="education" className="flex items-center justify-center gap-2">
               <Brain className="h-4 w-4" />
-              Civic Education
+              <span className="hidden sm:inline">Civic Education</span>
+              <span className="sr-only">Civic Education</span>
             </TabsTrigger>
-            <TabsTrigger value="adoption" className="flex items-center gap-2">
+            <TabsTrigger value="adoption" className="flex items-center justify-center gap-2">
               <Heart className="h-4 w-4" />
-              Adopt-a-Spot
+              <span className="hidden sm:inline">Adopt-a-Spot</span>
+              <span className="sr-only">Adopt-a-Spot</span>
             </TabsTrigger>
-            <TabsTrigger value="campaigns" className="flex items-center gap-2">
+            <TabsTrigger value="campaigns" className="flex items-center justify-center gap-2">
               <Star className="h-4 w-4" />
-              Seasonal Campaigns
+              <span className="hidden sm:inline">Seasonal Campaigns</span>
+              <span className="sr-only">Seasonal Campaigns</span>
             </TabsTrigger>
           </TabsList>
 

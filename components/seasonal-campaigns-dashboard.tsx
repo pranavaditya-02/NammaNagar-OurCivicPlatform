@@ -7,7 +7,20 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Calendar, Users, Target, TrendingUp, Share2, Camera, MapPin, CheckCircle, Heart } from "lucide-react"
+import { 
+  Calendar, 
+  Users, 
+  Target, 
+  TrendingUp, 
+  Share2, 
+  Camera, 
+  MapPin, 
+  CheckCircle, 
+  Heart,
+  Flag,      // Add this
+  UserCheck, // Add this
+  Trophy    // Add this
+} from "lucide-react"
 import { activeCampaigns, type Campaign } from "@/lib/seasonal-campaigns"
 import { useLanguage } from "@/components/language-context"
 
@@ -87,10 +100,26 @@ export function SeasonalCampaignsDashboard() {
 
       <Tabs defaultValue="active" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="active">Active Campaigns</TabsTrigger>
-          <TabsTrigger value="my-participation">My Participation</TabsTrigger>
-          <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-          <TabsTrigger value="impact">Impact Stories</TabsTrigger>
+          <TabsTrigger value="active" className="flex items-center justify-center gap-2">
+            <Flag className="h-4 w-4" />
+            <span className="hidden sm:inline">Active Campaigns</span>
+            <span className="sr-only">Active Campaigns</span>
+          </TabsTrigger>
+          <TabsTrigger value="my-participation" className="flex items-center justify-center gap-2">
+            <UserCheck className="h-4 w-4" />
+            <span className="hidden sm:inline">My Participation</span>
+            <span className="sr-only">My Participation</span>
+          </TabsTrigger>
+          <TabsTrigger value="leaderboard" className="flex items-center justify-center gap-2">
+            <Trophy className="h-4 w-4" />
+            <span className="hidden sm:inline">Leaderboard</span>
+            <span className="sr-only">Leaderboard</span>
+          </TabsTrigger>
+          <TabsTrigger value="impact" className="flex items-center justify-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            <span className="hidden sm:inline">Impact Stories</span>
+            <span className="sr-only">Impact Stories</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="active" className="space-y-6">

@@ -22,6 +22,7 @@ import {
   FileText,
   CheckCircle,
   TrendingUp,
+  HelpCircle,
 } from "lucide-react"
 import { adoptableSpots, type AdoptableSpot } from "@/lib/adopt-a-spot"
 import { useLanguage } from "@/components/language-context"
@@ -133,10 +134,26 @@ export function AdoptASpotDashboard() {
 
       <Tabs defaultValue="available" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="available">Available Spots</TabsTrigger>
-          <TabsTrigger value="my-adoptions">My Adoptions</TabsTrigger>
-          <TabsTrigger value="success-stories">Success Stories</TabsTrigger>
-          <TabsTrigger value="how-it-works">How It Works</TabsTrigger>
+          <TabsTrigger value="available" className="flex items-center justify-center gap-2">
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">Available Spots</span>
+            <span className="sr-only">Available Spots</span>
+          </TabsTrigger>
+          <TabsTrigger value="my-adoptions" className="flex items-center justify-center gap-2">
+            <Heart className="h-4 w-4" />
+            <span className="hidden sm:inline">My Adoptions</span>
+            <span className="sr-only">My Adoptions</span>
+          </TabsTrigger>
+          <TabsTrigger value="success-stories" className="flex items-center justify-center gap-2">
+            <Star className="h-4 w-4" />
+            <span className="hidden sm:inline">Success Stories</span>
+            <span className="sr-only">Success Stories</span>
+          </TabsTrigger>
+          <TabsTrigger value="how-it-works" className="flex items-center justify-center gap-2">
+            <HelpCircle className="h-4 w-4" />
+            <span className="hidden sm:inline">How It Works</span>
+            <span className="sr-only">How It Works</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="available" className="space-y-6">

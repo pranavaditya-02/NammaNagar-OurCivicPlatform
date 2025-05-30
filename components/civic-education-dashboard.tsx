@@ -7,7 +7,18 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { BookOpen, Award, Clock, CheckCircle, PlayCircle, FileText, Video, Brain, Target } from "lucide-react"
+import {
+  BookOpen,
+  Award,
+  Clock,
+  CheckCircle,
+  PlayCircle,
+  FileText,
+  Video,
+  Brain,
+  Target,
+  Trophy,
+} from "lucide-react"
 import {
   educationModules,
   achievements,
@@ -117,10 +128,26 @@ export function CivicEducationDashboard() {
 
       <Tabs defaultValue="modules" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="modules">Learning Modules</TabsTrigger>
-          <TabsTrigger value="achievements">Achievements</TabsTrigger>
-          <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
-          <TabsTrigger value="certificates">Certificates</TabsTrigger>
+          <TabsTrigger value="modules" className="flex items-center justify-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            <span className="hidden sm:inline">Learning Modules</span>
+            <span className="sr-only">Learning Modules</span>
+          </TabsTrigger>
+          <TabsTrigger value="achievements" className="flex items-center justify-center gap-2">
+            <Award className="h-4 w-4" />
+            <span className="hidden sm:inline">Achievements</span>
+            <span className="sr-only">Achievements</span>
+          </TabsTrigger>
+          <TabsTrigger value="leaderboard" className="flex items-center justify-center gap-2">
+            <Trophy className="h-4 w-4" />
+            <span className="hidden sm:inline">Leaderboard</span>
+            <span className="sr-only">Leaderboard</span>
+          </TabsTrigger>
+          <TabsTrigger value="certificates" className="flex items-center justify-center gap-2">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline">Certificates</span>
+            <span className="sr-only">Certificates</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="modules" className="space-y-6">
