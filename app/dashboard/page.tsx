@@ -23,6 +23,10 @@ import {
   IndianRupee,
   Calendar,
   Filter,
+  FileText, // Changed from FileText2
+  Building2,
+  BarChart2,
+  ShieldAlert,
 } from "lucide-react";
 import { FraudDetectionDashboard } from "@/components/fraud-detection-dashboard";
 import { AIInsightsWidget } from "@/components/ai-insights-widget";
@@ -213,10 +217,26 @@ export default function DashboardPage() {
 
         <Tabs defaultValue="reports" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="reports">Citizen Reports</TabsTrigger>
-            <TabsTrigger value="projects">Infrastructure Projects</TabsTrigger>
-            <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="fraud">Fraud Detection</TabsTrigger>
+            <TabsTrigger value="reports" className="flex items-center justify-center gap-2">
+              <FileText className="h-4 w-4" />
+              <span className="hidden sm:inline">Citizen Reports</span>
+              <span className="sr-only">Citizen Reports</span>
+            </TabsTrigger>
+            <TabsTrigger value="projects" className="flex items-center justify-center gap-2">
+              <Building2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Infrastructure Projects</span>
+              <span className="sr-only">Infrastructure Projects</span>
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center justify-center gap-2">
+              <BarChart2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
+              <span className="sr-only">Analytics</span>
+            </TabsTrigger>
+            <TabsTrigger value="fraud" className="flex items-center justify-center gap-2">
+              <ShieldAlert className="h-4 w-4" />
+              <span className="hidden sm:inline">Fraud Detection</span>
+              <span className="sr-only">Fraud Detection</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="reports" className="space-y-6">
@@ -297,59 +317,59 @@ export default function DashboardPage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="projects" className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold">
+          <TabsContent value="projects" className="space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+              <h2 className="text-lg sm:text-2xl font-bold">
                 Active Infrastructure Projects
               </h2>
-              <Button variant="outline">
-                <MapPin className="mr-2 h-4 w-4" />
+              <Button variant="outline" className="w-full sm:w-auto text-xs sm:text-sm h-8 sm:h-9">
+                <MapPin className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 View on Map
               </Button>
             </div>
 
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               {projects.map((project, index) => (
                 <Card key={index}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-xl">
+                  <CardHeader className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
+                      <div className="space-y-2">
+                        <CardTitle className="text-base sm:text-xl">
                           {project.name}
                         </CardTitle>
-                        <CardDescription className="flex items-center gap-4 mt-2">
-                          <span className="flex items-center gap-1">
-                            <IndianRupee className="h-4 w-4" />
+                        <CardDescription className="grid grid-cols-2 sm:flex items-start sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
+                          <span className="flex items-center gap-1 sm:gap-1.5">
+                            <IndianRupee className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                             {project.budget}
                           </span>
-                          <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
+                          <span className="flex items-center gap-1 sm:gap-1.5">
+                            <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                             {project.deadline}
                           </span>
-                          <span className="flex items-center gap-1">
-                            <Users className="h-4 w-4" />
-                            {project.contractor}
+                          <span className="flex items-center gap-1 sm:gap-1.5 col-span-2 sm:col-span-1">
+                            <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
+                            <span className="truncate">{project.contractor}</span>
                           </span>
                         </CardDescription>
                       </div>
                       <Badge
-                        className={
+                        className={`${
                           project.status === "On Track"
                             ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
-                        }
+                        } text-[10px] sm:text-xs px-1.5 sm:px-2 h-5 sm:h-6 whitespace-nowrap w-fit`}
                       >
                         {project.status}
                       </Badge>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span>Progress</span>
-                        <span>{project.progress}%</span>
+                  <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0">
+                    <div className="space-y-1.5 sm:space-y-2">
+                      <div className="flex justify-between text-xs sm:text-sm">
+                        <span className="text-gray-600">Progress</span>
+                        <span className="font-medium">{project.progress}%</span>
                       </div>
-                      <Progress value={project.progress} className="h-2" />
+                      <Progress value={project.progress} className="h-1.5 sm:h-2" />
                     </div>
                   </CardContent>
                 </Card>
