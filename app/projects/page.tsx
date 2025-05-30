@@ -148,45 +148,52 @@ export default function ProjectsPage() {
     return matchesSearch && matchesCategory && matchesStatus
   })
 
+  // Update the main container and layout
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Infrastructure Projects</h1>
-          <p className="text-xl text-gray-600">Track public infrastructure projects from multiple data sources</p>
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-6 lg:py-8">
+      <div className="container mx-auto px-4 sm:px-6">
+        {/* Responsive Header */}
+        <div className="mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+            Infrastructure Projects
+          </h1>
+          <p className="text-base sm:text-lg text-gray-600">
+            Track public infrastructure projects from multiple data sources
+          </p>
         </div>
 
-        {/* Data Source Alert */}
-        <Alert className="mb-6">
-          <Database className="h-4 w-4" />
-          <AlertDescription>
+        {/* Responsive Alert */}
+        <Alert className="mb-4 sm:mb-6">
+          <Database className="h-4 w-4 flex-shrink-0" />
+          <AlertDescription className="text-sm sm:text-base">
             <strong>Live Data Integration:</strong> Projects are automatically synced from government tender portals,
             e-procurement systems, and local tracking. Last updated: {new Date().toLocaleString()}
           </AlertDescription>
         </Alert>
 
-        <Tabs defaultValue="projects" className="space-y-6">
+        {/* Responsive Tabs */}
+        <Tabs defaultValue="projects" className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="projects">All Projects</TabsTrigger>
             <TabsTrigger value="government">Government Data</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="projects" className="space-y-6">
-            {/* Filters */}
-            <Card className="mb-8">
-              <CardContent className="p-6">
-                <div className="grid md:grid-cols-4 gap-4">
+          <TabsContent value="projects" className="space-y-4 sm:space-y-6">
+            {/* Responsive Filters */}
+            <Card className="mb-4 sm:mb-6">
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                   <div className="relative">
-                    <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       placeholder="Search projects..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 w-full"
                     />
                   </div>
                   <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="All Categories" />
                     </SelectTrigger>
                     <SelectContent>
@@ -199,7 +206,7 @@ export default function ProjectsPage() {
                     </SelectContent>
                   </Select>
                   <Select value={selectedStatus} onValueChange={setSelectedStatus}>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="All Status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -211,7 +218,7 @@ export default function ProjectsPage() {
                       <SelectItem value="delayed">Delayed</SelectItem>
                     </SelectContent>
                   </Select>
-                  <Button variant="outline">
+                  <Button variant="outline" className="w-full sm:w-auto">
                     <MapPin className="mr-2 h-4 w-4" />
                     View on Map
                   </Button>
@@ -220,100 +227,108 @@ export default function ProjectsPage() {
             </Card>
 
             {/* Projects Grid */}
-            <div className="grid gap-6">
+            <div className="grid gap-4 sm:gap-6">
               {filteredProjects.map((project) => (
                 <Card key={project.id} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div className="flex items-start gap-4">
-                        <div className={`p-3 rounded-full bg-gray-100`}>
-                          <project.icon className={`h-6 w-6 ${project.color}`} />
+                  <CardHeader className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-start gap-4">
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        <div className="p-2 sm:p-3 rounded-full bg-gray-100 flex-shrink-0">
+                          <project.icon className={`h-5 w-5 sm:h-6 sm:w-6 ${project.color}`} />
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <CardTitle className="text-xl">{project.name}</CardTitle>
-                            <Badge variant="outline" className="text-xs">
-                              {project.source}
-                            </Badge>
-                            {project.source === "Government Portal" && (
-                              <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
-                                <Database className="h-3 w-3 mr-1" />
-                                Live Data
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 mb-2">
+                            <CardTitle className="text-lg sm:text-xl truncate">
+                              {project.name}
+                            </CardTitle>
+                            <div className="flex flex-wrap gap-2">
+                              <Badge variant="outline" className="text-xs">
+                                {project.source}
                               </Badge>
-                            )}
+                              {project.source === "Government Portal" && (
+                                <Badge variant="outline" className="text-xs bg-green-50 text-green-700">
+                                  <Database className="h-3 w-3 mr-1" />
+                                  Live Data
+                                </Badge>
+                              )}
+                            </div>
                           </div>
-                          <CardDescription className="text-base mb-3">{project.description}</CardDescription>
-                          <div className="flex items-center gap-4 text-sm text-gray-600">
+                          <CardDescription className="text-sm sm:text-base mb-3">
+                            {project.description}
+                          </CardDescription>
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                             <span className="flex items-center gap-1">
-                              <MapPin className="h-4 w-4" />
+                              <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                               {project.ward}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Users className="h-4 w-4" />
+                              <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                               {project.contractor}
                             </span>
                             {(project as any).department && (
                               <span className="flex items-center gap-1">
-                                <Building className="h-4 w-4" />
+                                <Building className="h-3 w-3 sm:h-4 sm:w-4" />
                                 {(project as any).department}
                               </span>
                             )}
                           </div>
                         </div>
                       </div>
-                      <Badge className={getStatusColor(project.status)}>{project.status}</Badge>
+                      <Badge className={`${getStatusColor(project.status)} self-start sm:self-center`}>
+                        {project.status}
+                      </Badge>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="grid md:grid-cols-2 gap-6">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                       {/* Progress and Timeline */}
-                      <div className="space-y-4">
+                      <div className="space-y-3 sm:space-y-4">
                         <div>
-                          <div className="flex justify-between text-sm mb-2">
+                          <div className="flex justify-between text-xs sm:text-sm mb-2">
                             <span className="font-medium">Progress</span>
                             <span>{project.progress}%</span>
                           </div>
                           <Progress value={project.progress} className="h-2" />
                         </div>
-                        <div className="flex items-center gap-4 text-sm">
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                           <span className="flex items-center gap-1">
-                            <Calendar className="h-4 w-4" />
+                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                             Start: {new Date(project.startDate).toLocaleDateString()}
                           </span>
                           <span className="flex items-center gap-1">
-                            <Clock className="h-4 w-4" />
+                            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
                             End: {new Date(project.endDate).toLocaleDateString()}
                           </span>
                         </div>
                       </div>
 
                       {/* Budget Information */}
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-3 sm:space-y-4">
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4">
                           <div>
-                            <p className="text-sm text-gray-600">Total Budget</p>
-                            <p className="text-lg font-semibold text-gray-900 flex items-center gap-1">
-                              <IndianRupee className="h-4 w-4" />
+                            <p className="text-xs sm:text-sm text-gray-600">Total Budget</p>
+                            <p className="text-base sm:text-lg font-semibold text-gray-900 flex items-center gap-1">
+                              <IndianRupee className="h-3 w-3 sm:h-4 sm:w-4" />
                               {project.budget}
                             </p>
                           </div>
                           <div>
-                            <p className="text-sm text-gray-600">Allocated</p>
-                            <p className="text-lg font-semibold text-blue-600 flex items-center gap-1">
-                              <IndianRupee className="h-4 w-4" />
+                            <p className="text-xs sm:text-sm text-gray-600">Allocated</p>
+                            <p className="text-base sm:text-lg font-semibold text-blue-600 flex items-center gap-1">
+                              <IndianRupee className="h-3 w-3 sm:h-4 sm:w-4" />
                               {project.allocated}
                             </p>
                           </div>
                         </div>
-                        <div className="flex gap-2">
-                          <Button variant="outline" size="sm">
+                        <div className="flex flex-wrap gap-2">
+                          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
                             View Details
                           </Button>
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline" size="sm" className="text-xs sm:text-sm">
                             Track Progress
                           </Button>
                           {project.source === "Government Portal" && (
-                            <Button variant="outline" size="sm">
+                            <Button variant="outline" size="sm" className="text-xs sm:text-sm">
                               <ExternalLink className="mr-1 h-3 w-3" />
                               Portal
                             </Button>
@@ -326,10 +341,13 @@ export default function ProjectsPage() {
               ))}
             </div>
 
+            {/* No Results Card */}
             {filteredProjects.length === 0 && (
-              <Card className="text-center py-12">
+              <Card className="text-center py-8 sm:py-12">
                 <CardContent>
-                  <p className="text-gray-500 text-lg">No projects found matching your criteria.</p>
+                  <p className="text-gray-500 text-base sm:text-lg">
+                    No projects found matching your criteria.
+                  </p>
                   <Button
                     variant="outline"
                     className="mt-4"
@@ -346,7 +364,7 @@ export default function ProjectsPage() {
             )}
           </TabsContent>
 
-          <TabsContent value="government" className="space-y-6">
+          <TabsContent value="government">
             <GovernmentDataDashboard />
           </TabsContent>
         </Tabs>

@@ -62,24 +62,26 @@ export default function SettingsPage() {
         </div>
 
         <Tabs defaultValue="notifications" className="space-y-6">
-          <TabsList className="grid grid-cols-2 lg:grid-cols-4 w-full">
-            <TabsTrigger value="notifications">
-              <Bell className="h-4 w-4 mr-2" />
-              Notifications
-            </TabsTrigger>
-            <TabsTrigger value="account">
-              <User className="h-4 w-4 mr-2" />
-              Account
-            </TabsTrigger>
-            <TabsTrigger value="privacy">
-              <Shield className="h-4 w-4 mr-2" />
-              Privacy
-            </TabsTrigger>
-            <TabsTrigger value="preferences">
-              <Globe className="h-4 w-4 mr-2" />
-              Preferences
-            </TabsTrigger>
-          </TabsList>
+          <div className="border-b">
+            <TabsList className="grid grid-cols-4 w-full">
+              {[
+                { value: 'notifications', icon: Bell, label: 'Notifications' },
+                { value: 'account', icon: User, label: 'Account' },
+                { value: 'privacy', icon: Shield, label: 'Privacy' },
+                { value: 'preferences', icon: Globe, label: 'Preferences' }
+              ].map((tab) => (
+                <TabsTrigger 
+                  key={tab.value} 
+                  value={tab.value}
+                  className="flex items-center justify-center gap-2 py-2.5"
+                >
+                  <tab.icon className="h-4 w-4" />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sr-only">{tab.label}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <TabsContent value="notifications">
             <Card>

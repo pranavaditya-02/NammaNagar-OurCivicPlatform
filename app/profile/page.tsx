@@ -198,88 +198,131 @@ export default function ProfilePage() {
   return (
     <div className="container mx-auto py-8 px-4">
       {/* Enhanced Profile Header */}
-      <Card className="mb-8">
-        <CardContent className="p-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src={userProfile.avatar} alt={userProfile.name} />
-              <AvatarFallback>PS</AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-2xl font-bold">{userProfile.name}</h1>
-                <Badge variant="secondary" className="font-medium">
+      <Card className="mb-6 sm:mb-8">
+        <CardContent className="p-4 sm:p-6">
+          {/* Profile Header */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+            {/* Avatar */}
+            <div className="relative">
+              <Avatar className="w-20 h-20 sm:w-24 sm:h-24">
+                <AvatarImage src={userProfile.avatar} alt={userProfile.name} />
+                <AvatarFallback className="text-lg sm:text-xl">PS</AvatarFallback>
+              </Avatar>
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex-1 text-center sm:text-left">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 mb-2">
+                <h1 className="text-xl sm:text-2xl font-bold">{userProfile.name}</h1>
+                <Badge variant="secondary" className="font-medium text-xs sm:text-sm">
                   {userProfile.role}
                 </Badge>
               </div>
-              <p className="text-gray-600 mb-2">{userProfile.bio}</p>
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <p className="text-sm sm:text-base text-gray-600 mb-2">{userProfile.bio}</p>
+              <div className="flex flex-wrap justify-center sm:justify-start items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
                 <span className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
+                  <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                   {userProfile.location}
                 </span>
-                <span>Joined {userProfile.joined}</span>
+                <span className="flex items-center gap-1">
+                  <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
+                  Joined {userProfile.joined}
+                </span>
               </div>
             </div>
-            <div className="flex gap-4">
-              <Card className="w-32">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-blue-600">{userProfile.points}</div>
-                  <div className="text-sm text-gray-600">Points</div>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-4 w-full sm:w-auto">
+              <Card className="w-full sm:w-32">
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-blue-600">{userProfile.points}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Points</div>
                 </CardContent>
               </Card>
-              <Card className="w-32">
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-green-600">{userProfile.resolved}</div>
-                  <div className="text-sm text-gray-600">Issues Resolved</div>
+              <Card className="w-full sm:w-32">
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-green-600">{userProfile.resolved}</div>
+                  <div className="text-xs sm:text-sm text-gray-600">Resolved</div>
                 </CardContent>
               </Card>
             </div>
           </div>
 
-          {/* Added Action Buttons */}
-          <div className="flex gap-2 md:self-start">
-            <Button variant="outline" onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2">
-              <Edit2 className="h-4 w-4" />
+          {/* Action Buttons */}
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2 mt-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsEditing(true)}
+              className="flex items-center gap-2 text-xs sm:text-sm"
+            >
+              <Edit2 className="h-3 w-3 sm:h-4 sm:w-4" />
               Edit Profile
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Share2 className="h-4 w-4" />
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2 text-xs sm:text-sm"
+            >
+              <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
               Share
             </Button>
-            <Button variant="ghost" size="icon">
-              <Flag className="h-4 w-4 text-red-500" />
+            <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-9 sm:w-9">
+              <Flag className="h-3 w-3 sm:h-4 sm:w-4 text-red-500" />
             </Button>
           </div>
 
-          {/* Added Expertise Tags */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {userProfile.expertise.map((tag, i) => (
-              <Badge key={i} variant="secondary">{tag}</Badge>
-            ))}
-          </div>
+          {/* Tags and Badges */}
+          <div className="space-y-3 sm:space-y-4 mt-4">
+            {/* Expertise Tags */}
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+              {userProfile.expertise.map((tag, i) => (
+                <Badge 
+                  key={i} 
+                  variant="secondary" 
+                  className="text-xs sm:text-sm px-2 py-0.5"
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
 
-          {/* Added Achievement Badges */}
-          <div className="mt-4 flex flex-wrap gap-2">
-            {userProfile.badges.map((badge, i) => (
-              <Badge key={i} className={badge.color}>{badge.name}</Badge>
-            ))}
+            {/* Achievement Badges */}
+            <div className="flex flex-wrap justify-center sm:justify-start gap-2">
+              {userProfile.badges.map((badge, i) => (
+                <Badge 
+                  key={i} 
+                  className={`${badge.color} text-xs sm:text-sm px-2 py-0.5`}
+                >
+                  {badge.name}
+                </Badge>
+              ))}
+            </div>
           </div>
         </CardContent>
       </Card>
 
       {/* Enhanced Tabs Section */}
-      <Tabs defaultValue="activity" className="space-y-6">
-        <TabsList className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6">
-          <TabsTrigger value="activity">Activity</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
-          <TabsTrigger value="achievements">Achievements</TabsTrigger>
-          <TabsTrigger value="impact">Impact</TabsTrigger>
-          <TabsTrigger value="following">Following</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+      <Tabs defaultValue="activity" className="space-y-4 sm:space-y-6">
+        <TabsList className="grid grid-cols-6 w-full">
+          {[
+            { value: 'activity', label: 'Activity', icon: Activity },
+            { value: 'reports', label: 'Reports', icon: FileText },
+            { value: 'achievements', label: 'Achievements', icon: Award },
+            { value: 'impact', label: 'Impact', icon: ChartBar },
+            { value: 'following', label: 'Following', icon: Users },
+            { value: 'analytics', label: 'Analytics', icon: BarChart2 }
+          ].map((tab) => (
+            <TabsTrigger
+              key={tab.value}
+              value={tab.value}
+              className="flex items-center justify-center gap-2 px-2 py-2"
+            >
+              <tab.icon className="h-4 w-4" />
+              <span className="hidden sm:inline text-sm">{tab.label}</span>
+              <span className="sr-only">{tab.label}</span>
+            </TabsTrigger>
+          ))}
         </TabsList>
-
+        
         {/* Activity Tab */}
         <TabsContent value="activity" className="space-y-4">
           {/* Engagement Stats */}
