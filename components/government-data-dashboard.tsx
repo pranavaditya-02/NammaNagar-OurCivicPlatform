@@ -19,7 +19,10 @@ import {
   Download,
   ExternalLink,
   Database,
-  FolderSyncIcon as Sync,
+  FolderSync,
+  Activity,
+  ShoppingCart,
+  BarChart2
 } from "lucide-react"
 import { fetchTenderData, fetchProjectProgress, syncGovernmentData } from "@/lib/government-api-integration"
 import type { TenderData, ProjectProgress } from "@/lib/government-api-integration"
@@ -127,100 +130,91 @@ export function GovernmentDataDashboard() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Responsive Header */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-gray-900">Government Data Integration</h2>
-          <p className="text-gray-600">Real-time data from official tender portals and e-procurement systems</p>
+          <h2 className="text-xl sm:text-3xl font-bold text-gray-900">Government Data Integration</h2>
+          <p className="text-sm sm:text-base text-gray-600">Real-time data from official tender portals</p>
         </div>
-        <div className="flex gap-2">
-          <Button onClick={handleSync} disabled={loading}>
-            <RefreshCw className={`mr-2 h-4 w-4 ${loading ? "animate-spin" : ""}`} />
+        <div className="flex w-full sm:w-auto gap-2">
+          <Button onClick={handleSync} disabled={loading} className="flex-1 sm:flex-none text-xs sm:text-sm">
+            <RefreshCw className={`mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4 ${loading ? "animate-spin" : ""}`} />
             Sync Data
           </Button>
-          <Button variant="outline">
-            <Download className="mr-2 h-4 w-4" />
+          <Button variant="outline" className="flex-1 sm:flex-none text-xs sm:text-sm">
+            <Download className="mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
             Export
           </Button>
         </div>
       </div>
 
-      {/* Sync Status */}
+      {/* Responsive Sync Status */}
       {lastSync && (
-        <Alert>
-          <Sync className="h-4 w-4" />
-          <AlertDescription>
-            <strong>Last Sync:</strong> {lastSync} |<strong> Updated:</strong> {syncStats.tendersUpdated} tenders,{" "}
-            {syncStats.projectsUpdated} projects |<strong> New:</strong> {syncStats.newTenders} tenders
+        <Alert className="text-xs sm:text-sm">
+          <FolderSync className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          <AlertDescription className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+            <span><strong>Last Sync:</strong> {lastSync}</span>
+            <span className="hidden sm:inline">|</span>
+            <span><strong>Updated:</strong> {syncStats.tendersUpdated} tenders, {syncStats.projectsUpdated} projects</span>
+            <span className="hidden sm:inline">|</span>
+            <span><strong>New:</strong> {syncStats.newTenders} tenders</span>
           </AlertDescription>
         </Alert>
       )}
 
-      {/* Data Sources */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">eProcurement Portal</p>
-                <p className="text-lg font-bold text-green-600">Connected</p>
+      {/* Responsive Data Sources Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+        {[
+          { title: "eProcurement Portal", status: "Connected" },
+          { title: "GeM Portal", status: "Active" },
+          { title: "PFMS", status: "Synced" },
+          { title: "State Portals", status: "12 States" }
+        ].map((source, index) => (
+          <Card key={index}>
+            <CardContent className="p-3 sm:p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm text-gray-600">{source.title}</p>
+                  <p className="text-sm sm:text-lg font-bold text-green-600">{source.status}</p>
+                </div>
+                <Database className="h-4 w-4 sm:h-6 sm:w-6 text-green-500" />
               </div>
-              <Database className="h-6 w-6 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">GeM Portal</p>
-                <p className="text-lg font-bold text-green-600">Active</p>
-              </div>
-              <Database className="h-6 w-6 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">PFMS</p>
-                <p className="text-lg font-bold text-green-600">Synced</p>
-              </div>
-              <Database className="h-6 w-6 text-green-500" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">State Portals</p>
-                <p className="text-lg font-bold text-blue-600">12 States</p>
-              </div>
-              <Database className="h-6 w-6 text-blue-500" />
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
+      {/* Responsive Tabs */}
       <Tabs defaultValue="tenders" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="tenders">Live Tenders</TabsTrigger>
-          <TabsTrigger value="projects">Project Progress</TabsTrigger>
-          <TabsTrigger value="procurement">E-Procurement</TabsTrigger>
-          <TabsTrigger value="analytics">Data Analytics</TabsTrigger>
+        <TabsList className="grid grid-cols-4 w-full">
+          <TabsTrigger value="tenders" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+            <FileText className="h-4 w-4" />
+            <span className="hidden sm:inline text-xs sm:text-sm">Live Tenders</span>
+            <span className="sr-only sm:hidden">Live Tenders</span>
+          </TabsTrigger>
+          <TabsTrigger value="projects" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+            <Activity className="h-4 w-4" />
+            <span className="hidden sm:inline text-xs sm:text-sm">Project Progress</span>
+            <span className="sr-only">Project Progress</span>
+          </TabsTrigger>
+          <TabsTrigger value="procurement" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+            <ShoppingCart className="h-4 w-4" />
+            <span className="hidden sm:inline text-xs sm:text-sm">E-Procurement</span>
+            <span className="sr-only">E-Procurement</span>
+          </TabsTrigger>
+          <TabsTrigger value="analytics" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+            <BarChart2 className="h-4 w-4" />
+            <span className="hidden sm:inline text-xs sm:text-sm">Data Analytics</span>
+            <span className="sr-only">Data Analytics</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="tenders" className="space-y-4">
-          {/* Filters */}
+          {/* Filters Card */}
           <Card>
-            <CardContent className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <CardContent className="p-3 sm:p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 sm:gap-4">
                 <Select
                   value={filters.state || "all"}
                   onValueChange={(value) => setFilters({ ...filters, state: value })}
@@ -276,39 +270,43 @@ export function GovernmentDataDashboard() {
             </CardContent>
           </Card>
 
-          {/* Tender List */}
-          <div className="space-y-4">
+          {/* Tender Cards */}
+          <div className="space-y-3 sm:space-y-4">
             {loading ? (
               <Card>
-                <CardContent className="p-8 text-center">
-                  <RefreshCw className="h-8 w-8 animate-spin mx-auto mb-4 text-blue-500" />
-                  <p>Loading tender data from government portals...</p>
+                <CardContent className="p-4 sm:p-8 text-center">
+                  <RefreshCw className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mx-auto mb-3 sm:mb-4 text-blue-500" />
+                  <p className="text-sm sm:text-base">Loading tender data from government portals...</p>
                 </CardContent>
               </Card>
             ) : (
               tenderData.map((tender) => (
                 <Card key={tender.tenderId} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle className="text-xl mb-2">{tender.title}</CardTitle>
-                        <CardDescription className="text-base mb-3">{tender.description}</CardDescription>
-                        <div className="flex items-center gap-4 text-sm text-gray-600">
+                  <CardHeader className="p-3 sm:p-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-4">
+                      <div className="w-full">
+                        <CardTitle className="text-base sm:text-xl mb-1 sm:mb-2">{tender.title}</CardTitle>
+                        <CardDescription className="text-sm sm:text-base mb-2 sm:mb-3">
+                          {tender.description}
+                        </CardDescription>
+                        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
                           <span className="flex items-center gap-1">
-                            <Building2 className="h-4 w-4" />
+                            <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             {tender.department}
                           </span>
                           <span className="flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            {tender.location.area}, {tender.location.district}
+                            <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            {tender.location.area}
                           </span>
                           <span className="flex items-center gap-1">
-                            <FileText className="h-4 w-4" />
+                            <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                             {tender.tenderId}
                           </span>
                         </div>
                       </div>
-                      <Badge className={getStatusColor(tender.status)}>{tender.status}</Badge>
+                      <Badge className={`${getStatusColor(tender.status)} text-xs sm:text-sm px-2 sm:px-3`}>
+                        {tender.status}
+                      </Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-4">
