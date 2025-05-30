@@ -314,7 +314,7 @@ export default function ProfilePage() {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="flex items-center justify-center gap-2 px-2 py-2"
+              
             >
               <tab.icon className="h-4 w-4" />
               <span className="hidden sm:inline text-sm">{tab.label}</span>

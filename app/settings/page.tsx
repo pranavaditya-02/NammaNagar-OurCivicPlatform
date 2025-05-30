@@ -73,7 +73,7 @@ export default function SettingsPage() {
                 <TabsTrigger 
                   key={tab.value} 
                   value={tab.value}
-                  className="flex items-center justify-center gap-2 py-2.5"
+                 
                 >
                   <tab.icon className="h-4 w-4" />
                   <span className="hidden sm:inline">{tab.label}</span>

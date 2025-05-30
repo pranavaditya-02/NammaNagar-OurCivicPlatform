@@ -189,8 +189,8 @@ export default function ProjectsPage() {
         {/* Responsive Tabs and Filters */}
         <Tabs defaultValue="projects" className="space-y-4 sm:space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="projects" className="text-xs sm:text-sm py-2">All Projects</TabsTrigger>
-            <TabsTrigger value="government" className="text-xs sm:text-sm py-2">Government Data</TabsTrigger>
+            <TabsTrigger value="projects">All Projects</TabsTrigger>
+            <TabsTrigger value="government">Government Data</TabsTrigger>
           </TabsList>
 
           <TabsContent value="projects" className="space-y-4 sm:space-y-6">

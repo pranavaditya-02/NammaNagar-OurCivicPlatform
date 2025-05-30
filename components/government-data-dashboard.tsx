@@ -25,7 +25,167 @@ import {
   BarChart2
 } from "lucide-react"
 import { fetchTenderData, fetchProjectProgress, syncGovernmentData } from "@/lib/government-api-integration"
-import type { TenderData, ProjectProgress } from "@/lib/government-api-integration"
+import type { TenderData as APITenderData, ProjectProgress as APIProjectProgress } from "@/lib/government-api-integration"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Skeleton } from "@/components/ui/skeleton"
+
+// Add these interfaces before the SAMPLE_TENDERS data
+interface Location {
+  state?: string
+  district?: string
+  area: string
+  pincode?: string
+}
+
+interface Contractor {
+  name: string
+  registrationNumber?: string
+  contactInfo?: string
+}
+
+interface Milestone {
+  description: string
+  targetDate: string
+  completionDate?: string
+  status: string
+  amount: string
+}
+
+interface TenderData {
+  tenderId: string
+  title: string
+  description: string
+  department: string
+  location: Location
+  status: string
+  estimatedCost: string
+  workCompletionDate: string
+  contractor?: Contractor
+  milestones: Milestone[]
+}
+
+interface ProjectProgress {
+  tenderId: string
+  physicalProgress: number
+  financialProgress: number
+  timeProgress: number
+  qualityRating: number
+  lastUpdated: string
+  issues: {
+    type: string
+    description: string
+    severity: string
+  }[]
+}
+
+const SAMPLE_TENDERS: TenderData[] = [
+  {
+    tenderId: "TND-2025-001",
+    title: "Smart Traffic Management System Implementation",
+    description: "Installation of AI-powered traffic signals and monitoring systems across major junctions",
+    department: "Urban Transportation",
+    location: { area: "Central Business District" },
+    status: "Published",
+    estimatedCost: "12.5 Cr",
+    workCompletionDate: "2025-12-31",
+    contractor: { name: "SmartCity Solutions Ltd." },
+    milestones: [
+      {
+        description: "System Design and Planning",
+        targetDate: "2025-06-30",
+        status: "In Progress",
+        amount: "₹2.5 Cr"
+      },
+      {
+        description: "Hardware Installation",
+        targetDate: "2025-09-30",
+        status: "Pending",
+        amount: "₹6 Cr"
+      }
+    ]
+  },
+  {
+    tenderId: "TND-2025-002",
+    title: "Urban Water Conservation Project",
+    description: "Implementation of rainwater harvesting systems in public buildings",
+    department: "Water Resources",
+    location: {
+      state: "Karnataka",
+      district: "Bangalore Urban",
+      area: "Multiple Wards",
+      pincode: "560001"
+    },
+    status: "Work in Progress",
+    estimatedCost: "8.3 Cr",
+    workCompletionDate: "2025-08-15",
+    contractor: { 
+      name: "EcoWater Systems",
+      registrationNumber: "REG-2024-789",
+      contactInfo: "contact@ecowater.com"
+    },
+    milestones: [
+      {
+        description: "Site Assessment",
+        targetDate: "2025-04-15",
+        completionDate: "2025-04-10",
+        status: "Completed",
+        amount: "₹1.2 Cr"
+      }
+    ]
+  },
+  {
+    tenderId: "TND-2025-003",
+    title: "Public Park Renovation",
+    description: "Comprehensive renovation of city parks with modern amenities",
+    department: "Parks and Recreation",
+    location: { area: "South Zone" },
+    status: "Awarded",
+    estimatedCost: "5.7 Cr",
+    workCompletionDate: "2025-07-30",
+    contractor: { name: "GreenSpace Developers" },
+    milestones: [
+      {
+        description: "Design Approval",
+        targetDate: "2025-05-01",
+        status: "In Progress",
+        amount: "₹0.8 Cr"
+      }
+    ]
+  }
+]
+
+const SAMPLE_PROGRESS: ProjectProgress[] = [
+  {
+    tenderId: "TND-2025-002",
+    physicalProgress: 45,
+    financialProgress: 38,
+    timeProgress: 42,
+    qualityRating: 4.2,
+    lastUpdated: new Date().toISOString(),
+    issues: [
+      {
+        type: "Material Delay",
+        description: "Delay in raw material delivery affecting timeline",
+        severity: "Medium"
+      }
+    ]
+  },
+  {
+    tenderId: "TND-2025-003",
+    physicalProgress: 22,
+    financialProgress: 25,
+    timeProgress: 20,
+    qualityRating: 4.5,
+    lastUpdated: new Date().toISOString(),
+    issues: [
+      {
+        type: "Weather Impact",
+        description: "Recent rains causing minor delays",
+        severity: "Low"
+      }
+    ]
+  }
+]
 
 export function GovernmentDataDashboard() {
   const [tenderData, setTenderData] = useState<TenderData[]>([])
@@ -45,16 +205,21 @@ export function GovernmentDataDashboard() {
     lastSyncTime: "",
   })
 
+  const [error, setError] = useState<string | null>(null)
+
   useEffect(() => {
-    loadTenderData()
+    // Simulate API call with sample data
+    setTenderData(SAMPLE_TENDERS)
   }, [])
 
   const loadTenderData = async () => {
     setLoading(true)
+    setError(null)
     try {
       const data = await fetchTenderData(filters)
       setTenderData(data)
     } catch (error) {
+      setError("Failed to load tender data. Please try again.")
       console.error("Failed to load tender data:", error)
     } finally {
       setLoading(false)
@@ -76,16 +241,16 @@ export function GovernmentDataDashboard() {
   }
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed":
+    switch (status.toLowerCase()) {
+      case "completed":
         return "bg-green-100 text-green-800"
-      case "Work in Progress":
+      case "work in progress":
         return "bg-blue-100 text-blue-800"
-      case "Awarded":
+      case "awarded":
         return "bg-purple-100 text-purple-800"
-      case "Published":
+      case "published":
         return "bg-yellow-100 text-yellow-800"
-      case "Cancelled":
+      case "cancelled":
         return "bg-red-100 text-red-800"
       default:
         return "bg-gray-100 text-gray-800"
@@ -93,14 +258,14 @@ export function GovernmentDataDashboard() {
   }
 
   const getMilestoneStatusColor = (status: string) => {
-    switch (status) {
-      case "Completed":
+    switch (status.toLowerCase()) {
+      case "completed":
         return "text-green-600"
-      case "In Progress":
+      case "in progress":
         return "text-blue-600"
-      case "Delayed":
+      case "delayed":
         return "text-red-600"
-      case "Pending":
+      case "pending":
         return "text-gray-600"
       default:
         return "text-gray-600"
@@ -188,22 +353,22 @@ export function GovernmentDataDashboard() {
       {/* Responsive Tabs */}
       <Tabs defaultValue="tenders" className="space-y-4">
         <TabsList className="grid grid-cols-4 w-full">
-          <TabsTrigger value="tenders" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+          <TabsTrigger value="tenders">
             <FileText className="h-4 w-4" />
             <span className="hidden sm:inline text-xs sm:text-sm">Live Tenders</span>
             <span className="sr-only sm:hidden">Live Tenders</span>
           </TabsTrigger>
-          <TabsTrigger value="projects" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+          <TabsTrigger value="projects">
             <Activity className="h-4 w-4" />
             <span className="hidden sm:inline text-xs sm:text-sm">Project Progress</span>
             <span className="sr-only">Project Progress</span>
           </TabsTrigger>
-          <TabsTrigger value="procurement" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+          <TabsTrigger value="procurement">
             <ShoppingCart className="h-4 w-4" />
             <span className="hidden sm:inline text-xs sm:text-sm">E-Procurement</span>
             <span className="sr-only">E-Procurement</span>
           </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center justify-center gap-2 py-1.5 sm:py-2">
+          <TabsTrigger value="analytics" >
             <BarChart2 className="h-4 w-4" />
             <span className="hidden sm:inline text-xs sm:text-sm">Data Analytics</span>
             <span className="sr-only">Data Analytics</span>
@@ -274,89 +439,95 @@ export function GovernmentDataDashboard() {
           <div className="space-y-3 sm:space-y-4">
             {loading ? (
               <Card>
-                <CardContent className="p-4 sm:p-8 text-center">
-                  <RefreshCw className="h-6 w-6 sm:h-8 sm:w-8 animate-spin mx-auto mb-3 sm:mb-4 text-blue-500" />
-                  <p className="text-sm sm:text-base">Loading tender data from government portals...</p>
+                <CardContent className="p-4 text-center">
+                  <RefreshCw className="h-6 w-6 animate-spin mx-auto mb-2" />
+                  <p className="text-sm">Loading tender data...</p>
                 </CardContent>
               </Card>
+            ) : error ? (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
             ) : (
               tenderData.map((tender) => (
                 <Card key={tender.tenderId} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="p-3 sm:p-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 sm:gap-4">
-                      <div className="w-full">
-                        <CardTitle className="text-base sm:text-xl mb-1 sm:mb-2">{tender.title}</CardTitle>
-                        <CardDescription className="text-sm sm:text-base mb-2 sm:mb-3">
-                          {tender.description}
-                        </CardDescription>
-                        <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
-                          <span className="flex items-center gap-1">
-                            <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                            {tender.department}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                            {tender.location.area}
-                          </span>
-                          <span className="flex items-center gap-1">
-                            <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                            {tender.tenderId}
-                          </span>
-                        </div>
+                  <CardHeader className="p-3 sm:p-4">
+                    {/* Header Section */}
+                    <div className="space-y-2.5">
+                      <div className="flex items-start justify-between gap-3">
+                        <CardTitle className="text-sm sm:text-lg lg:text-xl flex-1">{tender.title}</CardTitle>
+                        <Badge className={`${getStatusColor(tender.status)} text-[10px] sm:text-xs whitespace-nowrap mt-0.5`}>
+                          {tender.status}
+                        </Badge>
                       </div>
-                      <Badge className={`${getStatusColor(tender.status)} text-xs sm:text-sm px-2 sm:px-3`}>
-                        {tender.status}
-                      </Badge>
+                      <CardDescription className="text-[11px] sm:text-sm line-clamp-2">
+                        {tender.description}
+                      </CardDescription>
+                      
+                      {/* Project Details */}
+                      <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-[10px] sm:text-xs text-gray-600">
+                        <span className="flex items-center gap-1.5">
+                          <Building2 className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
+                          <span className="truncate">{tender.department}</span>
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
+                          <span className="truncate">{tender.location.area}</span>
+                        </span>
+                        <span className="flex items-center gap-1.5">
+                          <FileText className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
+                          <span className="truncate">{tender.tenderId}</span>
+                        </span>
+                      </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm text-gray-600">Estimated Cost</p>
-                        <p className="text-lg font-semibold text-green-600 flex items-center gap-1">
-                          <IndianRupee className="h-4 w-4" />
+
+                  <CardContent className="p-3 sm:p-4 space-y-4">
+                    {/* Cost and Timeline Section */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      <div className="space-y-1">
+                        <p className="text-[10px] sm:text-xs text-gray-500">Estimated Cost</p>
+                        <p className="text-xs sm:text-base font-medium text-green-600 flex items-center gap-1">
+                          <IndianRupee className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                           {tender.estimatedCost}
                         </p>
                       </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Completion Date</p>
-                        <p className="text-lg font-semibold flex items-center gap-1">
-                          <Calendar className="h-4 w-4" />
+                      <div className="space-y-1">
+                        <p className="text-[10px] sm:text-xs text-gray-500">Due Date</p>
+                        <p className="text-xs sm:text-base font-medium flex items-center gap-1">
+                          <Calendar className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
                           {new Date(tender.workCompletionDate).toLocaleDateString()}
                         </p>
                       </div>
                       {tender.contractor && (
-                        <div>
-                          <p className="text-sm text-gray-600">Contractor</p>
-                          <p className="text-lg font-semibold flex items-center gap-1">
-                            <Users className="h-4 w-4" />
-                            {tender.contractor.name}
+                        <div className="space-y-1 col-span-2 sm:col-span-1">
+                          <p className="text-[10px] sm:text-xs text-gray-500">Contractor</p>
+                          <p className="text-xs sm:text-base font-medium flex items-center gap-1">
+                            <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+                            <span className="truncate">{tender.contractor.name}</span>
                           </p>
                         </div>
                       )}
                     </div>
 
-                    {/* Milestones */}
+                    {/* Milestones Section */}
                     {tender.milestones.length > 0 && (
-                      <div>
-                        <h4 className="font-semibold mb-3">Project Milestones</h4>
+                      <div className="pt-1">
+                        <h4 className="text-xs sm:text-sm font-medium mb-2">Project Milestones</h4>
                         <div className="space-y-2">
                           {tender.milestones.map((milestone, index) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                              <div>
-                                <p className="font-medium">{milestone.description}</p>
-                                <p className="text-sm text-gray-600">
-                                  Target: {new Date(milestone.targetDate).toLocaleDateString()}
-                                  {milestone.completionDate && (
-                                    <span> | Completed: {new Date(milestone.completionDate).toLocaleDateString()}</span>
-                                  )}
-                                </p>
-                              </div>
-                              <div className="text-right">
-                                <Badge className={getMilestoneStatusColor(milestone.status)} variant="outline">
-                                  {milestone.status}
-                                </Badge>
-                                <p className="text-sm font-medium mt-1">{milestone.amount}</p>
+                            <div key={index} className="p-2 bg-gray-50 rounded-lg">
+                              <div className="space-y-2">
+                                <div className="flex items-start justify-between gap-2">
+                                  <p className="text-[11px] sm:text-sm font-medium flex-1">{milestone.description}</p>
+                                  <Badge className={`${getMilestoneStatusColor(milestone.status)} text-[10px] sm:text-xs`} variant="outline">
+                                    {milestone.status}
+                                  </Badge>
+                                </div>
+                                <div className="flex items-center justify-between text-[10px] sm:text-xs text-gray-500">
+                                  <span>Target: {new Date(milestone.targetDate).toLocaleDateString()}</span>
+                                  <span className="font-medium">{milestone.amount}</span>
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -364,17 +535,18 @@ export function GovernmentDataDashboard() {
                       </div>
                     )}
 
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <ExternalLink className="mr-2 h-4 w-4" />
+                    {/* Action Buttons */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none text-[10px] sm:text-xs h-7 sm:h-8">
+                        <ExternalLink className="mr-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         View on Portal
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <FileText className="mr-2 h-4 w-4" />
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none text-[10px] sm:text-xs h-7 sm:h-8">
+                        <FileText className="mr-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         Documents
                       </Button>
-                      <Button variant="outline" size="sm">
-                        <MapPin className="mr-2 h-4 w-4" />
+                      <Button variant="outline" size="sm" className="flex-1 sm:flex-none text-[10px] sm:text-xs h-7 sm:h-8">
+                        <MapPin className="mr-1.5 h-3 w-3 sm:h-3.5 sm:w-3.5" />
                         Track Progress
                       </Button>
                     </div>
@@ -407,15 +579,20 @@ export function GovernmentDataDashboard() {
   )
 }
 
-function ProjectProgressCard({ project }: { project: TenderData }) {
+interface ProjectProgressCardProps {
+  project: TenderData
+}
+
+function ProjectProgressCard({ project }: ProjectProgressCardProps) {
   const [progressData, setProgressData] = useState<ProjectProgress | null>(null)
   const [loading, setLoading] = useState(false)
 
   const loadProgress = async () => {
     setLoading(true)
     try {
-      const data = await fetchProjectProgress(project.tenderId)
-      setProgressData(data)
+      // Simulate API call with sample data
+      const data = SAMPLE_PROGRESS.find(p => p.tenderId === project.tenderId)
+      setProgressData(data || null)
     } catch (error) {
       console.error("Failed to load progress:", error)
     } finally {
