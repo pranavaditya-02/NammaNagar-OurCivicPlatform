@@ -6,6 +6,8 @@ India's civic infrastructure often suffers from poor maintenance, project delays
 
 There is a need for a real-time, participatory platform where citizens can report, track and monitor the status of civic infrastructure while holding local bodies accountable.
 
+---
+
 ## Solution & Approach
 
 NammaNagar is a civic-tech platform that empowers citizens to report infrastructure issues, track public projects and collaborate with local officials—all in real time. Citizens can upload geotagged images of issues (like potholes, broken streetlights, unfinished schools), compare them against government-sanctioned projects, and get notified of updates. The platform leverages AI for issue classification and sentiment analysis and provides role-based dashboards for all stakeholders.
@@ -39,7 +41,7 @@ NammaNagar is a civic-tech platform that empowers citizens to report infrastruct
 
 ---
 
-## Tech Stack
+## Technology Stack
 
 - **Frontend:** Next.js (React), TailwindCSS (i18n)
 - **Backend:** Express.js (Node.js), TypeScript, MongoDB
@@ -60,6 +62,46 @@ NammaNagar benefits a wide range of stakeholders across the civic ecosystem:
 - **Urban Planners:** Leverage geo-tagged issue reports for data-driven planning, infrastructure upgrades, and optimized budget allocation.
 - **Governments:** Streamlined way to reduce complaint backlogs, improve transparency, and build public trust in civic project delivery.
 - **Media & NGOs:** Utilize open civic data to monitor accountability, publish insights, and advocate for better infrastructure policies.
+
+---
+
+## Project Structure
+
+```
+app/                # Next.js app routes & pages
+components/         # Reusable React components (UI, dashboards, widgets)
+hooks/              # Custom React hooks
+lib/                # Backend logic, Express app, schema, i18n, AI helpers
+middleware/         # Express middleware (auth, RBAC)
+routes/             # Express route modules (auth, issues, users, etc.)
+public/             # Static assets
+styles/             # Global CSS
+```
+
+---
+
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 2. Run the development server
+
+```bash
+pnpm run dev
+```
+
+### 3. Backend API (Express)
+
+- The Express app is in `lib/app.ts` and is auto-mounted in Next.js API routes (or can be run standalone).
+- Main endpoints:
+  - `/api/auth` (login/signup)
+  - `/api/issues` (CRUD)
+  - `/api/predicted-issues` (AI predictions)
+  - `/public` (public map data)
 
 ---
 
@@ -104,8 +146,20 @@ https://namma-nagar-our-civic-platform.vercel.app/
 
 ---
 
+## Acknowledgements
+
+- [Next.js](https://nextjs.org/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Mapbox](https://www.mapbox.com/)
+- [Leaflet.js](https://leafletjs.com/)
+- [Figma](https://figma.com/)
+- [Postman](https://postman.com/)
+- [GitHub Actions](https://github.com/features/actions)
+
+---
+
 ## Authors
 
 - NammaNagar Team (Flames of Purpose)
-
----
