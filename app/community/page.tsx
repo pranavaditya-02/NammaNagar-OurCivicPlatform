@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Users, MapPin, Calendar, MessageCircle, ThumbsUp, Award, Star, Plus } from "lucide-react"
-import Link from "next/link"
+import { useState } from "react"
 
 export default function CommunityPage() {
   const topContributors = [
@@ -170,12 +170,10 @@ export default function CommunityPage() {
           <TabsContent value="contributors" className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Community Champions</h2>
-              <Link href="/community/leaderboard">
-                <Button>
-                  <Award className="mr-2 h-4 w-4" />
-                  View Leaderboard
-                </Button>
-              </Link>
+              <Button>
+                <Award className="mr-2 h-4 w-4" />
+                View Leaderboard
+              </Button>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -282,63 +280,45 @@ export default function CommunityPage() {
             </div>
           </TabsContent>
 
-          <TabsContent value="discussions" className="space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-              <h2 className="text-lg sm:text-2xl font-bold">Recent Discussions</h2>
-              <Button className="w-full sm:w-auto text-xs sm:text-sm h-8 sm:h-9">
-                <Plus className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+          <TabsContent value="discussions" className="space-y-6">
+            <div className="flex justify-between items-center">
+              <h2 className="text-2xl font-bold">Recent Discussions</h2>
+              <Button>
+                <Plus className="mr-2 h-4 w-4" />
                 Start Discussion
               </Button>
             </div>
 
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-4">
               {recentDiscussions.map((discussion, index) => (
                 <Card key={index} className="hover:shadow-md transition-shadow">
-                  <CardContent className="p-3 sm:p-6">
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                      <div className="flex-1 space-y-2 sm:space-y-3">
-                        <div className="space-y-2">
-                          <div className="flex items-start gap-2">
-                            <h3 className="text-sm sm:text-lg font-semibold text-gray-900 flex-1">
-                              {discussion.title}
-                            </h3>
-                            <Badge 
-                              className={`${getStatusColor(discussion.status)} text-[10px] sm:text-xs whitespace-nowrap`}
-                            >
-                              {discussion.status}
-                            </Badge>
-                          </div>
-
-                          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
-                            <span>by {discussion.author}</span>
-                            <span className="text-gray-400">•</span>
-                            <span>{discussion.time}</span>
-                            <Badge 
-                              variant="outline" 
-                              className="text-[10px] sm:text-xs"
-                            >
-                              {discussion.category}
-                            </Badge>
-                          </div>
+                  <CardContent className="p-6">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="text-lg font-semibold text-gray-900">{discussion.title}</h3>
+                          <Badge className={getStatusColor(discussion.status)}>{discussion.status}</Badge>
                         </div>
 
-                        <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-600">
+                        <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                          <span>by {discussion.author}</span>
+                          <span>{discussion.time}</span>
+                          <Badge variant="outline">{discussion.category}</Badge>
+                        </div>
+
+                        <div className="flex items-center gap-4 text-sm">
                           <span className="flex items-center gap-1">
-                            <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <MessageCircle className="h-4 w-4" />
                             {discussion.replies} replies
                           </span>
                           <span className="flex items-center gap-1">
-                            <ThumbsUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <ThumbsUp className="h-4 w-4" />
                             {discussion.likes} likes
                           </span>
                         </div>
                       </div>
 
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="w-full sm:w-auto text-xs sm:text-sm h-8 sm:h-9"
-                      >
+                      <Button variant="outline" size="sm">
                         Join Discussion
                       </Button>
                     </div>
