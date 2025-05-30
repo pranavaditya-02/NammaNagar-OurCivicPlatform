@@ -58,7 +58,7 @@ export default function HomePage() {
       name: "Priya Sharma",
       role: "Community Leader, Bengaluru",
       content: "NammaNagar helped us get 15 potholes fixed in our area within 2 weeks. The transparency is amazing!",
-      avatar: "/testimonials/priya.jpg",
+      avatar: "",
       rating: 5,
     },
     {
@@ -66,14 +66,14 @@ export default function HomePage() {
       role: "Software Engineer, Mumbai",
       content:
         "Finally, a platform where citizen voices are heard. Tracked a water pipeline project from start to finish.",
-      avatar: "/testimonials/rajesh.jpg",
+      avatar: "",
       rating: 5,
     },
     {
       name: "Dr. Anita Reddy",
       role: "Doctor, Chennai",
       content: "The AI-powered reporting made it so easy to document healthcare infrastructure issues in our hospital.",
-      avatar: "/testimonials/anita.jpg",
+      avatar: "",
       rating: 5,
     },
   ]
@@ -418,7 +418,23 @@ export default function HomePage() {
                     "{testimonials[currentTestimonial].content}"
                   </blockquote>
                   <div className="flex items-center justify-center space-x-4">
-                    <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                    <div className="w-12 h-12 overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-green-600 flex items-center justify-center text-white font-semibold">
+                      {testimonials[currentTestimonial].avatar ? (
+                        <img
+                          src={testimonials[currentTestimonial].avatar}
+                          alt={testimonials[currentTestimonial].name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span>
+                          {testimonials[currentTestimonial].name
+                            .split(' ')
+                            .map(name => name[0])
+                            .join('')
+                            .toUpperCase()}
+                        </span>
+                      )}
+                    </div>
                     <div>
                       <p className="font-semibold text-gray-900">{testimonials[currentTestimonial].name}</p>
                       <p className="text-gray-600">{testimonials[currentTestimonial].role}</p>
