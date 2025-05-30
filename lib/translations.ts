@@ -1,246 +1,246 @@
 // Complete Translation Management System for English, Tamil, and Hindi
 
-export type SupportedLanguage = "en" | "hi" | "ta"
-const defaultLanguage: SupportedLanguage = "en"
+export type SupportedLanguage = "en" | "hi" | "ta";
+const defaultLanguage: SupportedLanguage = "en";
 
 export interface TranslationKeys {
   // Navigation & Common
   nav: {
-    home: string
-    report: string
-    projects: string
-    dashboard: string
-    community: string
-    login: string
-    signup: string
-  }
+    home: string;
+    report: string;
+    projects: string;
+    dashboard: string;
+    community: string;
+    login: string;
+    signup: string;
+  };
 
   // Homepage
   home: {
-    heroTitle: string
-    heroSubtitle: string
-    heroDescription: string
-    reportIssue: string
-    viewDashboard: string
-    totalReports: string
-    resolvedIssues: string
-    citiesCovered: string
-    activeCitizens: string
-    snapReport: string
-    snapReportDesc: string
-    liveTracker: string
-    liveTrackerDesc: string
-    communityEngagement: string
-    communityEngagementDesc: string
-    revolutionizing: string
-    revolutionizingDesc: string
-    awardWinning: string
-    awardWinningDesc: string
-    readyToTransform: string
-    readyToTransformDesc: string
-    getStarted: string
-    exploreProjects: string
-  }
+    heroTitle: string;
+    heroSubtitle: string;
+    heroDescription: string;
+    reportIssue: string;
+    viewDashboard: string;
+    totalReports: string;
+    resolvedIssues: string;
+    citiesCovered: string;
+    activeCitizens: string;
+    snapReport: string;
+    snapReportDesc: string;
+    liveTracker: string;
+    liveTrackerDesc: string;
+    communityEngagement: string;
+    communityEngagementDesc: string;
+    revolutionizing: string;
+    revolutionizingDesc: string;
+    awardWinning: string;
+    awardWinningDesc: string;
+    readyToTransform: string;
+    readyToTransformDesc: string;
+    getStarted: string;
+    exploreProjects: string;
+  };
 
   // Report Page
   report: {
-    title: string
-    subtitle: string
-    category: string
-    location: string
-    issueTitle: string
-    description: string
-    uploadPhotos: string
-    submitReport: string
-    successMessage: string
-    reportId: string
-    nextSteps: string
-    aiAnalysis: string
-    estimatedCost: string
-    estimatedTime: string
-    reportingTips: string
-    recentReports: string
-    needTranslation: string
-    chooseFiles: string
-    currentLocation: string
-    yourName: string
-    phoneNumber: string
-    issueDetails: string
-    detailedDescription: string
-  }
+    title: string;
+    subtitle: string;
+    category: string;
+    location: string;
+    issueTitle: string;
+    description: string;
+    uploadPhotos: string;
+    submitReport: string;
+    successMessage: string;
+    reportId: string;
+    nextSteps: string;
+    aiAnalysis: string;
+    estimatedCost: string;
+    estimatedTime: string;
+    reportingTips: string;
+    recentReports: string;
+    needTranslation: string;
+    chooseFiles: string;
+    currentLocation: string;
+    yourName: string;
+    phoneNumber: string;
+    issueDetails: string;
+    detailedDescription: string;
+  };
 
   // Projects Page
   projects: {
-    title: string
-    subtitle: string
-    searchPlaceholder: string
-    allCategories: string
-    allStatus: string
-    viewOnMap: string
-    progress: string
-    totalBudget: string
-    allocated: string
-    viewDetails: string
-    trackProgress: string
-    contractor: string
-    startDate: string
-    endDate: string
-    liveData: string
-    governmentData: string
-    allProjects: string
-  }
+    title: string;
+    subtitle: string;
+    searchPlaceholder: string;
+    allCategories: string;
+    allStatus: string;
+    viewOnMap: string;
+    progress: string;
+    totalBudget: string;
+    allocated: string;
+    viewDetails: string;
+    trackProgress: string;
+    contractor: string;
+    startDate: string;
+    endDate: string;
+    liveData: string;
+    governmentData: string;
+    allProjects: string;
+  };
 
   // Community Page
   community: {
-    title: string
-    subtitle: string
-    topContributors: string
-    localGroups: string
-    discussions: string
-    reports: string
-    resolved: string
-    score: string
-    members: string
-    joinGroup: string
-    startDiscussion: string
-    communityChampions: string
-    localCivicGroups: string
-    recentDiscussions: string
-    connect: string
-    viewPosts: string
-    createGroup: string
-  }
+    title: string;
+    subtitle: string;
+    topContributors: string;
+    localGroups: string;
+    discussions: string;
+    reports: string;
+    resolved: string;
+    score: string;
+    members: string;
+    joinGroup: string;
+    startDiscussion: string;
+    communityChampions: string;
+    localCivicGroups: string;
+    recentDiscussions: string;
+    connect: string;
+    viewPosts: string;
+    createGroup: string;
+  };
 
   // Dashboard
   dashboard: {
-    title: string
-    subtitle: string
-    totalReports: string
-    resolvedIssues: string
-    inProgress: string
-    pending: string
-    recentReports: string
-    activeProjects: string
-    analytics: string
-    fraudDetection: string
-    citizenReports: string
-    infrastructureProjects: string
-    analyticsInsights: string
-  }
+    title: string;
+    subtitle: string;
+    totalReports: string;
+    resolvedIssues: string;
+    inProgress: string;
+    pending: string;
+    recentReports: string;
+    activeProjects: string;
+    analytics: string;
+    fraudDetection: string;
+    citizenReports: string;
+    infrastructureProjects: string;
+    analyticsInsights: string;
+  };
 
   // AI Features
   ai: {
-    analyzing: string
-    analysisComplete: string
-    imageQuality: string
-    fraudRisk: string
-    issueCategory: string
-    confidence: string
-    severity: string
-    suggestions: string
-    locationVerified: string
-    aiPoweredAnalysis: string
-    aiTranslationAssistant: string
-    translateMessage: string
-    quickPhrases: string
-    translateTo: string
-    translate: string
-    translating: string
-    translation: string
-    useTranslation: string
-  }
+    analyzing: string;
+    analysisComplete: string;
+    imageQuality: string;
+    fraudRisk: string;
+    issueCategory: string;
+    confidence: string;
+    severity: string;
+    suggestions: string;
+    locationVerified: string;
+    aiPoweredAnalysis: string;
+    aiTranslationAssistant: string;
+    translateMessage: string;
+    quickPhrases: string;
+    translateTo: string;
+    translate: string;
+    translating: string;
+    translation: string;
+    useTranslation: string;
+  };
 
   // Government Integration
   government: {
-    liveData: string
-    dataSync: string
-    lastSync: string
-    tenderPortal: string
-    gemPortal: string
-    pfmsData: string
-    budgetUtilization: string
-    ongoingProjects: string
-    governmentDataIntegration: string
-    realTimeData: string
-    liveTenders: string
-    projectProgress: string
-    eProcurement: string
-    dataAnalytics: string
-  }
+    liveData: string;
+    dataSync: string;
+    lastSync: string;
+    tenderPortal: string;
+    gemPortal: string;
+    pfmsData: string;
+    budgetUtilization: string;
+    ongoingProjects: string;
+    governmentDataIntegration: string;
+    realTimeData: string;
+    liveTenders: string;
+    projectProgress: string;
+    eProcurement: string;
+    dataAnalytics: string;
+  };
 
   // Common Actions
   actions: {
-    submit: string
-    cancel: string
-    save: string
-    edit: string
-    delete: string
-    view: string
-    download: string
-    share: string
-    filter: string
-    search: string
-    refresh: string
-    sync: string
-    apply: string
-    back: string
-    next: string
-    continue: string
-  }
+    submit: string;
+    cancel: string;
+    save: string;
+    edit: string;
+    delete: string;
+    view: string;
+    download: string;
+    share: string;
+    filter: string;
+    search: string;
+    refresh: string;
+    sync: string;
+    apply: string;
+    back: string;
+    next: string;
+    continue: string;
+  };
 
   // Status & Categories
   status: {
-    pending: string
-    inProgress: string
-    resolved: string
-    completed: string
-    delayed: string
-    cancelled: string
-    assigned: string
-    verified: string
-  }
+    pending: string;
+    inProgress: string;
+    resolved: string;
+    completed: string;
+    delayed: string;
+    cancelled: string;
+    assigned: string;
+    verified: string;
+  };
 
   categories: {
-    roads: string
-    water: string
-    electricity: string
-    sanitation: string
-    healthcare: string
-    education: string
-    parks: string
-    other: string
-  }
+    roads: string;
+    water: string;
+    electricity: string;
+    sanitation: string;
+    healthcare: string;
+    education: string;
+    parks: string;
+    other: string;
+  };
 
   // Time & Dates
   time: {
-    today: string
-    yesterday: string
-    thisWeek: string
-    thisMonth: string
-    ago: string
-    hours: string
-    days: string
-    weeks: string
-    months: string
-    justNow: string
-  }
+    today: string;
+    yesterday: string;
+    thisWeek: string;
+    thisMonth: string;
+    ago: string;
+    hours: string;
+    days: string;
+    weeks: string;
+    months: string;
+    justNow: string;
+  };
 
   // Common UI Elements
   ui: {
-    loading: string
-    error: string
-    success: string
-    warning: string
-    info: string
-    close: string
-    open: string
-    menu: string
-    settings: string
-    profile: string
-    logout: string
-    language: string
-    chooseLanguage: string
-  }
+    loading: string;
+    error: string;
+    success: string;
+    warning: string;
+    info: string;
+    close: string;
+    open: string;
+    menu: string;
+    settings: string;
+    profile: string;
+    logout: string;
+    language: string;
+    chooseLanguage: string;
+  };
 }
 
 // English translations (default)
@@ -266,16 +266,20 @@ export const enTranslations: TranslationKeys = {
     citiesCovered: "Cities Covered",
     activeCitizens: "Active Citizens",
     snapReport: "Snap & Report",
-    snapReportDesc: "Instantly report infrastructure issues with geo-tagged photos and AI-powered categorization",
+    snapReportDesc:
+      "Instantly report infrastructure issues with geo-tagged photos and AI-powered categorization",
     liveTracker: "Live Project Tracker",
-    liveTrackerDesc: "Monitor public infrastructure projects from tender to completion with real-time updates",
+    liveTrackerDesc:
+      "Monitor public infrastructure projects from tender to completion with real-time updates",
     communityEngagement: "Community Engagement",
-    communityEngagementDesc: "Build local civic circles and collaborate with neighbors for better infrastructure",
+    communityEngagementDesc:
+      "Build local civic circles and collaborate with neighbors for better infrastructure",
     revolutionizing: "Revolutionizing Civic Engagement",
     revolutionizingDesc:
       "Our platform bridges the gap between citizens and government through technology, transparency, and real-time accountability.",
     awardWinning: "Award-Winning Innovation",
-    awardWinningDesc: "Cutting-edge technology meets grassroots civic engagement",
+    awardWinningDesc:
+      "Cutting-edge technology meets grassroots civic engagement",
     readyToTransform: "Ready to Transform Your City?",
     readyToTransformDesc:
       "Join thousands of citizens already making a difference in their communities through transparent, accountable governance.",
@@ -284,7 +288,8 @@ export const enTranslations: TranslationKeys = {
   },
   report: {
     title: "Report Infrastructure Issue",
-    subtitle: "Help improve your community by reporting infrastructure problems",
+    subtitle:
+      "Help improve your community by reporting infrastructure problems",
     category: "Issue Category",
     location: "Location",
     issueTitle: "Issue Title",
@@ -305,7 +310,8 @@ export const enTranslations: TranslationKeys = {
     yourName: "Your Name",
     phoneNumber: "Phone Number",
     issueDetails: "Issue Details",
-    detailedDescription: "Provide more details about the issue, when you noticed it, severity, etc.",
+    detailedDescription:
+      "Provide more details about the issue, when you noticed it, severity, etc.",
   },
   projects: {
     title: "Infrastructure Projects",
@@ -347,7 +353,8 @@ export const enTranslations: TranslationKeys = {
   },
   dashboard: {
     title: "Civic Dashboard",
-    subtitle: "Real-time insights into your city's infrastructure with live government data",
+    subtitle:
+      "Real-time insights into your city's infrastructure with live government data",
     totalReports: "Total Reports",
     resolvedIssues: "Resolved Issues",
     inProgress: "In Progress",
@@ -372,7 +379,8 @@ export const enTranslations: TranslationKeys = {
     locationVerified: "Location Verified",
     aiPoweredAnalysis: "AI-Powered Analysis",
     aiTranslationAssistant: "AI Translation Assistant",
-    translateMessage: "Translate your message into any language with AI assistance",
+    translateMessage:
+      "Translate your message into any language with AI assistance",
     quickPhrases: "Quick phrases",
     translateTo: "Translate to",
     translate: "Translate",
@@ -390,7 +398,8 @@ export const enTranslations: TranslationKeys = {
     budgetUtilization: "Budget Utilization",
     ongoingProjects: "Ongoing Projects",
     governmentDataIntegration: "Government Data Integration",
-    realTimeData: "Real-time data from official tender portals and e-procurement systems",
+    realTimeData:
+      "Real-time data from official tender portals and e-procurement systems",
     liveTenders: "Live Tenders",
     projectProgress: "Project Progress",
     eProcurement: "E-Procurement",
@@ -461,7 +470,7 @@ export const enTranslations: TranslationKeys = {
     language: "Language",
     chooseLanguage: "Choose Language",
   },
-}
+};
 
 // Hindi translations
 export const hiTranslations: TranslationKeys = {
@@ -486,24 +495,30 @@ export const hiTranslations: TranslationKeys = {
     citiesCovered: "शहरों की संख्या",
     activeCitizens: "सक्रिय नागरिक",
     snapReport: "फोटो लें और रिपोर्ट करें",
-    snapReportDesc: "जियो-टैग फ़ोटो और AI-संचालित वर्गीकरण के साथ तुरंत इन्फ्रास्ट्रक्चर समस्याओं की रिपोर्ट करें",
+    snapReportDesc:
+      "जियो-टैग फ़ोटो और AI-संचालित वर्गीकरण के साथ तुरंत इन्फ्रास्ट्रक्चर समस्याओं की रिपोर्ट करें",
     liveTracker: "लाइव प्रोजेक्ट ट्रैकर",
-    liveTrackerDesc: "वास्तविक समय अपडेट के साथ टेंडर से पूर्णता तक सार्वजनिक इन्फ्रास्ट्रक्चर परियोजनाओं की निगरानी करें",
+    liveTrackerDesc:
+      "वास्तविक समय अपडेट के साथ टेंडर से पूर्णता तक सार्वजनिक इन्फ्रास्ट्रक्चर परियोजनाओं की निगरानी करें",
     communityEngagement: "सामुदायिक भागीदारी",
-    communityEngagementDesc: "स्थानीय नागरिक मंडल बनाएं और बेहतर इन्फ्रास्ट्रक्चर के लिए पड़ोसियों के साथ सहयोग करें",
+    communityEngagementDesc:
+      "स्थानीय नागरिक मंडल बनाएं और बेहतर इन्फ्रास्ट्रक्चर के लिए पड़ोसियों के साथ सहयोग करें",
     revolutionizing: "नागरिक भागीदारी में क्रांति",
     revolutionizingDesc:
       "हमारा प्लेटफॉर्म प्रौद्योगिकी, पारदर्शिता और वास्तविक समय जवाबदेही के माध्यम से नागरिकों और सरकार के बीच की खाई को पाटता है।",
     awardWinning: "पुरस्कार विजेता नवाचार",
-    awardWinningDesc: "अत्याधुनिक तकनीक जमीनी स्तर की नागरिक भागीदारी से मिलती है",
+    awardWinningDesc:
+      "अत्याधुनिक तकनीक जमीनी स्तर की नागरिक भागीदारी से मिलती है",
     readyToTransform: "अपने शहर को बदलने के लिए तैयार हैं?",
-    readyToTransformDesc: "पारदर्शी, जवाबदेह शासन के माध्यम से अपने समुदायों में पहले से ही बदलाव ला रहे हजारों नागरिकों से जुड़ें।",
+    readyToTransformDesc:
+      "पारदर्शी, जवाबदेह शासन के माध्यम से अपने समुदायों में पहले से ही बदलाव ला रहे हजारों नागरिकों से जुड़ें।",
     getStarted: "आज ही शुरू करें",
     exploreProjects: "परियोजनाओं का अन्वेषण करें",
   },
   report: {
     title: "इन्फ्रास्ट्रक्चर समस्या की रिपोर्ट करें",
-    subtitle: "इन्फ्रास्ट्रक्चर समस्याओं की रिपोर्ट करके अपने समुदाय को बेहतर बनाने में मदद करें",
+    subtitle:
+      "इन्फ्रास्ट्रक्चर समस्याओं की रिपोर्ट करके अपने समुदाय को बेहतर बनाने में मदद करें",
     category: "समस्या श्रेणी",
     location: "स्थान",
     issueTitle: "समस्या का शीर्षक",
@@ -524,11 +539,13 @@ export const hiTranslations: TranslationKeys = {
     yourName: "आपका नाम",
     phoneNumber: "फोन नंबर",
     issueDetails: "समस्या विवरण",
-    detailedDescription: "समस्या के बारे में अधिक विवरण प्रदान करें, आपने इसे कब देखा, गंभीरता आदि।",
+    detailedDescription:
+      "समस्या के बारे में अधिक विवरण प्रदान करें, आपने इसे कब देखा, गंभीरता आदि।",
   },
   projects: {
     title: "इन्फ्रास्ट्रक्चर परियोजनाएं",
-    subtitle: "कई डेटा स्रोतों से सार्वजनिक इन्फ्रास्ट्रक्चर परियोजनाओं को ट्रैक करें",
+    subtitle:
+      "कई डेटा स्रोतों से सार्वजनिक इन्फ्रास्ट्रक्चर परियोजनाओं को ट्रैक करें",
     searchPlaceholder: "परियोजनाएं खोजें...",
     allCategories: "सभी श्रेणियां",
     allStatus: "सभी स्थिति",
@@ -566,7 +583,8 @@ export const hiTranslations: TranslationKeys = {
   },
   dashboard: {
     title: "नागरिक डैशबोर्ड",
-    subtitle: "लाइव सरकारी डेटा के साथ आपके शहर के इन्फ्रास्ट्रक्चर में वास्तविक समय की अंतर्दृष्टि",
+    subtitle:
+      "लाइव सरकारी डेटा के साथ आपके शहर के इन्फ्रास्ट्रक्चर में वास्तविक समय की अंतर्दृष्टि",
     totalReports: "कुल रिपोर्ट्स",
     resolvedIssues: "हल की गई समस्याएं",
     inProgress: "प्रगति में",
@@ -591,7 +609,8 @@ export const hiTranslations: TranslationKeys = {
     locationVerified: "स्थान सत्यापित",
     aiPoweredAnalysis: "AI-संचालित विश्लेषण",
     aiTranslationAssistant: "AI अनुवाद सहायक",
-    translateMessage: "AI सहायता के साथ अपने संदेश का किसी भी भाषा में अनुवाद करें",
+    translateMessage:
+      "AI सहायता के साथ अपने संदेश का किसी भी भाषा में अनुवाद करें",
     quickPhrases: "त्वरित वाक्य",
     translateTo: "इसमें अनुवाद करें",
     translate: "अनुवाद करें",
@@ -609,7 +628,8 @@ export const hiTranslations: TranslationKeys = {
     budgetUtilization: "बजट उपयोग",
     ongoingProjects: "चालू परियोजनाएं",
     governmentDataIntegration: "सरकारी डेटा एकीकरण",
-    realTimeData: "आधिकारिक टेंडर पोर्टल और ई-प्रोक्योरमेंट सिस्टम से वास्तविक समय डेटा",
+    realTimeData:
+      "आधिकारिक टेंडर पोर्टल और ई-प्रोक्योरमेंट सिस्टम से वास्तविक समय डेटा",
     liveTenders: "लाइव टेंडर",
     projectProgress: "परियोजना प्रगति",
     eProcurement: "ई-प्रोक्योरमेंट",
@@ -680,7 +700,7 @@ export const hiTranslations: TranslationKeys = {
     language: "भाषा",
     chooseLanguage: "भाषा चुनें",
   },
-}
+};
 
 // Tamil translations
 export const taTranslations: TranslationKeys = {
@@ -705,16 +725,20 @@ export const taTranslations: TranslationKeys = {
     citiesCovered: "மூடப்பட்ட நகரங்கள்",
     activeCitizens: "செயலில் உள்ள குடிமக்கள்",
     snapReport: "புகைப்படம் எடுத்து புகாரளிக்கவும்",
-    snapReportDesc: "ஜியோ-டேக் செய்யப்பட்ட புகைப்படங்கள் மற்றும் AI-இயங்கும் வகைப்பாடுடன் உடனடியாக உள்கட்டமைப்பு சிக்கல்களைப் புகாரளிக்கவும்",
+    snapReportDesc:
+      "ஜியோ-டேக் செய்யப்பட்ட புகைப்படங்கள் மற்றும் AI-இயங்கும் வகைப்பாடுடன் உடனடியாக உள்கட்டமைப்பு சிக்கல்களைப் புகாரளிக்கவும்",
     liveTracker: "நேரடி திட்ட கண்காணிப்பாளர்",
-    liveTrackerDesc: "நிகழ்நேர புதுப்பிப்புகளுடன் டெண்டர் முதல் நிறைவு வரை பொது உள்கட்டமைப்பு திட்டங்களைக் கண்காணிக்கவும்",
+    liveTrackerDesc:
+      "நிகழ்நேர புதுப்பிப்புகளுடன் டெண்டர் முதல் நிறைவு வரை பொது உள்கட்டமைப்பு திட்டங்களைக் கண்காணிக்கவும்",
     communityEngagement: "சமூக ஈடுபாடு",
-    communityEngagementDesc: "உள்ளூர் குடிமை வட்டங்களை உருவாக்கி சிறந்த உள்கட்டமைப்புக்காக அண்டை வீட்டாருடன் ஒத்துழைக்கவும்",
+    communityEngagementDesc:
+      "உள்ளூர் குடிமை வட்டங்களை உருவாக்கி சிறந்த உள்கட்டமைப்புக்காக அண்டை வீட்டாருடன் ஒத்துழைக்கவும்",
     revolutionizing: "குடிமை ஈடுபாட்டில் புரட்சி",
     revolutionizingDesc:
       "எங்கள் தளம் தொழில்நுட்பம், வெளிப்படைத்தன்மை மற்றும் நிகழ்நேர பொறுப்புணர்வு மூலம் குடிமக்களுக்கும் அரசாங்கத்திற்கும் இடையிலான இடைவெளியைக் குறைக்கிறது.",
     awardWinning: "விருது பெற்ற கண்டுபிடிப்பு",
-    awardWinningDesc: "அதிநவீன தொழில்நுட்பம் அடிமட்ட குடிமை ஈடுபாட்டைச் சந்திக்கிறது",
+    awardWinningDesc:
+      "அதிநவீன தொழில்நுட்பம் அடிமட்ட குடிமை ஈடுபாட்டைச் சந்திக்கிறது",
     readyToTransform: "உங்கள் நகரத்தை மாற்ற தயாரா?",
     readyToTransformDesc:
       "வெளிப்படையான, பொறுப்புணர்வுள்ள ஆட்சியின் மூலம் தங்கள் சமூகங்களில் ஏற்கனவே மாற்றத்தை ஏற்படுத்தும் ஆயிரக்கணக்கான குடிமக்களுடன் சேரவும்.",
@@ -723,7 +747,8 @@ export const taTranslations: TranslationKeys = {
   },
   report: {
     title: "உள்கட்டமைப்பு சிக்கலைப் புகாரளிக்கவும்",
-    subtitle: "உள்கட்டமைப்பு சிக்கல்களைப் புகாரளிப்பதன் மூலம் உங்கள் சமூகத்தை மேம்படுத்த உதவுங்கள்",
+    subtitle:
+      "உள்கட்டமைப்பு சிக்கல்களைப் புகாரளிப்பதன் மூலம் உங்கள் சமூகத்தை மேம்படுத்த உதவுங்கள்",
     category: "சிக்கல் வகை",
     location: "இடம்",
     issueTitle: "சிக்கல் தலைப்பு",
@@ -744,11 +769,13 @@ export const taTranslations: TranslationKeys = {
     yourName: "உங்கள் பெயர்",
     phoneNumber: "தொலைபேசி எண்",
     issueDetails: "சிக்கல் விவரங்கள்",
-    detailedDescription: "சிக்கல் பற்றி மேலும் விவரங்களை வழங்கவும், நீங்கள் அதை எப்போது கவனித்தீர்கள், தீவிரம் போன்றவை.",
+    detailedDescription:
+      "சிக்கல் பற்றி மேலும் விவரங்களை வழங்கவும், நீங்கள் அதை எப்போது கவனித்தீர்கள், தீவிரம் போன்றவை.",
   },
   projects: {
     title: "உள்கட்டமைப்பு திட்டங்கள்",
-    subtitle: "பல தரவு ஆதாரங்களிலிருந்து பொது உள்கட்டமைப்பு திட்டங்களைக் கண்காணிக்கவும்",
+    subtitle:
+      "பல தரவு ஆதாரங்களிலிருந்து பொது உள்கட்டமைப்பு திட்டங்களைக் கண்காணிக்கவும்",
     searchPlaceholder: "திட்டங்களைத் தேடுங்கள்...",
     allCategories: "அனைத்து வகைகள்",
     allStatus: "அனைத்து நிலை",
@@ -786,7 +813,8 @@ export const taTranslations: TranslationKeys = {
   },
   dashboard: {
     title: "குடிமை டாஷ்போர்டு",
-    subtitle: "நேரடி அரசாங்க தரவுகளுடன் உங்கள் நகரத்தின் உள்கட்டமைப்பில் நிகழ்நேர நுண்ணறிவுகள்",
+    subtitle:
+      "நேரடி அரசாங்க தரவுகளுடன் உங்கள் நகரத்தின் உள்கட்டமைப்பில் நிகழ்நேர நுண்ணறிவுகள்",
     totalReports: "மொத்த அறிக்கைகள்",
     resolvedIssues: "தீர்க்கப்பட்ட சிக்கல்கள்",
     inProgress: "முன்னேற்றத்தில்",
@@ -811,7 +839,8 @@ export const taTranslations: TranslationKeys = {
     locationVerified: "இடம் சரிபார்க்கப்பட்டது",
     aiPoweredAnalysis: "AI-இயங்கும் பகுப்பாய்வு",
     aiTranslationAssistant: "AI மொழிபெயர்ப்பு உதவியாளர்",
-    translateMessage: "AI உதவியுடன் உங்கள் செய்தியை எந்த மொழியிலும் மொழிபெயர்க்கவும்",
+    translateMessage:
+      "AI உதவியுடன் உங்கள் செய்தியை எந்த மொழியிலும் மொழிபெயர்க்கவும்",
     quickPhrases: "விரைவு சொற்றொடர்கள்",
     translateTo: "இதற்கு மொழிபெயர்க்கவும்",
     translate: "மொழிபெயர்க்கவும்",
@@ -829,7 +858,8 @@ export const taTranslations: TranslationKeys = {
     budgetUtilization: "பட்ஜெட் பயன்பாடு",
     ongoingProjects: "நடந்துகொண்டிருக்கும் திட்டங்கள்",
     governmentDataIntegration: "அரசாங்க தரவு ஒருங்கிணைப்பு",
-    realTimeData: "அதிகாரப்பூர்வ டெண்டர் போர்ட்டல்கள் மற்றும் மின்-கொள்முதல் அமைப்புகளிலிருந்து நிகழ்நேர தரவு",
+    realTimeData:
+      "அதிகாரப்பூர்வ டெண்டர் போர்ட்டல்கள் மற்றும் மின்-கொள்முதல் அமைப்புகளிலிருந்து நிகழ்நேர தரவு",
     liveTenders: "நேரடி டெண்டர்கள்",
     projectProgress: "திட்ட முன்னேற்றம்",
     eProcurement: "மின்-கொள்முதல்",
@@ -900,16 +930,16 @@ export const taTranslations: TranslationKeys = {
     language: "மொழி",
     chooseLanguage: "மொழியைத் தேர்ந்தெடுக்கவும்",
   },
-}
+};
 
 // Translation storage
 export const translations: Record<SupportedLanguage, TranslationKeys> = {
   en: enTranslations,
   hi: hiTranslations,
   ta: taTranslations,
-}
+};
 
 // Translation helper function
 export const getTranslation = (lang: SupportedLanguage): TranslationKeys => {
-  return translations[lang] || translations[defaultLanguage]
-}
+  return translations[lang] || translations[defaultLanguage];
+};

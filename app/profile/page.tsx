@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const userProfile = {
     name: "Priya Sharma",
     role: "Civic Champion",
-    joined: "March 2024",
+    joined: "May 2025",
     points: 2450,
     reports: 47,
     resolved: 38,
@@ -111,7 +111,7 @@ export default function ProfilePage() {
         description: "Engaged 100+ citizens in civic initiatives",
         progress: 100,
         icon: Users,
-        dateEarned: "March 15, 2024",
+        dateEarned: "May 27, 2025",
         rewards: ["1000 points", "Verified Status"],
         color: "green"
       },
@@ -144,14 +144,14 @@ export default function ProfilePage() {
       {
         title: "Water Supply Improvement",
         impact: "Benefited 500+ households",
-        date: "March 2024",
+        date: "May 2025",
         status: "Implemented",
         icon: Activity
       },
       {
         title: "Road Safety Initiative",
         impact: "Reduced accidents by 40%",
-        date: "February 2024",
+        date: "May 2025",
         status: "In Progress",
         icon: Activity
       }

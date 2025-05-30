@@ -147,7 +147,7 @@ export default function ReportPage() {
                           <MapPin className="h-4 w-4" />
                         </Button>
                       </div>
-                      <p className="text-sm text-gray-500">Current location: Koramangala, Bengaluru, Karnataka</p>
+                      <p className="text-sm text-gray-500">Sample Current location: Koramangala, Bengaluru, Karnataka</p>
                     </div>
 
                     {/* Title */}

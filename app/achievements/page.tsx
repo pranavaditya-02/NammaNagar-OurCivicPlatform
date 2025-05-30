@@ -71,7 +71,7 @@ export default function AchievementsPage() {
 			progress: 100,
 			icon: FileText,
 			earned: true,
-			date: "March 15, 2024"
+			date: "May 27, 2025"
 		},
 		{
 			title: "Community Leader",
