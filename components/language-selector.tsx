@@ -193,9 +193,11 @@ export function RegionalLanguageSuggestion({ state }: { state?: string }) {
   }
 
   const handleLanguageSwitch = () => {
-    setLanguage(suggestedLang)
-    localStorage.setItem(`selected-language`, suggestedLang)
-    localStorage.setItem(`lang-suggestion-${state}`, 'true')
+    if (suggestedLang) {
+      setLanguage(suggestedLang)
+      localStorage.setItem(`selected-language`, suggestedLang)
+      localStorage.setItem(`lang-suggestion-${state}`, 'true')
+    }
   }
 
   const getRegionalLanguage = (state?: string): SupportedLanguage | null => {
