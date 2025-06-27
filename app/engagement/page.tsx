@@ -191,14 +191,15 @@ const ProposalBouquet = () => {
               </h2>
               <p className="text-sm sm:text-lg md:text-xl text-gray-700 mb-2 sm:mb-4 leading-relaxed">
                 You are not just my girlfriend, you are my
-                <span className="font-bold text-pink-600"> best friend</span>,
+                <span className="font-bold text-pink-600"> heartbeat</span>,
                 my <span className="font-bold text-purple-600">strength</span>,
                 and my <span className="font-bold text-blue-600">inspiration</span>.
               </p>
               <p className="text-sm sm:text-lg md:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
                 You are the girl behind my success, the reason I smile every day.
                 <br />
-                <span className="font-bold text-red-600">Will you be my best wife?</span>
+                <span className="font-bold text-red-600">Will you be the queen of my heart forever?</span>
+
               </p>
               
               <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
