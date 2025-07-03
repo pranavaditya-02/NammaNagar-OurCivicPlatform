@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Heart, Sparkles } from 'lucide-react';
+import { Heart, Sparkles, X } from 'lucide-react';
 
 const ProposalBouquet = () => {
   const [showMessage, setShowMessage] = useState(false);
@@ -8,6 +8,30 @@ const ProposalBouquet = () => {
   const [showProposal, setShowProposal] = useState(false);
   const [celebrationMode, setCelebrationMode] = useState(false);
   const [showFinalMessage, setShowFinalMessage] = useState(false);
+  const [showHeartDialog, setShowHeartDialog] = useState(true);
+  type Balloon = {
+    id: number;
+    x: number;
+    y: number;
+    color: string;
+    size: number;
+    floatDelay: number;
+  };
+  const [balloons, setBalloons] = useState<Balloon[]>([]);
+  const [burstBalloons, setBurstBalloons] = useState<Set<number>>(new Set());
+  const [showImageSlideshow, setShowImageSlideshow] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imageTransition, setImageTransition] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
+  const [typedLetter, setTypedLetter] = useState('');
+
+  // Add your image URLs here
+  const coupleImages = [
+    "/assets/1.jpeg",
+    "/assets/2.jpeg",
+    "/assets/3.jpeg",
+    "/assets/4.jpeg",
+  ];
 
   const messages = [
     "You are the strength of my life",
@@ -16,6 +40,70 @@ const ProposalBouquet = () => {
     "Will you be my best wife?",
     "Marry me, my love!"
   ];
+
+  const letterContent = `My dearest Hemu,
+
+From the moment you entered my life, everything changed for the better. Your smile brightens my darkest days, your laughter is my favorite melody, and your love is my greatest treasure.
+
+I love you from the moon to back, and even more beyond that. Every heartbeat, every breath, every moment—I am grateful for you.
+
+Thank you for being my everything. I can't wait to spend forever with you.
+
+Yours forever,
+your sweet and cute purushan`;
+
+  // Initialize balloons with mobile-friendly positioning
+  useEffect(() => {
+    const initialBalloons = Array.from({ length: 15 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 70 + 15, // 15% to 85% of screen width (mobile-friendly)
+      y: Math.random() * 50 + 25, // 25% to 75% of screen height (mobile-friendly)
+      color: ['bg-red-400', 'bg-pink-400', 'bg-purple-400', 'bg-blue-400', 'bg-yellow-400', 'bg-green-400'][Math.floor(Math.random() * 6)],
+      size: Math.random() * 15 + 35, // 35px to 50px (mobile-optimized)
+      floatDelay: Math.random() * 3
+    }));
+    setBalloons(initialBalloons);
+  }, []);
+
+  interface HandleBalloonClick {
+    (balloonId: number): void;
+  }
+
+  const handleBalloonClick: HandleBalloonClick = (balloonId) => {
+    setBurstBalloons((prev: Set<number>) => new Set([...prev, balloonId]));
+  };
+
+  // Auto-close heart dialog after 5 seconds and start image slideshow
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHeartDialog(false);
+      setShowImageSlideshow(true);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Image slideshow logic
+  useEffect(() => {
+    if (showImageSlideshow && !celebrationMode) {
+      const imageTimer = setInterval(() => {
+        setImageTransition(true);
+        setTimeout(() => {
+          setCurrentImageIndex(prev => (prev + 1) % coupleImages.length);
+          setImageTransition(false);
+        }, 500);
+      }, 3000);
+
+      return () => clearInterval(imageTimer);
+    }
+  }, [showImageSlideshow, celebrationMode, coupleImages.length]);
+
+  // Hide image slideshow when proposal starts
+  useEffect(() => {
+    if (showProposal) {
+      setShowImageSlideshow(false);
+    }
+  }, [showProposal]);
 
   const handleYesClick = () => {
     setCelebrationMode(true);
@@ -82,16 +170,189 @@ const ProposalBouquet = () => {
     </div>
   ));
 
+  // Typewriter effect for the letter
+  useEffect(() => {
+    if (showLetter && typedLetter.length < letterContent.length) {
+      const timeout = setTimeout(() => {
+        setTypedLetter(letterContent.slice(0, typedLetter.length + 1));
+      }, 30);
+      return () => clearTimeout(timeout);
+    }
+  }, [showLetter, typedLetter, letterContent]);
+
   return (
     <div className={`min-h-screen ${celebrationMode ? 'bg-gradient-to-br from-pink-300 via-purple-300 to-indigo-400' : 'bg-gradient-to-br from-pink-200 via-purple-200 to-indigo-300'} relative overflow-hidden transition-all duration-1000`}>
       {/* Animated background gradient */}
       <div className={`absolute inset-0 ${celebrationMode ? 'bg-gradient-to-r from-pink-400/50 via-purple-400/50 to-blue-400/50' : 'bg-gradient-to-r from-pink-300/30 via-purple-300/30 to-blue-300/30'} animate-pulse transition-all duration-1000`}></div>
       
+      {/* Floating Balloons */}
+      {balloons.map((balloon) => !burstBalloons.has(balloon.id) && (
+        <div
+          key={balloon.id}
+          className={`absolute cursor-pointer transition-all duration-300 hover:scale-110 animate-bounce z-10`}
+          style={{
+            left: `${balloon.x}%`,
+            top: `${balloon.y}%`,
+            animationDelay: `${balloon.floatDelay}s`,
+            animationDuration: '2s'
+          }}
+          onClick={() => handleBalloonClick(balloon.id)}
+        >
+          {/* Balloon */}
+          <div 
+            className={`${balloon.color} rounded-full shadow-lg relative`}
+            style={{
+              width: `${balloon.size}px`,
+              height: `${balloon.size + 8}px`
+            }}
+          >
+            {/* Balloon shine */}
+            <div className="absolute top-1 left-1 w-2 h-2 sm:w-3 sm:h-3 bg-white/40 rounded-full"></div>
+            {/* Balloon string */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0.5 h-6 sm:h-8 bg-gray-600"></div>
+          </div>
+        </div>
+      ))}
+
+      {/* Burst Effect for balloons */}
+      {Array.from(burstBalloons).map((balloonId) => {
+        const balloon = balloons.find(b => b.id === balloonId);
+        if (!balloon) return null;
+        
+        return (
+          <div
+            key={`burst-${balloonId}`}
+            className="absolute animate-ping z-10"
+            style={{
+              left: `${balloon.x}%`,
+              top: `${balloon.y}%`,
+            }}
+          >
+            {/* Burst particles */}
+            {Array.from({ length: 8 }, (_, i) => (
+              <div
+                key={i}
+                className={`absolute w-1.5 h-1.5 sm:w-2 sm:h-2 ${balloon.color} rounded-full animate-ping`}
+                style={{
+                  left: `${Math.cos(i * 45 * Math.PI / 180) * 25}px`,
+                  top: `${Math.sin(i * 45 * Math.PI / 180) * 25}px`,
+                  animationDelay: `${i * 0.1}s`
+                }}
+              ></div>
+            ))}
+          </div>
+        );
+      })}
+
       {/* Floating hearts */}
       {hearts}
       
       {/* Floating sparkles */}
       {sparkles}
+
+      {/* Heart Dialog */}
+      {showHeartDialog && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="relative animate-bounce-in">
+            {/* Heart Shape Container */}
+            <div className="relative w-72 h-64 sm:w-80 sm:h-72 md:w-96 md:h-80">
+              {/* Heart Shape */}
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-400 via-red-400 to-pink-500 transform rotate-45 rounded-tl-full rounded-tr-full shadow-2xl animate-pulse"></div>
+              <div className="absolute top-0 left-1/2 w-1/2 h-1/2 bg-gradient-to-br from-pink-400 via-red-400 to-pink-500 transform -translate-x-1/2 rounded-full shadow-2xl animate-pulse"></div>
+              <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-br from-pink-400 via-red-400 to-pink-500 rounded-full shadow-2xl animate-pulse"></div>
+              
+              {/* Content inside heart */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 transform -rotate-45 translate-y-2 sm:translate-y-4">
+                <div className="transform rotate-45 text-white">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 sm:mb-4 animate-pulse">
+                    💕 Heyyyy Cutieee Pieeee 💕
+                  </h2>
+                  <p className="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-2 animate-bounce">
+                    Hemmmmuuu! 😘
+                  </p>
+                  <p className="text-base sm:text-lg md:text-xl font-semibold animate-pulse">
+                    Pondatttiiiii! 🥰
+                  </p>
+                </div>
+              </div>
+
+              {/* Heart beat animation rings */}
+              <div className="absolute inset-0 border-4 border-pink-300 rounded-full animate-ping opacity-30"></div>
+              <div className="absolute inset-4 border-2 border-pink-200 rounded-full animate-ping opacity-40" style={{ animationDelay: '0.5s' }}></div>
+              <div className="absolute inset-8 border-2 border-white rounded-full animate-ping opacity-50" style={{ animationDelay: '1s' }}></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image Slideshow in Heart Shape */}
+      {showImageSlideshow && !showProposal && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-40 p-4">
+          <div className="relative animate-heart-beat">
+            {/* Heart Shape Container for Images */}
+            <div className="relative w-80 h-72 sm:w-96 sm:h-80 md:w-[28rem] md:h-[24rem]">
+              {/* Heart Shape Mask */}
+              <div className="absolute inset-0 overflow-hidden" style={{
+                clipPath: 'polygon(50% 90%, 20% 40%, 20% 30%, 30% 20%, 40% 20%, 50% 30%, 60% 20%, 70% 20%, 80% 30%, 80% 40%)',
+                WebkitClipPath: 'polygon(50% 90%, 20% 40%, 20% 30%, 30% 20%, 40% 20%, 50% 30%, 60% 20%, 70% 20%, 80% 30%, 80% 40%)'
+              }}>
+                <img 
+                  src={coupleImages[currentImageIndex]} 
+                  alt={`Memory ${currentImageIndex + 1}`}
+                  className={`w-full h-full object-cover transition-all duration-1000 ${
+                    imageTransition ? 'scale-110 opacity-50 rotate-6' : 'scale-100 opacity-100 rotate-0'
+                  }`}
+                />
+              </div>
+              
+              {/* Heart Border */}
+              <div className="absolute inset-0 border-4 border-pink-400 rounded-full animate-pulse shadow-2xl" style={{
+                clipPath: 'polygon(50% 90%, 20% 40%, 20% 30%, 30% 20%, 40% 20%, 50% 30%, 60% 20%, 70% 20%, 80% 30%, 80% 40%)',
+                WebkitClipPath: 'polygon(50% 90%, 20% 40%, 20% 30%, 30% 20%, 40% 20%, 50% 30%, 60% 20%, 70% 20%, 80% 30%, 80% 40%)'
+              }}></div>
+
+              {/* Floating Hearts around the image */}
+              {Array.from({ length: 12 }, (_, i) => (
+                <div
+                  key={i}
+                  className="absolute text-pink-400 animate-bounce"
+                  style={{
+                    left: `${Math.cos(i * 30 * Math.PI / 180) * 120 + 50}%`,
+                    top: `${Math.sin(i * 30 * Math.PI / 180) * 120 + 50}%`,
+                    animationDelay: `${i * 0.2}s`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                >
+                  <Heart className="fill-current w-4 h-4 sm:w-6 sm:h-6" />
+                </div>
+              ))}
+
+              {/* Sparkle effects */}
+              {Array.from({ length: 8 }, (_, i) => (
+                <div
+                  key={i}
+                  className="absolute text-yellow-300 animate-spin"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${i * 0.3}s`,
+                    animationDuration: '2s'
+                  }}
+                >
+                  <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                </div>
+              ))}
+
+              {/* Image counter */}
+              <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full">
+                <p className="text-sm font-semibold text-gray-700">
+                  {currentImageIndex + 1} / {coupleImages.length}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
@@ -170,8 +431,54 @@ const ProposalBouquet = () => {
           </div>
         </div>
 
+        {/* I love you from the moon to back */}
+        <div className="flex flex-col items-center mt-4 mb-4 z-20">
+          <div className="flex items-center space-x-2">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
+              I love you from the
+            </span>
+            <span className="text-4xl md:text-6xl animate-bounce">🌙</span>
+            <span className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-yellow-400 bg-clip-text text-transparent animate-pulse">
+              to back!
+            </span>
+          </div>
+          {/* Love Meter */}
+          <div className="w-64 sm:w-96 h-6 bg-gray-200 rounded-full mt-4 shadow-inner relative overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-400 rounded-full animate-heart-beat" style={{ width: '100%' }}></div>
+            <span className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-lg drop-shadow">
+              1000000% Love
+            </span>
+          </div>
+        </div>
+
+        {/* Love Letter Envelope */}
+        <div className="flex flex-col items-center mt-8 mb-8 z-20">
+          {!showLetter ? (
+            <button
+              className="relative w-32 h-24 sm:w-40 sm:h-28 bg-gradient-to-br from-yellow-200 to-pink-200 rounded-lg shadow-lg border-2 border-pink-400 flex items-center justify-center transition-transform hover:scale-105"
+              onClick={() => setShowLetter(true)}
+              aria-label="Open Love Letter"
+            >
+              {/* Envelope Flap */}
+              <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-br from-pink-300 to-yellow-200 rounded-t-lg z-10" style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}></div>
+              {/* Envelope Body */}
+              <div className="absolute bottom-0 left-0 w-full h-3/4 bg-white rounded-b-lg border-t-2 border-pink-300"></div>
+              {/* Heart Seal */}
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+                <Heart className="w-8 h-8 text-pink-500 fill-pink-400 animate-pulse" />
+              </div>
+              <span className="relative z-30 text-pink-600 font-bold text-lg mt-16">Open Letter</span>
+            </button>
+          ) : (
+            <div className="relative w-full max-w-lg bg-white rounded-xl shadow-2xl border-2 border-pink-300 p-6 animate-fade-in">
+              <h3 className="text-xl sm:text-2xl font-bold text-pink-600 mb-2">💌 My Love Letter</h3>
+              <pre className="whitespace-pre-wrap text-gray-700 text-base sm:text-lg font-mono min-h-[200px]">{typedLetter}</pre>
+            </div>
+          )}
+        </div>
+
         {/* Animated Message */}
-        {showMessage && (
+        {showMessage && !showHeartDialog && !showImageSlideshow && (
           <div className="text-center mb-4 sm:mb-8 transform transition-all duration-1000 animate-fade-in px-4">
             <h1 className={`text-2xl sm:text-4xl md:text-6xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent mb-2 sm:mb-4 ${celebrationMode ? 'animate-ping' : 'animate-pulse'}`}>
               My Dearest Love
@@ -182,65 +489,9 @@ const ProposalBouquet = () => {
           </div>
         )}
 
-        {/* Proposal Section */}
-        {showProposal && !showFinalMessage && (
-          <div className="text-center transform animate-bounce-in px-4">
-            <div className="bg-white/80 backdrop-blur-md rounded-3xl p-4 sm:p-8 md:p-12 shadow-2xl border-4 border-pink-300 mb-6 max-w-lg sm:max-w-2xl mx-auto">
-              <h2 className="text-xl sm:text-3xl md:text-5xl font-bold text-transparent bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text mb-4 sm:mb-6">
-                💍 Will You Marry Me? 💍
-              </h2>
-              <p className="text-sm sm:text-lg md:text-xl text-gray-700 mb-2 sm:mb-4 leading-relaxed">
-                You are not just my girlfriend, you are my
-                <span className="font-bold text-pink-600"> heartbeat</span>,
-                my <span className="font-bold text-purple-600">strength</span>,
-                and my <span className="font-bold text-blue-600">inspiration</span>.
-              </p>
-              <p className="text-sm sm:text-lg md:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
-                You are the girl behind my success, the reason I smile every day.
-                <br />
-                <span className="font-bold text-red-600">Will you be the queen of my heart forever?</span>
+        
 
-              </p>
-              
-              <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
-                <button 
-                  onClick={handleYesClick}
-                  className="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 sm:px-8 py-3 rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 animate-pulse active:scale-95"
-                >
-                  YES! 💕
-                </button>
-                <button 
-                  onClick={handleOfCourseClick}
-                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 sm:px-8 py-3 rounded-full text-lg sm:text-xl font-bold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 active:scale-95"
-                >
-                  Of Course! 💖
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Final Celebration Message */}
-        {showFinalMessage && (
-          <div className="text-center transform animate-bounce-in px-4">
-            <div className="bg-gradient-to-r from-pink-400/90 to-purple-400/90 backdrop-blur-md rounded-3xl p-4 sm:p-8 md:p-12 shadow-2xl border-4 border-yellow-300 mb-6 max-w-lg sm:max-w-2xl mx-auto">
-              <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-4 sm:mb-6 animate-bounce">
-                🎉 WE'RE ENGAGED! 🎉
-              </h2>
-              <p className="text-base sm:text-xl md:text-2xl text-white mb-4 sm:mb-6 leading-relaxed font-semibold">
-                Thank you for saying YES! 
-                <br />
-                You've made me the happiest person alive! 
-                <br />
-                <span className="text-yellow-200">I love you more than words can say! 💕</span>
-              </p>
-              <div className="text-4xl sm:text-6xl animate-spin">💍</div>
-              <p className="text-sm sm:text-lg text-white mt-4 opacity-90">
-                Now let's plan our beautiful future together! ✨
-              </p>
-            </div>
-          </div>
-        )}
+        
 
         {/* Ring Animation */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none">
@@ -277,6 +528,30 @@ const ProposalBouquet = () => {
         
         .animate-bounce-in {
           animation: bounce-in 1.2s ease-out;
+        }
+        
+        @keyframes heart-beat {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+        
+        .animate-heart-beat {
+          animation: heart-beat 2s ease-in-out infinite;
+        }
+        
+        /* Mobile-specific animations */
+        @media (max-width: 640px) {
+          .animate-bounce {
+            animation-duration: 1.5s;
+          }
+          
+          .animate-pulse {
+            animation-duration: 1.8s;
+          }
+          
+          .animate-ping {
+            animation-duration: 1.2s;
+          }
         }
       `}</style>
     </div>
