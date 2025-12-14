@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -181,25 +181,6 @@ export function RegionalLanguageSuggestion({ state }: { state?: string }) {
   const { currentLanguage, setLanguage, t } = useLanguage()
   const [dismissed, setDismissed] = useState(false)
 
-  // Check localStorage on component mount
-  useEffect(() => {
-    const isDismissed = localStorage.getItem(`lang-suggestion-${state}`) === 'true'
-    setDismissed(isDismissed)
-  }, [state])
-
-  const handleDismiss = () => {
-    localStorage.setItem(`lang-suggestion-${state}`, 'true')
-    setDismissed(true)
-  }
-
-  const handleLanguageSwitch = () => {
-    if (suggestedLang) {
-      setLanguage(suggestedLang)
-      localStorage.setItem(`selected-language`, suggestedLang)
-      localStorage.setItem(`lang-suggestion-${state}`, 'true')
-    }
-  }
-
   const getRegionalLanguage = (state?: string): SupportedLanguage | null => {
     const stateLanguageMap: Record<string, SupportedLanguage> = {
       "Tamil Nadu": "ta",
@@ -217,42 +198,32 @@ export function RegionalLanguageSuggestion({ state }: { state?: string }) {
   }
 
   const suggestedLang = getRegionalLanguage(state)
-  const shouldShow = suggestedLang && 
-    suggestedLang !== currentLanguage && 
-    !dismissed && 
-    currentLanguage === "en"
+  const shouldShow = suggestedLang && suggestedLang !== currentLanguage && !dismissed && currentLanguage === "en"
 
   if (!shouldShow) return null
 
+  const langConfig = getLanguageConfig(suggestedLang)
+
   return (
     <Card className="border-blue-200 bg-blue-50">
-      <CardContent className="p-3 sm:p-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-3">
-          <div className="flex items-start sm:items-center gap-3 w-full sm:w-auto">
-            <MapPin className="h-5 w-5 text-blue-600 flex-shrink-0 mt-1 sm:mt-0" />
-            <div className="flex-1">
-              <p className="font-semibold text-blue-900 text-sm sm:text-base">
+      <CardContent className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <MapPin className="h-5 w-5 text-blue-600" />
+            <div>
+              <p className="font-semibold text-blue-900">
                 Switch to {supportedLanguages.find((l) => l.code === suggestedLang)?.name}?
               </p>
-              <p className="text-xs sm:text-sm text-blue-700">
+              <p className="text-sm text-blue-700">
                 We detected you're in {state}. Would you like to use the local language?
               </p>
             </div>
           </div>
-          <div className="flex gap-2 w-full sm:w-auto">
-            <Button
-              size="sm"
-              onClick={handleLanguageSwitch}
-              className="bg-blue-600 hover:bg-blue-700 flex-1 sm:flex-none text-xs sm:text-sm py-2 h-auto"
-            >
+          <div className="flex gap-2">
+            <Button size="sm" onClick={() => setLanguage(suggestedLang)} className="bg-blue-600 hover:bg-blue-700">
               Switch
             </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handleDismiss}
-              className="flex-1 sm:flex-none text-xs sm:text-sm py-2 h-auto"
-            >
+            <Button size="sm" variant="outline" onClick={() => setDismissed(true)}>
               Not now
             </Button>
           </div>

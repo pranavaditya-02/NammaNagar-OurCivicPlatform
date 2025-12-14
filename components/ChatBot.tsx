@@ -39,32 +39,32 @@ export function ChatBot() {
   }
 
   return (
-    <div className="fixed bottom-0 right-0 z-50 m-4">
+    <div className="fixed bottom-4 right-4 z-50">
       {!isOpen ? (
         <Button
           onClick={toggleChat}
-          className="rounded-full w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 shadow-lg"
+          className="rounded-full w-16 h-16 bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 shadow-lg"
         >
-          <MessageSquare className="h-5 w-5 sm:h-6 sm:w-6" />
+          <MessageSquare className="h-6 w-6" />
         </Button>
       ) : (
-        <div className="bg-white w-[320px] h-[600px] sm:h-[600px] sm:w-[380px] rounded-lg shadow-xl flex flex-col">
-          <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-t-lg flex justify-between items-center">
+        <div className="bg-white rounded-lg shadow-xl w-[380px] h-[600px] flex flex-col">
+          <div className="p-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-t-lg flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
-              <h3 className="font-semibold text-sm sm:text-base">NammaNagar AI Assistant</h3>
+              <MessageSquare className="h-5 w-5" />
+              <h3 className="font-semibold">NammaNagar AI Assistant</h3>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleChat}
-              className="hover:bg-white/20 text-white h-8 w-8 sm:h-10 sm:w-10"
+              className="hover:bg-white/20 text-white"
             >
-              <X className="h-4 w-4 sm:h-5 sm:w-5" />
+              <X className="h-5 w-5" />
             </Button>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -75,7 +75,7 @@ export function ChatBot() {
               >
                 <div
                   className={cn(
-                    "rounded-lg px-3 py-2 sm:px-4 sm:py-2 max-w-[85%] sm:max-w-[80%] text-sm sm:text-base",
+                    "rounded-lg px-4 py-2 max-w-[80%]",
                     message.type === 'user'
                       ? "bg-gradient-to-r from-blue-600 to-green-600 text-white"
                       : "bg-gray-100 text-gray-900"
@@ -83,13 +83,13 @@ export function ChatBot() {
                 >
                   {message.text}
                   {(message.attachments ?? []).length > 0 && (
-                    <div className="mt-2 flex gap-1 sm:gap-2">
+                    <div className="mt-2 flex gap-2">
                       {(message.attachments ?? []).map((url, i) => (
                         <img
                           key={i}
                           src={url}
                           alt="attachment"
-                          className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded"
+                          className="w-20 h-20 object-cover rounded"
                         />
                       ))}
                     </div>
@@ -99,23 +99,23 @@ export function ChatBot() {
             ))}
             {isProcessing && (
               <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg px-3 py-2 sm:px-4 sm:py-2">
-                  <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                <div className="bg-gray-100 rounded-lg px-4 py-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="p-3 sm:p-4 border-t">
+          <div className="p-4 border-t">
             {attachments.length > 0 && (
-              <div className="flex gap-1 sm:gap-2 mb-2 overflow-x-auto pb-2">
+              <div className="flex gap-2 mb-2 overflow-x-auto pb-2">
                 {attachments.map((url, i) => (
                   <img
                     key={i}
                     src={url}
                     alt="attachment"
-                    className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded"
+                    className="w-16 h-16 object-cover rounded"
                   />
                 ))}
               </div>
@@ -125,9 +125,9 @@ export function ChatBot() {
                 variant="outline"
                 size="icon"
                 onClick={() => fileInputRef.current?.click()}
-                className="shrink-0 h-8 w-8 sm:h-10 sm:w-10"
+                className="shrink-0"
               >
-                <ImagePlus className="h-4 w-4 sm:h-5 sm:w-5" />
+                <ImagePlus className="h-5 w-5" />
               </Button>
               <input
                 type="text"
@@ -135,14 +135,14 @@ export function ChatBot() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Type your message..."
-                className="flex-1 px-2 py-1 sm:px-3 sm:py-2 text-sm sm:text-base border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               />
               <Button
                 onClick={handleSend}
-                className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 h-8 w-8 sm:h-10 sm:w-10"
+                className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
                 disabled={isProcessing}
               >
-                <Send className="h-4 w-4 sm:h-5 sm:w-5" />
+                <Send className="h-5 w-5" />
               </Button>
               <input
                 type="file"
