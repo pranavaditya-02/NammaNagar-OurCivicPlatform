@@ -34,13 +34,17 @@ import { useLanguage } from "@/components/language-context"
 export function EnhancedNavbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [notifications, setNotifications] = useState(3)
-  const [isLoggedIn, setIsLoggedIn] = useState(true) // Mock login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const { t, isRTL } = useLanguage()
   const pathname = usePathname()
 
+  if (pathname === "/report" || pathname === "/issues" || pathname === "/") {
+    return null
+  }
+
   const navItems = [
     { href: "/report", label: t.nav.report, icon: Camera, badge: null },
-    { href: "/projects", label: t.nav.projects, icon: MapPin, badge: "Live" },
+    { href: "/issues", label: "Track", icon: MapPin, badge: "Live" },
     { href: "/dashboard", label: t.nav.dashboard, icon: BarChart3, badge: null },
     { href: "/community", label: t.nav.community, icon: Users, badge: null },
     { href: "/engagement", label: "Engagement", icon: Brain, badge: "New" },
@@ -66,33 +70,33 @@ export function EnhancedNavbar() {
 
   return (
     <nav
-      className={`sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 ${isRTL ? "rtl" : "ltr"}`}
+      className={`sticky top-0 z-50 w-full border-b border-[#e9e9eb] bg-white/95 backdrop-blur ${isRTL ? "rtl" : "ltr"}`}
     >
       <div className="container  px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="mx-auto flex h-[60px] max-w-[1340px] items-center justify-between">
           {/* Logo */}
           <Link href="/" className={`flex items-center space-x-2 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}>
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#a40000] shadow-sm">
               <MapPin className="h-5 w-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold text-gray-900">NammaNagar</span>
-              <span className="text-xs text-gray-500 hidden sm:block">Civic Engagement Platform</span>
+              <span className="text-[15px] font-bold text-[#292a30]">NammaTN</span>
+              <span className="hidden text-[12px] font-bold text-[#a40000] sm:block">நம்ம தமிழ்நாடு</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className={`hidden lg:flex items-center space-x-1 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}>
+          <div className={`hidden lg:flex items-center gap-7 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}>
             {navItems.map((item) => (
               <Link key={item.href} href={item.href}>
                 <Button
-                  variant={isActiveRoute(item.href) ? "default" : "ghost"}
-                  className={`flex items-center space-x-2 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}
+                  variant="ghost"
+                  className={`flex items-center space-x-2 text-[14px] font-medium text-[#767983] hover:bg-transparent hover:text-[#a40000] ${isActiveRoute(item.href) ? "font-bold text-[#a40000]" : ""} ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}
                 >
                   <item.icon className="h-4 w-4" />
                   <span>{item.label}</span>
                   {item.badge && (
-                    <Badge variant="secondary" className="ml-1 text-xs">
+                    <Badge variant="secondary" className="ml-1 rounded-full text-xs">
                       {item.badge}
                     </Badge>
                   )}
@@ -104,14 +108,8 @@ export function EnhancedNavbar() {
           {/* Right Side Actions */}
           <div className={`flex items-center space-x-3 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}>
             {/* Search */}
-            <Button variant="ghost" size="icon" className="hidden md:flex">
-              <Search className="h-4 w-4" />
-            </Button>
-
-            {/* Language Selector */}
-            <div className="hidden md:block">
-              <LanguageSelector variant="compact" />
-            </div>
+            <button className="hidden h-9 rounded-lg border border-[#d9dadd] px-3 text-[13px] font-bold text-[#a40000] md:block">தமிழ்</button>
+            <button aria-label="Display settings" className="hidden h-9 w-9 items-center justify-center rounded-lg border border-[#d9dadd] text-[#7d8088] md:flex"><span className="h-3.5 w-4 rounded border-2 border-current" /></button>
 
             {/* Notifications */}
             {isLoggedIn && (
@@ -222,15 +220,9 @@ export function EnhancedNavbar() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div
-                className={`hidden md:flex items-center space-x-2 ${isRTL ? "flex-row-reverse space-x-reverse" : ""}`}
-              >
-                <Link href="/login">
-                  <Button variant="ghost">{t.nav.login}</Button>
-                </Link>
-                <Link href="/register">
-                  <Button>{t.nav.signup}</Button>
-                </Link>
+              <div className="hidden items-center gap-2 md:flex">
+                <Link href="/login" className="px-2 text-[13px] font-semibold text-[#70737c]">Sign in</Link>
+                <Link href="/register"><Button className="h-9 rounded-xl bg-[#a40000] px-5 text-[13px] text-white hover:bg-[#850000]">Join free</Button></Link>
               </div>
             )}
 

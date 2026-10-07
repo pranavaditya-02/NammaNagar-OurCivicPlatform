@@ -1,5 +1,5 @@
 import type React from "react"
-import { Inter } from "next/font/google"
+import { Noto_Sans_Tamil, Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css"
 import { EnhancedNavbar } from "@/components/enhanced-navbar"
 import { EnhancedFooter } from "@/components/enhanced-footer"
@@ -9,7 +9,16 @@ import { ChatProvider } from '@/components/chat-context'
 import { ChatBot } from '@/components/ChatBot'
 import { siteConfig } from './config'
 
-const inter = Inter({ subsets: ["latin"] })
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-jakarta",
+  display: "swap",
+})
+const tamil = Noto_Sans_Tamil({
+  subsets: ["tamil"],
+  variable: "--font-tamil",
+  display: "swap",
+})
 
 export const metadata = {
   metadataBase: siteConfig.metadataBase,
@@ -40,7 +49,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${jakarta.variable} ${tamil.variable}`}>
         <LanguageProvider>
           <ChatProvider>
             <div className="min-h-screen flex flex-col">

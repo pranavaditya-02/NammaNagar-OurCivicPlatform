@@ -23,9 +23,15 @@ import {
   Globe,
 } from "lucide-react";
 import { useLanguage } from "@/components/language-context";
+import { usePathname } from "next/navigation";
 
 export function EnhancedFooter() {
   const { t, currentLanguage } = useLanguage();
+  const pathname = usePathname();
+
+  if (pathname === "/report" || pathname === "/issues" || pathname === "/") {
+    return null;
+  }
 
   const quickLinks = [
     { href: "/report", label: "Report Issue" },
@@ -98,20 +104,20 @@ export function EnhancedFooter() {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-primary text-primary-foreground">
       {/* Stats Section */}
-      <div className="border-b border-gray-800">
+      <div className="border-b border-primary-foreground/15">
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="flex items-center justify-center mb-2">
-                  <stat.icon className="h-6 w-6 text-blue-400" />
+                  <stat.icon className="h-6 w-6 text-accent" />
                 </div>
                 <div className="text-2xl font-bold text-white">
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
+                <div className="text-sm text-primary-foreground/65">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -124,7 +130,7 @@ export function EnhancedFooter() {
           {/* Brand Section */}
           <div className="md:col-span-2 space-y-6">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-accent-foreground">
                 <MapPin className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -319,7 +325,7 @@ export function EnhancedFooter() {
 
         {/* Copyright */}
         <Separator className="my-8 bg-gray-800" />
-        <div className="flex flex-col md:flex-row items-center justify-between text-sm text-gray-400">
+        <div className="flex flex-col md:flex-row items-center justify-between text-sm text-primary-foreground/60">
           <p>&copy; 2025 NammaNagar. All rights reserved.</p>
           <div className="flex items-center space-x-4 mt-2 md:mt-0">
             <span>Version 2.1.0</span>
@@ -331,6 +337,9 @@ export function EnhancedFooter() {
             </Link>
           </div>
         </div>
+        <p className="mt-4 text-xs text-primary-foreground/45">
+          Heritage arch motif: original artwork created for NammaNagar.
+        </p>
       </div>
     </footer>
   );

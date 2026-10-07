@@ -1,623 +1,125 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import Link from "next/link"
+import { useState } from "react"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import {
-  MapPin,
-  Camera,
-  Users,
-  TrendingUp,
-  Award,
-  Shield,
-  Zap,
-  Brain,
-  Heart,
-  Star,
-  CheckCircle,
   ArrowRight,
-  Play,
-  Globe,
-  BarChart3,
-  Target,
-  Lightbulb,
-} from "lucide-react";
-import Link from "next/link";
-import {
-  LanguageSelector,
-  RegionalLanguageSuggestion,
-} from "@/components/language-selector";
-import { useLanguage } from "@/components/language-context";
-import { ChatBot } from "@/components/ChatBot";
+  Building2,
+  Check,
+  ChevronRight,
+  CircleCheck,
+  CircleDot,
+  ClipboardCheck,
+  Droplets,
+  Flag,
+  HeartPulse,
+  Landmark,
+  Leaf,
+  MapPin,
+  Megaphone,
+  MessageCircle,
+  MoreHorizontal,
+  Navigation,
+  PackageOpen,
+  ReceiptText,
+  Route,
+  Scale,
+  Shield,
+  Siren,
+  Tag,
+  Trash2,
+  Users,
+  Waves,
+  Zap,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useLanguage } from "@/components/language-context"
+
+const issueChips = [
+  { label: "Roads", icon: Route },
+  { label: "Water", icon: Droplets },
+  { label: "Power", icon: Zap },
+  { label: "Garbage", icon: Trash2 },
+  { label: "Safety", icon: Shield },
+  { label: "Bribery", icon: Scale },
+]
+
+const modules = [
+  { title: "Budget & spending", detail: "Where the money goes", icon: ReceiptText, tone: "blue" },
+  { title: "Health", detail: "Government hospitals", icon: HeartPulse, tone: "rose" },
+  { title: "Police & safety", detail: "Stations & services", icon: Shield, tone: "indigo" },
+  { title: "Commitments & delivery", detail: "Promises, budget announcements & schemes", icon: ClipboardCheck, tone: "violet" },
+  { title: "Water & dams", detail: "Bodies & storage", icon: Waves, tone: "cyan" },
+  { title: "Roads & highways", detail: "Network & scorecard", icon: Route, tone: "orange" },
+  { title: "Makkal Arangam", detail: "Ideas & consultations", icon: MessageCircle, tone: "teal" },
+  { title: "Heritage", detail: "Monuments & history", icon: Landmark, tone: "gold" },
+]
+
+const mapMarkers = [
+  [76, 14, "30"], [62, 18, "3"], [69, 25, "3"], [48, 31, "4"], [57, 28, "2"], [39, 40, "4"], [53, 40, "1"], [61, 49, "5"], [71, 48, "1"], [52, 56, "1"], [43, 68, "4"], [53, 76, "2"], [37, 82, "1"],
+]
+
+function TamilNaduMap() {
+  return (
+    <div className="relative mx-auto h-[430px] w-[390px] max-w-full sm:h-[485px] sm:w-[450px]">
+      <svg viewBox="0 0 350 520" className="absolute inset-0 h-full w-full drop-shadow-[0_14px_20px_rgba(142,20,16,0.14)]" aria-label="Tamil Nadu issue map">
+        <defs>
+          <pattern id="districts" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 10L12 0 24 10 12 24z" fill="none" stroke="#d45a50" strokeWidth="0.8" opacity=".46" /></pattern>
+          <clipPath id="tn-shape"><path d="M169 9c27 10 53 14 66 33l-4 24 28 20-16 26 14 28-27 28 19 36-19 28 2 40-25 20 9 28-20 20-1 38-29 21-11 43-21 25-14 50-28-7-20-28-4-42-18-22 8-30-20-25 14-33-1-35 22-20-3-41 22-32-5-32 26-23 0-29 23-12z" /></clipPath>
+        </defs>
+        <path d="M169 9c27 10 53 14 66 33l-4 24 28 20-16 26 14 28-27 28 19 36-19 28 2 40-25 20 9 28-20 20-1 38-29 21-11 43-21 25-14 50-28-7-20-28-4-42-18-22 8-30-20-25 14-33-1-35 22-20-3-41 22-32-5-32 26-23 0-29 23-12z" fill="#fff5f2" stroke="#c8473e" strokeWidth="2.4" />
+        <path d="M169 9c27 10 53 14 66 33l-4 24 28 20-16 26 14 28-27 28 19 36-19 28 2 40-25 20 9 28-20 20-1 38-29 21-11 43-21 25-14 50-28-7-20-28-4-42-18-22 8-30-20-25 14-33-1-35 22-20-3-41 22-32-5-32 26-23 0-29 23-12z" fill="url(#districts)" />
+        <g clipPath="url(#tn-shape)" stroke="#dd675c" strokeWidth="1" opacity=".6"><path d="M20 100h280M20 145h280M20 190h280M20 235h280M20 280h280M20 325h280M20 370h280M20 415h280M20 460h280" /><path d="M80 0v520M125 0v520M170 0v520M215 0v520M260 0v520" /></g>
+      </svg>
+      {mapMarkers.map(([left, top, value], index) => <span key={index} className="absolute flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#8f0e0b] text-[12px] font-bold text-white shadow-[0_4px_12px_rgba(90,0,0,.25)]" style={{ left: `${left}%`, top: `${top}%` }}>{value}</span>)}
+    </div>
+  )
+}
+
+function SiteHeader() {
+  return (
+    <header className="sticky top-0 z-40 border-b border-[#e9e9eb] bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-[60px] max-w-[1340px] items-center justify-between px-5 sm:px-7">
+        <Link href="/" className="flex items-center gap-2.5">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#a40000] text-white shadow-sm"><MapPin className="h-5 w-5 fill-[#f5c400]" /></span>
+          <span className="leading-none"><span className="block text-[15px] font-bold text-[#292a30]">NammaTN</span><span className="block pt-0.5 text-[12px] font-bold text-[#a40000]">நம்ம தமிழ்நாடு</span></span>
+        </Link>
+        <nav className="hidden items-center gap-7 text-[14px] font-medium text-[#767983] md:flex"><Link href="/report" className="font-bold text-[#a40000]">Report</Link><Link href="/issues" className="hover:text-[#a40000]">Track</Link><Link href="/dashboard" className="hover:text-[#a40000]">Government</Link><Link href="/community" className="hover:text-[#a40000]">Tamil Nadu</Link></nav>
+        <div className="flex items-center gap-2.5"><button className="hidden h-9 rounded-lg border border-[#d9dadd] px-3 text-[13px] font-bold text-[#a40000] sm:block">தமிழ்</button><button aria-label="Display settings" className="hidden h-9 w-9 items-center justify-center rounded-lg border border-[#d9dadd] text-[#7d8088] sm:flex"><span className="h-3.5 w-4 rounded border-2 border-current" /></button><Link href="/login" className="px-2 text-[13px] font-semibold text-[#70737c]">Sign in</Link><Link href="/register"><Button className="h-9 rounded-xl bg-[#a40000] px-5 text-[13px] text-white hover:bg-[#850000]">Join free</Button></Link></div>
+      </div>
+    </header>
+  )
+}
+
+function TrackingSection() {
+  const stages = [
+    { title: "Reported", detail: "Filed with a photo and GPS location by a citizen.", color: "#4388f5", icon: Megaphone },
+    { title: "Verified by 3 neighbours", detail: "Nearby citizens confirmed it — the report is now trusted.", color: "#0b9d92", icon: Users },
+    { title: "Mapped for public reference", detail: "NammaTN identifies the relevant authority; the report is not sent to that office.", color: "#c8790c", icon: Navigation },
+    { title: "Reporter marks it fixed", detail: "The reporter says the problem was fixed and shares what changed.", color: "#ff5d21", icon: CircleCheck },
+    { title: "Fix verified by the community", detail: "Neighbours confirm the fix in the open.", color: "#16a34a", icon: Check },
+  ]
+  return <section className="bg-white px-5 py-20 sm:px-8"><div className="mx-auto max-w-[1050px]"><div className="text-center"><p className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#b5362e]">⌁ How tracking works</p><h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] text-[#292a2f] sm:text-[34px]">Every issue, tracked in the open</h2><p className="mx-auto mt-3 max-w-[620px] text-[16px] text-[#8b8f98]">From a report to a community-verified fix — see what citizens confirmed and what remains unresolved.</p></div><div className="mt-10 grid grid-cols-2 gap-3 lg:grid-cols-4"><StatCard icon={Megaphone} label="Reported" value="70" percent="100% of reported" color="#4388f5" /><StatCard icon={Users} label="Community-verified" value="13" percent="19% of reported" color="#0b9d92" /><StatCard icon={Navigation} label="Fix reported" value="3" percent="4% of reported" color="#c8790c" /><StatCard icon={CircleCheck} label="Resolved & verified" value="1" percent="1% of reported" color="#16a34a" /></div><div className="mt-3 rounded-2xl border border-[#e6e7ea] bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,.04)]"><div className="flex items-center justify-between"><h3 className="text-[15px] font-bold text-[#303139]">⌕ &nbsp;How a report moves</h3><span className="rounded-full bg-[#f6f7f8] px-3 py-1 text-[11px] font-semibold text-[#8c9098]">Example</span></div><h4 className="mt-4 text-[15px] font-bold text-[#35363c]">Overflowing garbage bin near a bus stop</h4><div className="mt-2 flex flex-wrap gap-2 text-[11px] text-[#7b7f88]"><span className="rounded-full bg-[#f4f5f6] px-2.5 py-1">🗑 Garbage & sanitation</span><span className="rounded-full bg-[#f4f5f6] px-2.5 py-1">⌖ Your neighbourhood</span><span className="rounded-full bg-[#f4f5f6] px-2.5 py-1">▣ Photo + GPS</span></div><div className="mt-6 grid gap-4 md:grid-cols-5">{stages.map(({ title, detail, color, icon: Icon }) => <div key={title} className="relative border-l-2 pl-4 md:border-l-0 md:border-t-2 md:pt-4" style={{ borderColor: color }}><span className="absolute -left-[9px] -top-[9px] flex h-4 w-4 items-center justify-center rounded-full border-2 border-white" style={{ backgroundColor: color }}><Icon className="h-2.5 w-2.5 text-white" /></span><p className="text-[12px] font-bold text-[#383940]">{title}</p><p className="mt-1 text-[11px] leading-[1.35] text-[#858992]">{detail}</p></div>)}</div></div></div></section>
+}
+
+function StatCard({ icon: Icon, label, value, percent, color }: { icon: typeof Megaphone; label: string; value: string; percent: string; color: string }) {
+  return <div className="rounded-2xl border border-[#e6e7ea] bg-white p-4 shadow-[0_2px_8px_rgba(0,0,0,.04)]"><div className="flex items-center gap-2"><span className="flex h-8 w-8 items-center justify-center rounded-lg text-white" style={{ backgroundColor: color }}><Icon className="h-4 w-4" /></span><span className="text-[11px] font-semibold text-[#727680]">{label}</span></div><div className="mt-2 flex items-end justify-between"><strong className="text-2xl text-[#2e3036]">{value}</strong><span className="text-[10px] text-[#7d8189]">{percent}</span></div><div className="mt-2 h-1 rounded-full bg-[#e7e8ea]"><div className="h-1 rounded-full" style={{ width: `${value === "70" ? "100" : value === "13" ? "19" : value === "3" ? "4" : "1"}%`, backgroundColor: color }} /></div></div>
+}
+
+function ExploreSection() {
+  return <section className="bg-[#fafafa] px-5 py-20 sm:px-8"><div className="mx-auto max-w-[1050px]"><div className="text-center"><p className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#777d87]">Beyond issues</p><h2 className="mt-4 text-3xl font-bold tracking-[-0.04em] text-[#292a2f] sm:text-[34px]">Explore all of Tamil Nadu</h2><p className="mx-auto mt-3 max-w-[650px] text-[16px] text-[#8b8f98]">Every report connects to real government data — the departments, budgets and services behind it are all open to explore.</p></div><div className="mt-10 grid gap-4 md:grid-cols-[1.15fr_1fr_1fr]"><div className="row-span-4 rounded-2xl border border-[#eedda5] bg-gradient-to-br from-[#fffaf0] to-white p-6 shadow-sm"><span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#fff1c4] text-[#b98400]"><Landmark className="h-5 w-5" /></span><h3 className="mt-4 text-xl font-bold text-[#34353b]">Know your government</h3><p className="mt-2 text-[13px] leading-relaxed text-[#777c84]">The cabinet, departments and the IAS · IPS · IFS officers who run all 38 districts — graded on every promise.</p><div className="mt-6 flex items-center gap-4"><div className="flex h-24 w-24 items-center justify-center rounded-full border-[10px] border-[#e9ecef] text-center"><span><b className="block text-2xl text-[#e52d2d]">D</b><small className="text-[9px] text-[#858993]">Report card</small></span></div><span className="text-[12px] text-[#777c84]">0 of 24 promises delivered</span></div><Link href="/dashboard" className="mt-8 inline-flex items-center gap-2 text-[13px] font-bold text-[#b18413]">Explore government & scorecard <ArrowRight className="h-4 w-4" /></Link></div>{modules.map(({ title, detail, icon: Icon, tone }) => <Link key={title} href="/dashboard" className="flex min-h-[78px] items-center gap-3 rounded-xl border border-[#e6e7ea] bg-white px-3 shadow-sm transition-transform hover:-translate-y-0.5"><span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-${tone}-50 text-${tone}-600`}><Icon className="h-4 w-4" /></span><span><b className="block text-[13px] text-[#393a40]">{title}</b><small className="mt-1 block text-[11px] text-[#858992]">{detail}</small></span></Link>)}</div><div className="mt-5 flex justify-center"><Link href="/dashboard"><Button variant="outline" className="bg-white">See all modules <ArrowRight className="h-4 w-4" /></Button></Link></div></div></section>
+}
+
+function HomeFooter() {
+  return <footer className="relative overflow-hidden border-t border-[#e8e8e9] bg-white px-5 py-12 sm:px-8"><div className="pointer-events-none absolute inset-0 bg-[url('/assets/heritage-arches.svg')] bg-[length:720px_auto] bg-[right_bottom] bg-no-repeat opacity-[0.08]" /><div className="relative mx-auto max-w-[1050px]"><div className="grid gap-8 md:grid-cols-[1.5fr_1fr_1fr_1fr]"><div><div className="flex items-center gap-2"><span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#a40000] text-white"><MapPin className="h-5 w-5 fill-[#f5c400]" /></span><span className="leading-none"><b className="block text-[14px] text-[#28292e]">NammaTN</b><b className="block pt-0.5 text-[12px] text-[#a40000]">நம்ம தமிழ்நாடு</b></span></div><p className="mt-5 max-w-[290px] text-[13px] leading-relaxed text-[#737780]">An open civic platform for transparency and participation in Tamil Nadu.</p><p className="mt-3 text-[14px] font-semibold text-[#45464c]">நம் ஊர் நம் பொறுப்பு <span className="font-normal text-[#898c94]">— Our town is our responsibility</span></p></div><FooterColumn title="Report & track" links={["Report an issue", "Issues board", "Makkal Arangam"]} /><FooterColumn title="Transparency" links={["Budget & spending", "Commitments & delivery"]} /><FooterColumn title="Explore" links={["Government", "Tamil Nadu", "Health & hospitals", "Heritage & history", "Open Data"]} /></div><div className="mt-10 flex flex-wrap justify-center gap-2 border-t border-[#ececee] pt-5 text-[11px] text-[#777b83]"><span>◉ <b className="text-[#bd3c3a]">1,415</b> visitors</span><span>·</span><span>Built for civic transparency</span><span>·</span><span>Open data</span><span>·</span><span>Share feedback</span><span>·</span><span>Developed by Withso Technologies</span></div></div></footer>
+}
+
+function FooterColumn({ title, links }: { title: string; links: string[] }) {
+  return <div><h3 className="text-[12px] font-bold uppercase tracking-[0.08em] text-[#393a40]">{title}</h3><div className="mt-4 space-y-2.5">{links.map((link) => <Link key={link} href="/dashboard" className="block text-[13px] text-[#636771] hover:text-[#a40000]">{link}</Link>)}</div></div>
+}
 
 export default function HomePage() {
-  const { t, currentLanguage } = useLanguage();
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [liveStats, setLiveStats] = useState({
-    reports: 12,
-    resolved: 8,
-    cities: 2,
-    users: 45,
-  });
-
-  // Simulate live stats updates
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLiveStats((prev) => ({
-        reports: prev.reports + Math.floor(Math.random() * 3),
-        resolved: prev.resolved + Math.floor(Math.random() * 2),
-        cities: prev.cities,
-        users: prev.users + Math.floor(Math.random() * 5),
-      }));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const testimonials = [
-    {
-      name: "Priya Sharma",
-      role: "Community Leader, Bengaluru",
-      content:
-        "Namma Nagar helped us get 15 potholes fixed in our area within 2 weeks. The transparency is amazing!",
-      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-      rating: 5,
-    },
-    {
-      name: "Rajesh Kumar",
-      role: "Software Engineer, Mumbai",
-      content:
-        "Finally, a platform where citizen voices are heard. Tracked a water pipeline project from start to finish.",
-      avatar: "https://randomuser.me/api/portraits/men/46.jpg",
-      rating: 5,
-    },
-    {
-      name: "Dr. Anita Reddy",
-      role: "Doctor, Chennai",
-      content:
-        "The AI-powered reporting made it so easy to document healthcare infrastructure issues in our hospital.",
-      avatar: "https://randomuser.me/api/portraits/women/47.jpg",
-      rating: 5,
-    },
-  ];
-
-  const features = [
-    {
-      icon: Camera,
-      title: "AI-Powered Reporting",
-      description:
-        "Snap photos and let AI categorize issues automatically with fraud detection",
-      color: "blue",
-      stats: "95% accuracy",
-      demo: "/demos/ai-reporting.mp4",
-    },
-    {
-      icon: MapPin,
-      title: "Live Project Tracking",
-      description:
-        "Monitor government projects from tender to completion with real-time updates",
-      color: "green",
-      stats: "100% tracked",
-      demo: "/demos/project-tracking.mp4",
-    },
-    {
-      icon: Users,
-      title: "Community Engagement",
-      description:
-        "Build local civic circles and collaborate for lasting infrastructure improvements",
-      color: "purple",
-      stats: "45+ citizens",
-      demo: "/demos/community.mp4",
-    },
-    {
-      icon: Brain,
-      title: "Civic Education",
-      description:
-        "Learn about budgets, RTI and governance through gamified modules",
-      color: "orange",
-      stats: "15 modules",
-      demo: "/demos/education.mp4",
-    },
-    {
-      icon: Heart,
-      title: "Adopt-a-Spot",
-      description:
-        "Take long-term ownership of public spaces and drive sustainable change",
-      color: "red",
-      stats: "2.8K spots",
-      demo: "/demos/adopt-spot.mp4",
-    },
-    {
-      icon: Star,
-      title: "Seasonal Campaigns",
-      description:
-        "Join targeted initiatives like Monsoon Watch and School Readiness drives",
-      color: "yellow",
-      stats: "3 active",
-      demo: "/demos/campaigns.mp4",
-    },
-  ];
-
-  const impactMetrics = [
-    {
-      label: "Issues Resolved",
-      value: liveStats.resolved,
-      change: "+8%",
-      icon: CheckCircle,
-      color: "green",
-    },
-    {
-      label: "Active Citizens",
-      value: liveStats.users,
-      change: "+12%",
-      icon: Users,
-      color: "blue",
-    },
-    {
-      label: "Cities Covered",
-      value: liveStats.cities,
-      change: "+15%",
-      icon: MapPin,
-      color: "purple",
-    },
-    {
-      label: "Budget Saved",
-      value: "₹1.2L",
-      change: "+25%",
-      icon: TrendingUp,
-      color: "orange",
-    },
-  ];
-
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: "bg-blue-100 text-blue-600 border-blue-200",
-      green: "bg-green-100 text-green-600 border-green-200",
-      purple: "bg-purple-100 text-purple-600 border-purple-200",
-      orange: "bg-orange-100 text-orange-600 border-orange-200",
-      red: "bg-red-100 text-red-600 border-red-200",
-      yellow: "bg-yellow-100 text-yellow-600 border-yellow-200",
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Regional Language Suggestion */}
-      <div className="container mx-auto px-4 pt-4">
-        <RegionalLanguageSuggestion state="Tamil Nadu" />
-      </div>
-
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-green-600/10"></div>
-        <div className="relative container mx-auto px-4 py-20">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                <div className="space-y-4">
-                  <Badge className="bg-gradient-to-r from-blue-600 to-green-600 text-white border-0 px-4 py-2">
-                    🏆 Our Civic Engagement Platform
-                  </Badge>
-                  <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                    Namma
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-green-600">
-                      Nagar
-                    </span>
-                  </h1>
-                  <p className="text-xl md:text-2xl text-gray-600 font-medium">
-                    From Potholes to Promises
-                  </p>
-                  <p className="text-lg text-gray-600 max-w-2xl leading-relaxed">
-                    India's most comprehensive civic engagement platform
-                    empowering citizens to monitor, track and transform their
-                    communities through AI-powered transparency and real-time
-                    accountability!
-                  </p>
-                </div>
-
-                {/* Language Support */}
-                <div className="flex items-center gap-3">
-                  <Globe className="h-5 w-5 text-gray-500" />
-                  <span className="text-sm text-gray-600">Available in:</span>
-                  <div className="flex gap-2">
-                    <Badge variant="outline" className="text-xs">
-                      English
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      हिंदी
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      தமிழ்
-                    </Badge>
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Link href="/report">
-                    <Button
-                      size="lg"
-                      className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-lg px-8 py-4 h-auto"
-                    >
-                      <Camera className="mr-2 h-5 w-5" />
-                      Report an Issue
-                      <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                  </Link>
-                  <Link href="/dashboard">
-                    <Button
-                      size="lg"
-                      variant="outline"
-                      className="border-2 border-gray-300 hover:border-blue-600 hover:text-blue-600 text-lg px-8 py-4 h-auto"
-                    >
-                      <BarChart3 className="mr-2 h-5 w-5" />
-                      View Dashboard
-                    </Button>
-                  </Link>
-                </div>
-
-                {/* Trust Indicators */}
-                <div className="flex items-center gap-6 pt-4">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-green-600" />
-                    <span className="text-sm text-gray-600">Tranparent</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Award className="h-5 w-5 text-yellow-600" />
-                    <span className="text-sm text-gray-600">Accountable</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-blue-600" />
-                    <span className="text-sm text-gray-600">
-                      Better Governance
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Hero Visual */}
-              <div className="relative">
-                <div className="bg-white rounded-2xl shadow-2xl p-8 border">
-                  <div className="space-y-6">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xl font-semibold">
-                        Live Impact Dashboard
-                      </h3>
-                      <Badge className="bg-green-100 text-green-800">
-                        Live
-                      </Badge>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                      {impactMetrics.map((metric, index) => (
-                        <div key={index} className="p-4 bg-gray-50 rounded-lg">
-                          <div className="flex items-center justify-between mb-2">
-                            <metric.icon
-                              className={`h-5 w-5 text-${metric.color}-600`}
-                            />
-                            <span
-                              className={`text-xs font-medium text-${metric.color}-600`}
-                            >
-                              {metric.change}
-                            </span>
-                          </div>
-                          <div className="text-2xl font-bold text-gray-900">
-                            {typeof metric.value === "number"
-                              ? metric.value.toLocaleString()
-                              : metric.value}
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            {metric.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between text-sm">
-                        <span>Monthly Resolution Rate</span>
-                        <span className="font-medium">87%</span>
-                      </div>
-                      <Progress value={87} className="h-2" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Elements */}
-                <div className="absolute -top-4 -right-4 bg-blue-600 text-white p-3 rounded-full shadow-lg">
-                  <Zap className="h-6 w-6" />
-                </div>
-                <div className="absolute -bottom-4 -left-4 bg-green-600 text-white p-3 rounded-full shadow-lg">
-                  <Target className="h-6 w-6" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Language Selection Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Choose Your Language
-            </h2>
-            <p className="text-xl text-gray-600">
-              Namma Nagar speaks your language - Available in English, Hindi and
-              Tamil
-            </p>
-          </div>
-          <div className="max-w-4xl mx-auto">
-            <LanguageSelector variant="grid" />
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-blue-100 text-blue-800">
-              Platform Features
-            </Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Complete End-to-End Civic Engagement Ecosystem
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From AI-powered reporting to long-term community ownership, our
-              platform provides everything needed for effective civic
-              participation.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <Card
-                key={index}
-                className={`border-2 hover:shadow-xl transition-all duration-300 group ${getColorClasses(
-                  feature.color
-                )}`}
-              >
-                <CardHeader className="text-center pb-4">
-                  <div
-                    className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform ${getColorClasses(
-                      feature.color
-                    )}`}
-                  >
-                    <feature.icon className="h-8 w-8" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900">
-                    {feature.title}
-                  </CardTitle>
-                  <CardDescription className="text-gray-600">
-                    {feature.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="mb-4">
-                    <Badge variant="secondary" className="text-sm font-medium">
-                      {feature.stats}
-                    </Badge>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="group-hover:bg-white"
-                  >
-                    <Play className="mr-2 h-4 w-4" />
-                    View Demo
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Innovation Highlights */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-purple-100 text-purple-800">
-              Innovation
-            </Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Transparent and Accountable Technology
-            </h2>
-            <p className="text-xl text-gray-600">
-              Innovative and Unique features that set us apart
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Brain className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                AI-Powered Analytics
-              </h3>
-              <p className="text-gray-600">
-                Machine learning for issue classification, fraud detection and
-                predictive maintenance
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Globe className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Multi-Language AI</h3>
-              <p className="text-gray-600">
-                Complete support for English, Hindi and Tamil with AI
-                translation in 22 Indian languages and voice input
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Shield className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">
-                Government Integration
-              </h3>
-              <p className="text-gray-600">
-                Direct integration with tender portals, e-procurement systems,
-                and PFMS for real-time data
-              </p>
-            </div>
-
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Lightbulb className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Smart Campaigns</h3>
-              <p className="text-gray-600">
-                Seasonal and targeted campaigns with gamification, rewards and
-                measurable impact tracking
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-green-100 text-green-800">
-              Success Stories
-            </Badge>
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Voices of Change
-            </h2>
-            <p className="text-xl text-gray-600">
-              Real stories from citizens making a difference
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <Card className="border-0 shadow-xl">
-              <CardContent className="p-8">
-                <div className="text-center">
-                  <div className="flex justify-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-5 w-5 text-yellow-400 fill-current"
-                      />
-                    ))}
-                  </div>
-                  <blockquote className="text-xl text-gray-700 mb-6 italic">
-                    "{testimonials[currentTestimonial].content}"
-                  </blockquote>
-                  <div className="flex items-center justify-center space-x-4">
-                    <div className="w-12 h-12 overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-green-600 flex items-center justify-center text-white font-semibold">
-                      {testimonials[currentTestimonial].avatar ? (
-                        <img
-                          src={testimonials[currentTestimonial].avatar}
-                          alt={testimonials[currentTestimonial].name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <span>
-                          {testimonials[currentTestimonial].name
-                            .split(' ')
-                            .map(name => name[0])
-                            .join('')
-                            .toUpperCase()}
-                        </span>
-                      )}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900">
-                        {testimonials[currentTestimonial].name}
-                      </p>
-                      <p className="text-gray-600">
-                        {testimonials[currentTestimonial].role}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <div className="flex justify-center mt-6 space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentTestimonial ? "bg-blue-600" : "bg-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-green-600 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-6">
-            Ready to Transform Your City?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Join thousands of citizens already making a difference through
-            transparent, accountable governance and community action.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Link href="/register">
-              <Button
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-gray-100 text-lg px-8 py-4 h-auto"
-              >
-                <Users className="mr-2 h-5 w-5" />
-                Join the Movement
-              </Button>
-            </Link>
-            <Link href="/projects">
-              <Button
-                size="lg"
-                // variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-600 text-lg px-8 py-4 h-auto"
-              >
-                <MapPin className="mr-2 h-5 w-5" />
-                Explore Projects
-              </Button>
-            </Link>
-          </div>
-
-          <div className="flex items-center justify-center space-x-8 text-sm opacity-75">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="h-4 w-4" />
-              <span>Free to use</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Shield className="h-4 w-4" />
-              <span>Secure & Safe</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Globe className="h-4 w-4" />
-              <span>Multi-language support Enabled</span>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* ChatBot Component */}
-      <ChatBot />
-    </div>
-  );
+  const { isRTL } = useLanguage()
+  const [activeIssue, setActiveIssue] = useState("Roads")
+  return <div className={`bg-white text-[#60646e] ${isRTL ? "rtl" : "ltr"}`}><SiteHeader /><main><section className="relative overflow-hidden bg-[#fcfbf8] px-5 pb-14 pt-12 sm:px-8 sm:pt-16"><div className="absolute inset-0 bg-[url('/assets/heritage-arches.svg')] bg-[length:900px_auto] bg-[right_20%] bg-no-repeat opacity-[0.13]" /><div className="relative mx-auto grid max-w-[1150px] items-center gap-8 lg:grid-cols-[1fr_0.9fr]"><div className="motion-safe-fade-in"><div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.08em] text-[#bd2d27]"><span className="h-2 w-2 rounded-full bg-[#f1c400]" /> Tamil Nadu · citizen platform</div><p className="mt-5 border-l-2 border-[#edcaca] pl-3 text-[15px] font-bold text-[#b02b24]">யாதும் ஊரே — யாவரும் கேளிர் <span className="mt-1 block text-[11px] font-normal italic text-[#95979c]">“All towns are our own — all people are our kin”</span></p><h1 className="mt-6 max-w-[570px] text-[44px] font-bold leading-[1.03] tracking-[-0.055em] text-[#25262b] sm:text-[58px]">Report a civic issue.<br /><span className="text-[#b02d1f]">Track it to a fix.</span></h1><p className="mt-5 max-w-[550px] text-[17px] leading-relaxed text-[#777b85]">Raise the problems you face, let your neighbours verify them, and track community-confirmed fixes in the open.</p><div className="mt-6 flex items-center gap-2 text-[13px] font-bold text-[#36373d]"><Megaphone className="h-4 w-4 text-[#b72b23]" /> What would you like to report?</div><div className="mt-3 flex max-w-[520px] flex-wrap gap-2">{issueChips.map(({ label, icon: Icon }) => <button key={label} type="button" onClick={() => setActiveIssue(label)} className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold transition-colors ${activeIssue === label ? "border-[#b72b23] bg-[#fff0ed] text-[#a92a22]" : "border-[#d9dadd] bg-white text-[#676b74] hover:border-[#b72b23]"}`}><Icon className="h-3.5 w-3.5" /> {label}</button>)}<button className="flex items-center gap-1 rounded-full border border-dashed border-[#cfd1d5] px-3 py-1.5 text-[12px] font-semibold text-[#737780]"><MoreHorizontal className="h-3.5 w-3.5" /> more</button></div><div className="mt-5 flex flex-wrap gap-3"><Link href="/report"><Button className="h-11 bg-[#a40000] px-5 text-white hover:bg-[#850000]"><Megaphone className="h-4 w-4" /> Report an issue</Button></Link><Link href="/projects"><Button variant="outline" className="h-11 border-[#d5d7da] bg-white px-5 text-[#3b3c43]">⌕ &nbsp;Track a report</Button></Link></div><div className="mt-4 flex items-center gap-2 text-[12px] text-[#92959c]"><CircleDot className="h-4 w-4 text-[#35a96c]" /> No account needed to explore · <b className="text-[#555861]">70</b> reported · <b className="text-[#555861]">1</b> resolved</div></div><div className="relative flex flex-col items-center"><div className="mb-3 flex items-center gap-2 rounded-full border border-[#e4e5e7] bg-white px-4 py-2 text-[11px] font-semibold shadow-sm"><span className="h-2 w-2 rounded-full bg-[#19a563]" /> <span className="text-[#1e9c5c]">Live issues</span><span className="text-[#a8abb0]">|</span><Landmark className="h-3.5 w-3.5 text-[#8a8d94]" /> Heritage · மாமர</div><TamilNaduMap /><div className="flex items-center gap-2 text-[12px] text-[#737780]"><span className="h-2 w-2 rounded-full bg-[#1ca966]" /> <b className="text-[#1ca966]">LIVE</b> <Siren className="h-3.5 w-3.5 text-[#b17b36]" /> Disturbance of dogs · Chengalpattu · 2d</div></div></div></section><div className="border-y border-[#ececee] bg-white px-5 py-5"><div className="mx-auto flex max-w-[900px] flex-wrap items-center justify-center gap-x-6 gap-y-3 text-[12px] text-[#777b84]"><b className="uppercase tracking-[0.08em] text-[#bb322b]">Powering every report</b><span><Building2 className="mr-1 inline h-3.5 w-3.5" /> <b>43</b> departments</span><span><MapPin className="mr-1 inline h-3.5 w-3.5" /> <b>38</b> districts</span><span><Scale className="mr-1 inline h-3.5 w-3.5" /> <b>234</b> constituencies</span><span><HeartPulse className="mr-1 inline h-3.5 w-3.5" /> <b>993</b> hospitals</span><span><Leaf className="mr-1 inline h-3.5 w-3.5" /> <b>35</b> schemes</span><span><Landmark className="mr-1 inline h-3.5 w-3.5" /> <b>93</b> heritage sites</span></div></div><TrackingSection /><ExploreSection /><section className="bg-white px-5 py-16 sm:px-8"><div className="mx-auto max-w-[985px] overflow-hidden rounded-2xl bg-[#512017] shadow-sm"><div className="relative min-h-[300px] overflow-hidden"><img src="/assets/1.jpeg" alt="Civic participation" className="absolute inset-0 h-full w-full object-cover opacity-35" /><div className="absolute inset-0 bg-[#3d150f]/75" /><div className="relative flex min-h-[300px] flex-col items-center justify-center px-5 text-center text-white"><p className="text-[14px] font-semibold">உங்கள் குரல் கேட்கப்படும்</p><h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] sm:text-[36px]">Ready to make your voice heard?</h2><p className="mt-3 max-w-[550px] text-[15px] text-white/80">Join the <b className="text-[#f1c400]">1,415</b> citizens exploring NammaTN — report, verify and hold Tamil Nadu's government accountable.</p><div className="mt-6 flex flex-wrap justify-center gap-3"><Link href="/register"><Button className="bg-[#a40000] text-white hover:bg-[#850000]">Create free account</Button></Link><Link href="/login"><Button variant="outline" className="border-white/60 bg-transparent text-white hover:bg-white hover:text-[#512017]">Sign in</Button></Link></div></div></div></div></section></main><HomeFooter /></div>
 }

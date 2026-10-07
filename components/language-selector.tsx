@@ -207,7 +207,7 @@ export function RegionalLanguageSuggestion({ state }: { state?: string }) {
   return (
     <Card className="border-blue-200 bg-blue-50">
       <CardContent className="p-4">
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <MapPin className="h-5 w-5 text-blue-600" />
             <div>
@@ -227,7 +227,7 @@ export function RegionalLanguageSuggestion({ state }: { state?: string }) {
               Not now
             </Button>
           </div>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   )

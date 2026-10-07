@@ -45,6 +45,11 @@ export function AITranslationWidget({
       Record<SupportedLanguage, { text: string; confidence: number; alternatives: string[] }>
     > = {
       "road has potholes": {
+        en: {
+          text: "Road has potholes",
+          confidence: 1,
+          alternatives: ["There are potholes on the road"],
+        },
         hi: {
           text: "सड़क में गड्ढे हैं",
           confidence: 0.95,
@@ -57,6 +62,11 @@ export function AITranslationWidget({
         },
       },
       "water supply problem": {
+        en: {
+          text: "Water supply problem",
+          confidence: 1,
+          alternatives: ["There is a problem with the water supply"],
+        },
         hi: {
           text: "पानी की आपूर्ति में समस्या",
           confidence: 0.97,
@@ -69,6 +79,11 @@ export function AITranslationWidget({
         },
       },
       "streetlight not working": {
+        en: {
+          text: "Streetlight not working",
+          confidence: 1,
+          alternatives: ["The streetlight is not working"],
+        },
         hi: {
           text: "स्ट्रीट लाइट काम नहीं कर रही",
           confidence: 0.93,
